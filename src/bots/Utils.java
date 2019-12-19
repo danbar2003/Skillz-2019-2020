@@ -57,6 +57,14 @@ public class Utils {
         }
     }
 
+    public static void attackIceberg(Game game, Iceberg target) {
+        Iceberg attacker = closestTo(target, game.getMyIcebergs());
+        int penguinsToAttack = target.penguinAmount + attacker.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
+        if (attacker.penguinAmount > penguinsToAttack) {
+            attacker.sendPenguins(attacker, penguinsToAttack);
+        }
+    }
+
 
     public static <T extends GameObject> boolean isInArray(T object, T[] array) {
         for (T arrayObject : array) {
@@ -89,6 +97,20 @@ public class Utils {
         }
         return icebergsUnderAttack;
     }
+
+    public static Iceberg weakestIceBerg(Iceberg[] icebergs){
+        int penguins = icebergs[0].penguinAmount;
+        int pos = 0;
+        for (int i = 1; i < icebergs.length ; i++) {
+            if(icebergs[i].penguinAmount < penguins ) {
+                penguins = icebergs[i].penguinAmount;
+                pos = i;
+            }
+        }
+        return icebergs[pos];
+    }
+    
+
 
 
 }

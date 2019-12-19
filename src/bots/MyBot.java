@@ -1,6 +1,8 @@
 package bots;
 
-import penguin_game.*;
+import penguin_game.Game;
+import penguin_game.Iceberg;
+import penguin_game.SkillzBot;
 
 /**
  * This is an example for a bot.
@@ -13,33 +15,11 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
-        Utils.allIceBergsAttack(game, game.getEnemyIcebergs()[0]);
-        Iceberg[] undetAttack = Utils.getIcebergsUnderAttack(game);
+        handleIcebergs(game);
+    }
+
+    private void handleIcebergs(Game game) {
         for (Iceberg myIceberg : game.getMyIcebergs()) {
-
-            // The amount of penguins in my iceberg.
-            int myPenguinAmount = myIceberg.penguinAmount;
-
-            // Initializing the iceberg we want to send penguins to.
-            Iceberg destination = null;
-
-            // If there are any neutral icebergs.
-            if (game.getNeutralIcebergs().length > 0) {
-                // Target a neutral iceberg.
-                destination = Utils.closestTo(myIceberg, game.getNeutralIcebergs());
-            } else {
-                // Target an enemy iceberg.
-                destination = game.getEnemyIcebergs()[0];
-            }
-
-            // The amount of penguins the target has.
-            int destinationPenguinAmount = destination.penguinAmount;
-            // If my iceberg has more penguins than the target iceberg.
-            if (myPenguinAmount > destinationPenguinAmount) {
-                // Send penguins to the target.
-                System.out.println(myIceberg + " sends " + (destinationPenguinAmount + 1) + " penguins to " + destination);
-                myIceberg.sendPenguins(destination, destinationPenguinAmount + 1);
-            }
         }
     }
 }
