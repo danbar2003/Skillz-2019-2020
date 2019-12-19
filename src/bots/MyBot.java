@@ -1,8 +1,7 @@
 package bots;
 
-import penguin_game.Game;
-import penguin_game.Iceberg;
-import penguin_game.SkillzBot;
+import penguin_game.*;
+
 
 /**
  * This is an example for a bot.
@@ -15,6 +14,7 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
+//        array = Utils.removeNullFromArray(array);
         handleIcebergs(game);
     }
 
