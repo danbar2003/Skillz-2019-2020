@@ -1,6 +1,6 @@
 package bots;
 
-import penguin_game.*;
+import penguin_game.MapObject;
 
 public class Utils {
 
@@ -19,9 +19,9 @@ public class Utils {
         return null;
     }
 
-    public static int howManyInRange(MapObject mapObject, MapObject[] objects,int range){
+    public static int howManyInRange(MapObject mapObject, MapObject[] objects, int range) {
         int counter = 0;
-        for (MapObject temp: objects) {
+        for (MapObject temp : objects) {
             if (mapObject.__distance(temp) <= range)
                 counter++;
         }
