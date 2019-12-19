@@ -2,7 +2,6 @@ package bots;
 
 import penguin_game.*;
 
-
 /**
  * This is an example for a bot.
  */
@@ -26,7 +25,7 @@ public class MyBot implements SkillzBot {
             // If there are any neutral icebergs.
             if (game.getNeutralIcebergs().length > 0) {
                 // Target a neutral iceberg.
-                destination = game.getNeutralIcebergs()[0];
+                destination = Utils.closestTo(myIceberg, game.getNeutralIcebergs());
             } else {
                 // Target an enemy iceberg.
                 destination = game.getEnemyIcebergs()[0];
