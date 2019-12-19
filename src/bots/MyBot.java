@@ -1,4 +1,5 @@
 package bots;
+
 import penguin_game.*;
 
 
@@ -36,7 +37,7 @@ public class MyBot implements SkillzBot {
             // If my iceberg has more penguins than the target iceberg.
             if (myPenguinAmount > destinationPenguinAmount) {
                 // Send penguins to the target.
-                System.out.println(myIceberg + " sends "+ (destinationPenguinAmount + 1) + " penguins to "+ destination);
+                System.out.println(myIceberg + " sends " + (destinationPenguinAmount + 1) + " penguins to " + destination);
                 myIceberg.sendPenguins(destination, destinationPenguinAmount + 1);
             }
         }
