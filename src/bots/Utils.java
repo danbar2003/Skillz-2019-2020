@@ -3,8 +3,6 @@ package bots;
 import penguin_game.*;
 
 public class Utils {
-    public static Game game;
-
     /**
      * @param object: Some object in the game.
      * @param arr:    Array of objects (doesn't have to be the same type)
@@ -43,7 +41,7 @@ public class Utils {
         return false;
     }
 
-    public static PenguinGroup[] helpsIceberg(Iceberg enemy_iceberg){
+    public static PenguinGroup[] helpsIceberg(Game game, Iceberg enemy_iceberg){
         PenguinGroup[] helpingIceberg = new PenguinGroup[game.getEnemyPenguinGroups().length];
         for(int i=0; i < game.getEnemyPenguinGroups().length; i++){
             if(game.getEnemyPenguinGroups()[i].destination == enemy_iceberg){
@@ -70,7 +68,7 @@ public class Utils {
         return helpingIceberg2;
     }
 
-    public static int comingPenguins(Iceberg myIceberg){
+    public static int comingPenguins(Game game, Iceberg myIceberg){
         int penguinAmount = 0;
         for (PenguinGroup temp: game.getEnemyPenguinGroups()) {
             if (temp.destination == myIceberg)
@@ -79,14 +77,15 @@ public class Utils {
         return penguinAmount;
     }
 
-    public static void defendIceberg(Iceberg iceberg){
-        int attackingPenguins = comingPenguins(iceberg);
+    public static void defendIceberg(Game game, Iceberg iceberg){
+        int attackingPenguins = comingPenguins(game, iceberg);
         if (iceberg.penguinAmount  < attackingPenguins){
             for (Iceberg temp : game.getMyIcebergs())
                 if (temp.__distance(iceberg) < 1000 || closestTo(iceberg, game.getMyIcebergs()) == temp)
                     temp.sendPenguins(iceberg, temp.penguinAmount/2);
         }
     }
+
 
     public static Iceberg[] getIcebergsUnderAttack(Game game) {
         Iceberg[] myIcebergs = game.getMyIcebergs();
