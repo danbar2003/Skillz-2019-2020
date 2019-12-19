@@ -4,7 +4,7 @@ import penguin_game.*;
 
 public class Utils {
 
-    public static <T extends MapObject> T closestTo(T object, T[] arr) {
+    public static <T extends GameObject> T closestTo(T object, T[] arr) {
         if (arr.length > 0) {
             int distance = object.__distance(arr[0]);
             T closestObj = arr[0];
