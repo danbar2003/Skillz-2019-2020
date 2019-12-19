@@ -9,5 +9,4 @@ public interface Mission<T> {
     }
 
     State act(T t);
-
 }

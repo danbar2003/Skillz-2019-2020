@@ -5,6 +5,8 @@ import penguin_game.Game;
 import penguin_game.Iceberg;
 import penguin_game.SkillzBot;
 
+import java.awt.image.BufferStrategy;
+
 
 /**
  * This is an example for a bot.
