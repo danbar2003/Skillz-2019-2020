@@ -14,6 +14,7 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
+//        array = Utils.removeNullFromArray(array);
         for (Iceberg myIceberg : game.getMyIcebergs()) {
 
             // The amount of penguins in my iceberg.
@@ -36,7 +37,7 @@ public class MyBot implements SkillzBot {
             // If my iceberg has more penguins than the target iceberg.
             if (myPenguinAmount > destinationPenguinAmount) {
                 // Send penguins to the target.
-                System.out.println(myIceberg + " sends " + (destinationPenguinAmount + 1) + " penguins to " + destination);
+                System.out.println(myIceberg + " sends " + (destinationPenguinAmount + 1) + " penguins to " + destination.id);
                 myIceberg.sendPenguins(destination, destinationPenguinAmount + 1);
             }
         }
