@@ -1,11 +1,10 @@
 package bots;
 
-import bots.wrapper.MyGame;
-import penguin_game.Game;
-import penguin_game.Iceberg;
-import penguin_game.SkillzBot;
+import bots.wrapper.*;
+import bots.missions.*;
+import penguin_game.*;
 
-import java.awt.image.BufferStrategy;
+
 
 
 /**
@@ -19,17 +18,16 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
-        if (game.turn == 1){
+        if (game.turn == 1)
             MyGame.init(game);
-        }
         MyGame.update(game);
-
         handleIcebergs(game);
     }
 
     private void handleIcebergs(Game game) {
         for (Iceberg myIceberg : game.getMyIcebergs()){
-
+            Protocol<Iceberg> protocol = MissionManager.createIcebergMission(myIceberg);
+            protocol.act(myIceberg);
         }
     }
 }

@@ -8,5 +8,5 @@ public interface Mission<T> {
         STOP;
     }
 
-    State act(T t);
+   State act(T t);
 }
