@@ -68,7 +68,7 @@ public class Utils {
         return helpingIceberg2;
     }
 
-    public static int comingPenguins(Game game, Iceberg myIceberg) {
+    public static int amountOfPenguinsComing(Game game, Iceberg myIceberg) {
         int penguinAmount = 0;
         for (PenguinGroup temp : game.getEnemyPenguinGroups()) {
             if (temp.destination == myIceberg)
@@ -78,7 +78,7 @@ public class Utils {
     }
 
     public static void defendIceberg(Game game, Iceberg iceberg) {
-        int attackingPenguins = comingPenguins(game, iceberg);
+        int attackingPenguins = amountOfPenguinsComing(game, iceberg);
         if (iceberg.penguinAmount < attackingPenguins) {
             for (Iceberg temp : game.getMyIcebergs())
                 if (temp.__distance(iceberg) < 1000 || closestTo(iceberg, game.getMyIcebergs()) == temp)
@@ -145,24 +145,26 @@ public class Utils {
                     numPenguins += helpingIcebergs[i].penguinAmount - (helpingIcebergs[i].turnsTillArrival - myTurnsTillArrival);
                 }
             }
+            for (PenguinGroup enemy : game.getEnemyPenguinGroups()) {
+                if(enemy.destination == myIceberg && enemy.source == enemyIceberg){
+                    numPenguins += enemy.penguinAmount;
+                }
+            }
         }
         System.out.println("the number of penguins: " + numPenguins);
         return numPenguins + 1;
     }
-    public static Iceberg weakestIceBerg(Iceberg[] icebergs){
+
+    public static Iceberg weakestIceBerg(Iceberg[] icebergs) {
         int penguins = icebergs[0].penguinAmount;
         int pos = 0;
-        for (int i = 1; i < icebergs.length ; i++) {
-            if(icebergs[i].penguinAmount < penguins ) {
+        for (int i = 1; i < icebergs.length; i++) {
+            if (icebergs[i].penguinAmount < penguins) {
                 penguins = icebergs[i].penguinAmount;
                 pos = i;
             }
         }
         return icebergs[pos];
     }
-
-
-
-
 }
 

@@ -16,8 +16,6 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
-//
-//        array = Utils.removeNullFromArray(array);
         handleIcebergs(game);
     }
 
@@ -28,7 +26,7 @@ public class MyBot implements SkillzBot {
              the amount of penguins we have, we will use fire power nd destroy the shit out of them.
             */
             //attack
-            if (Utils.minimumPenguinAmountToWin(game, myIceberg, Utils.weakestIceBerg(game.getEnemyIcebergs())) <= myIceberg.penguinAmount){
+            if (Utils.minimumPenguinAmountToWin(game, myIceberg, Utils.weakestIceBerg(game.getEnemyIcebergs())) <= myIceberg.penguinAmount) {
                 Modes.offensiveMode(game, myIceberg);
             }
 

@@ -1,13 +1,14 @@
 package bots;
+
 import penguin_game.*;
 
 public class Modes {
 
-    public static void defensiveMode(Game game, Iceberg needsHelp){
+    public static void defensiveMode(Game game, Iceberg needsHelp) {
 
     }
 
-    public static void offensiveMode(Game game, Iceberg myIceberg){
+    public static void offensiveMode(Game game, Iceberg myIceberg) {
 
         // The amount of penguins in my iceberg.
         int myPenguinAmount = myIceberg.penguinAmount;
