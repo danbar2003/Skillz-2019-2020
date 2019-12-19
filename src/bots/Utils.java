@@ -110,5 +110,52 @@ public class Utils {
         }
         return icebergsUnderAttack;
     }
+    
+    public static PenguinGroup[] getHelpingPenguin(Game game, Iceberg enemy) {
+        PenguinGroup[] enemyPenguinGroups = game.getEnemyPenguinGroups();
+        int counter = 0;
+        for (PenguinGroup enemyPenguinGroup : enemyPenguinGroups) {
+            if (enemyPenguinGroup.destination == enemy) {
+                counter++;
+            }
+        }
+        if (counter == 0)
+            return null;
+        PenguinGroup[] helpingPenguinGroup = new PenguinGroup[counter];
+        counter = 0;
+        for (PenguinGroup enemyPenguinGroup : enemyPenguinGroups) {
+            if (enemyPenguinGroup.destination == enemy && !isInArray(enemyPenguinGroup, helpingPenguinGroup)) {
+                helpingPenguinGroup[counter] = enemyPenguinGroup;
+                counter++;
+            }
+        }
+        return helpingPenguinGroup;
+    }
+
+    public static int minimumPenguinAmountToWinWithFuture(Game game, Iceberg myIceberg, Iceberg enemyIceberg) {
+        int myTurnsTillArrival = myIceberg.getTurnsTillArrival(enemyIceberg);
+        int numPenguins = enemyIceberg.penguinAmount;
+        numPenguins += enemyIceberg.penguinsPerTurn * myTurnsTillArrival;
+        if (helpsIceberg(game, enemyIceberg) != null) {
+            PenguinGroup[] helpingIcebergs = helpsIceberg(game, enemyIceberg);
+            for (int i = 0; i < helpingIcebergs.length; i++) {
+                if (helpingIcebergs[i].turnsTillArrival <= myTurnsTillArrival) {
+                    numPenguins += helpingIcebergs[i].penguinAmount;
+                } else {
+                    numPenguins += helpingIcebergs[i].penguinAmount - (helpingIcebergs[i].turnsTillArrival - myTurnsTillArrival);
+                }
+            }
+        }
+        System.out.println("the number of penguins: " + numPenguins);
+        return numPenguins + 1;
+    }
+
+    public static void attackIceberg(Game game, Iceberg target) {
+        Iceberg attacker = closestTo(target, game.getMyIcebergs());
+        int penguinsToAttack = target.penguinAmount + attacker.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
+        if (attacker.penguinAmount > penguinsToAttack) {
+            attacker.sendPenguins(attacker, penguinsToAttack);
+        }
+    }
 
 }
