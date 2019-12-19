@@ -3,8 +3,14 @@ package bots;
 import penguin_game.*;
 
 public class Utils {
-
-    public static <T extends GameObject> T closestTo(T object, T[] arr) {
+    /**
+     *
+     * @param object: Some object in the game.
+     * @param arr: Array of objects (doesn't have to be the same type)
+     * @param <T> :nothing.
+     * @return : return the closest object from arr to object parameter, or null if arr length is below 1
+     */
+    public static <T extends GameObject> T closestTo(GameObject object, T[] arr) {
         if (arr.length > 0) {
             int distance = object.__distance(arr[0]);
             T closestObj = arr[0];
@@ -19,5 +25,12 @@ public class Utils {
         return null;
     }
 
-
+    public static int howManyInRange(GameObject GameObject, GameObject[] objects,int range){
+        int counter = 0;
+        for (GameObject temp: objects) {
+            if (GameObject.__distance(temp) <= range)
+                counter++;
+        }
+        return counter;
+    }
 }
