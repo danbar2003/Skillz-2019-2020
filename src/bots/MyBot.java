@@ -1,5 +1,6 @@
 package bots;
 
+import bots.wrapper.MyGame;
 import penguin_game.Game;
 import penguin_game.Iceberg;
 import penguin_game.SkillzBot;
@@ -16,19 +17,16 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
+        if (game.turn == 1){
+            MyGame.init(game);
+        }
+        MyGame.update(game);
+
         handleIcebergs(game);
     }
 
     private void handleIcebergs(Game game) {
-        for (Iceberg myIceberg : game.getMyIcebergs()) {
-            /*
-             if the minimum amount of penguins to win the fight with the weakest enemy iceberg is lower than
-             the amount of penguins we have, we will use fire power nd destroy the shit out of them.
-            */
-            //attack
-            if (Utils.minimumPenguinAmountToWin(game, myIceberg, Utils.weakestIceBerg(game.getEnemyIcebergs())) <= myIceberg.penguinAmount) {
-                Modes.offensiveMode(game, myIceberg);
-            }
+        for (Iceberg myIceberg : game.getMyIcebergs()){
 
         }
     }
