@@ -20,7 +20,7 @@ public class MyBot implements SkillzBot {
             int myPenguinAmount = myIceberg.penguinAmount;
 
             // Initializing the iceberg we want to send penguins to.
-            Iceberg destination = null;
+            Iceberg destination;
 
             // If there are any neutral icebergs.
             if (game.getNeutralIcebergs().length > 0) {
