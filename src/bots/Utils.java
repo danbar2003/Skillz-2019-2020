@@ -65,5 +65,4 @@ public class Utils {
         return icebergsUnderAttack;
     }
 
-
 }
