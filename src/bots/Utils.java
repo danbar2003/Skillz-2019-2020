@@ -1,8 +1,13 @@
 package bots;
 
-import penguin_game.*;
+import penguin_game.Game;
+import penguin_game.GameObject;
+import penguin_game.Iceberg;
+import penguin_game.PenguinGroup;
 
 public class Utils {
+    public static Game game;
+
     /**
      * @param object: Some object in the game.
      * @param arr:    Array of objects (doesn't have to be the same type)
@@ -33,11 +38,25 @@ public class Utils {
         return counter;
     }
 
-    public static void attack(Iceberg iceberg){
-       Iceberg closestBerg = closestTo(iceberg, game.getEnemyIcebergs());
+    public static void allIceBergsAttack(Game game,Iceberg enemyIceberg) {
+        if (enemyIceberg != null && game.getMyIcebergs().length > 0) {
+            Iceberg attackers[] = new Iceberg[game.getMyIcebergs().length];
+            int c = 0;
+            for (Iceberg mine : game.getMyIcebergs()) {
+                if (mine.penguinAmount / 2 > enemyIceberg.penguinAmount / game.getMyIcebergs().length) {
+                    attackers[c] = mine;
+                    c++;
+                }
+            }
+            if (attackers.length > 2) {
+                for (Iceberg attack : attackers)
+                    if(attack != null)
+                    attack.sendPenguins(enemyIceberg, attack.penguinAmount / 2);
+            }
 
         }
     }
+
 
     public static <T extends GameObject> boolean isInArray(T object, T[] array) {
         for (T arrayObject : array) {
