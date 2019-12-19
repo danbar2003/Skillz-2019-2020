@@ -13,7 +13,7 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
-        // Go over all of my icebergs.
+        Iceberg[] undetAttack = Utils.getIcebergsUnderAttack(game);
         for (Iceberg myIceberg : game.getMyIcebergs()) {
 
             // The amount of penguins in my iceberg.
