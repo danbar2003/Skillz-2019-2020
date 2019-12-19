@@ -28,8 +28,10 @@ public class MyBot implements SkillzBot {
             */
             //attack
             if (Utils.minimumPenguinAmountToWin(game, myIceberg, Utils.weakestIceBerg(game.getEnemyIcebergs())) <= myIceberg.penguinAmount){
+                System.out.println("hi");
                 Modes.offensiveMode(game, myIceberg);
             }
+
 
         }
     }

@@ -198,6 +198,11 @@ public class Utils {
         return icebergs[pos];
     }
 
+    public static void attackWeakest(Game game, Iceberg myIceberg){
+        Iceberg enemyWeakest = weakestIceBerg(game.getEnemyIcebergs());
+        myIceberg.sendPenguins(enemyWeakest, minimumPenguinAmountToWin(game, myIceberg, enemyWeakest));
+    }
+
 
 
 
