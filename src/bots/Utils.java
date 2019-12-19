@@ -1,110 +1,40 @@
 package bots;
 
-import bots.wrapper.MyGame;
-import bots.wrapper.MyIceberg;
-import penguin_game.Iceberg;
-
-import java.util.*;
+import penguin_game.*;
 
 public class Utils {
-
-    public static List<bots.wrapper.MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
-        LinkedList<bots.wrapper.MyIceberg> myIcebergs = new LinkedList<>();
-        for (Iceberg iceberg : arr) {
-            myIcebergs.add(new bots.wrapper.MyIceberg(iceberg));
-        }
-        return myIcebergs;
-    }
-
-    public static List<MyIceberg> myThreatenedIcebergs() {
-        List<bots.wrapper.MyIceberg> threatenedIcebergs = new LinkedList<>();
-        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
-            if (iceberg.amountToDefend() <= 0)
-                threatenedIcebergs.add(iceberg);
-        }
-        return threatenedIcebergs;
-    }
-
-    public static void setupIcebergPenguins() {
-        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
-            iceberg.savePenguins(iceberg.amountToDefend());
-        }
-    }
-
-    private static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
-        Set<Set<T>> sets = new HashSet<>();
-        if (originalSet.isEmpty()) {
-            sets.add(new HashSet<>());
-            return sets;
-        }
-        List<T> list = new ArrayList<>(originalSet);
-        T head = list.get(0);
-        Set<T> rest = new HashSet<>(list.subList(1, list.size()));
-        for (Set<T> set : powerSet(rest)) {
-            Set<T> newSet = new HashSet<>();
-            newSet.add(head);
-            newSet.addAll(set);
-            sets.add(newSet);
-            sets.add(set);
-        }
-        return sets;
-    }
-
-    public static Set<Set<MyIceberg>> allMyIcebergGroups(){
-        Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
-        availableIcebergs.removeAll(myThreatenedIcebergs());
-        return powerSet(availableIcebergs);
-    }
     /**
-     * attckers - friendly (ours)
-     * target - enemy iceberg
      *
-     * @param attackers - contributing icebergs to attack
-     * @param target    - enemy iceberg
-     * @return - map of icebergs who contribute to the attack as keys and
-     * penguin amount that each iceberg is contributing as value
+     * @param object: Some object in the game.
+     * @param arr: Array of objects (doesn't have to be the same type)
+     * @param <T> :nothing.
+     * @return : return the closest object from arr to object parameter, or null if arr length is below 1
      */
-    public static Map<MyIceberg, Integer> penguinsFromEachIceberg(List<bots.wrapper.MyIceberg> attackers, bots.wrapper.MyIceberg target) {
-        Map<bots.wrapper.MyIceberg, Integer> penguinsFromIcebergs = new HashMap<>();
-        int neededPenguins = target.farthest(attackers).iceberg.getTurnsTillArrival(target.iceberg)
-                * target.iceberg.penguinsPerTurn + target.iceberg.penguinAmount + 1;
-
-        double availablePenguins = 0;
-        for (bots.wrapper.MyIceberg iceberg : attackers) {
-            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(target) <= 0)
-                return null;
-            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(target);
-        }
-
-        if (availablePenguins > neededPenguins) {
-            for (bots.wrapper.MyIceberg iceberg : attackers) {
-                int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(target);
-                penguinsFromIcebergs.put(iceberg, (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins));
+    public static <T extends GameObject> T closestTo(GameObject object, T[] arr) {
+        if (arr.length > 0) {
+            int distance = object.__distance(arr[0]);
+            T closestObj = arr[0];
+            for (T temp : arr) {
+                if (temp.__distance(object) < distance) {
+                    distance = temp.__distance(object);
+                    closestObj = temp;
+                }
             }
-            return penguinsFromIcebergs;
+            return closestObj;
         }
         return null;
     }
 
-    /**
-     * @param game - game info
-     * @return - all options to attack each enemy iceberg
-     * key - target (enemy iceberg)
-     * value - list of options to attack the iceberg
-     * value(Map):
-     * key - attacking Iceberg
-     * value - penguins amount
-     */
-    public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game) {
-        Map<bots.wrapper.MyIceberg, Set<Map<bots.wrapper.MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
-        for (MyIceberg enemyIceberg: Constant.Icebergs.enemyIcebergs){
-            Set<Map<bots.wrapper.MyIceberg, Integer>> waysToAttack = new HashSet<>();
-            for(Set<MyIceberg> group: allMyIcebergGroups()){
-                List<bots.wrapper.MyIceberg> specificGroup = new LinkedList<>(group);
-                waysToAttack.add(penguinsFromEachIceberg(specificGroup, enemyIceberg));
-            }
-            optionToAttackEnemy.put(enemyIceberg, waysToAttack);
+    public static int howManyInRange(GameObject GameObject, GameObject[] objects,int range){
+        int counter = 0;
+        for (GameObject temp: objects) {
+            if (GameObject.__distance(temp) <= range)
+                counter++;
         }
-        return optionToAttackEnemy;
+        return counter;
     }
+
+
+
+
 }
