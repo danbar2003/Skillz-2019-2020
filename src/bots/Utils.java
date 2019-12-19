@@ -81,6 +81,11 @@ public class Utils {
 
     public static void defendIceberg(Iceberg iceberg){
         int attackingPenguins = comingPenguins(iceberg);
+        if (iceberg.penguinAmount  < attackingPenguins){
+            for (Iceberg temp : game.getMyIcebergs())
+                if (temp.__distance(iceberg) < 1000 || closestTo(iceberg, game.getMyIcebergs()) == temp)
+                    temp.sendPenguins(iceberg, temp.penguinAmount/2);
+        }
     }
 
     public static Iceberg[] getIcebergsUnderAttack(Game game) {
