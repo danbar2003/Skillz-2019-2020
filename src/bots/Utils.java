@@ -19,10 +19,10 @@ public class Utils {
         return null;
     }
 
-    public static int howManyInRange(MapObject mapObject, MapObject[] objects,int range){
+    public static int howManyInRange(GameObject GameObject, GameObject[] objects,int range){
         int counter = 0;
-        for (MapObject temp: objects) {
-            if (mapObject.__distance(temp) <= range)
+        for (GameObject temp: objects) {
+            if (GameObject.__distance(temp) <= range)
                 counter++;
         }
         return counter;
