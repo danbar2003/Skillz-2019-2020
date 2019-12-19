@@ -182,6 +182,11 @@ public class Utils {
                     numPenguins += helpingIcebergs[i].penguinAmount - (helpingIcebergs[i].turnsTillArrival - myTurnsTillArrival);
                 }
             }
+            for (PenguinGroup enemy : game.getEnemyPenguinGroups()) {
+                if(enemy.destination == myIceberg && enemy.source == enemyIceberg){
+                    numPenguins += enemy.penguinAmount;
+                }
+            }
         }
         System.out.println("the number of penguins: " + numPenguins);
         return numPenguins + 1;
@@ -203,7 +208,5 @@ public class Utils {
         myIceberg.sendPenguins(enemyWeakest, minimumPenguinAmountToWin(game, myIceberg, enemyWeakest));
     }
 
-
-
-
 }
+
