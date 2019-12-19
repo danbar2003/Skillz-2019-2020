@@ -14,6 +14,7 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
+//        array = Utils.removeNullFromArray(array);
         for (Iceberg myIceberg : game.getMyIcebergs()) {
 
             // The amount of penguins in my iceberg.
