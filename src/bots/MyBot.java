@@ -20,6 +20,8 @@ public class MyBot implements SkillzBot {
 
     private void handleIcebergs(Game game) {
         for (Iceberg myIceberg : game.getMyIcebergs()) {
+
+            }
         }
     }
-}
+

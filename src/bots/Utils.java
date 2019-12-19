@@ -57,9 +57,18 @@ public class Utils {
         }
     }
 
-    public static void attackIceberg(Game game, Iceberg target) {
+    public static void attackIcebergTarget(Game game, Iceberg target) {
         Iceberg attacker = closestTo(target, game.getMyIcebergs());
         int penguinsToAttack = target.penguinAmount + attacker.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
+        if (attacker.penguinAmount > penguinsToAttack) {
+            attacker.sendPenguins(attacker, penguinsToAttack);
+        }
+    }
+
+
+    public static void attackIcebergAttaker(Game game, Iceberg attacker) {
+        Iceberg target = closestTo(attacker, game.getEnemyIcebergs());
+        int penguinsToAttack = target.penguinAmount + target.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
         if (attacker.penguinAmount > penguinsToAttack) {
             attacker.sendPenguins(attacker, penguinsToAttack);
         }
