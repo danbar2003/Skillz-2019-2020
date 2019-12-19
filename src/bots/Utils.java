@@ -41,6 +41,23 @@ public class Utils {
         return false;
     }
 
+    public static <T extends GameObject> GameObject[] removeNullFromArray(T[] array) {
+        int counter = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null)
+                counter++;
+        }
+        counter = 0;
+        GameObject[] cleanArray = new GameObject[counter];
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null) {
+                cleanArray[counter] = array[i];
+                counter++;
+            }
+        }
+        return cleanArray;
+    }
+
     public static Iceberg[] getIcebergsUnderAttack(Game game) {
         Iceberg[] myIcebergs = game.getMyIcebergs();
         PenguinGroup[] enemyPenguinGroups = game.getEnemyPenguinGroups();
@@ -72,4 +89,6 @@ public class Utils {
             attacker.sendPenguins(attacker, penguinsToAttack);
         }
     }
+
+
 }
