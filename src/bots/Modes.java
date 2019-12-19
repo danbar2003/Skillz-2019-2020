@@ -8,7 +8,7 @@ public class Modes {
     }
 
     public static void offensiveMode(Game game, Iceberg myIceberg){
-        Utils.attackIcebergAttaker(game, myIceberg);
+
         // The amount of penguins in my iceberg.
         int myPenguinAmount = myIceberg.penguinAmount;
 

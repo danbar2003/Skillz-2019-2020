@@ -51,7 +51,7 @@ public class Utils {
 
         }
     }
-
+/*
     public static void attackIcebergTarget(Game game, Iceberg target) {
         Iceberg attacker = closestTo(target, game.getMyIcebergs());
         int penguinsToAttack = target.penguinAmount + attacker.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
@@ -68,7 +68,7 @@ public class Utils {
             attacker.sendPenguins(attacker, penguinsToAttack);
         }
     }
-
+*/
 
     public static <T extends GameObject> boolean isInArray(T object, T[] array) {
         for (T arrayObject : array) {
@@ -169,7 +169,7 @@ public class Utils {
         return helpingPenguinGroup;
     }
 
-    public static int minimumPenguinAmountToWinWithFuture(Game game, Iceberg myIceberg, Iceberg enemyIceberg) {
+    public static int minimumPenguinAmountToWin(Game game, Iceberg myIceberg, Iceberg enemyIceberg) {
         int myTurnsTillArrival = myIceberg.getTurnsTillArrival(enemyIceberg);
         int numPenguins = enemyIceberg.penguinAmount;
         numPenguins += enemyIceberg.penguinsPerTurn * myTurnsTillArrival;
