@@ -41,12 +41,12 @@ public class Utils {
         return false;
     }
 
-    public static PenguinGroup[] helpsIceberg(Game game, Iceberg enemy_iceberg){
+    public static PenguinGroup[] helpsIceberg(Game game, Iceberg enemy_iceberg) {
         PenguinGroup[] helpingIceberg = new PenguinGroup[game.getEnemyPenguinGroups().length];
-        for(int i=0; i < game.getEnemyPenguinGroups().length; i++){
-            if(game.getEnemyPenguinGroups()[i].destination == enemy_iceberg){
-                for(int z=0; z < helpingIceberg.length; z++){
-                    if(helpingIceberg[z] == null){
+        for (int i = 0; i < game.getEnemyPenguinGroups().length; i++) {
+            if (game.getEnemyPenguinGroups()[i].destination == enemy_iceberg) {
+                for (int z = 0; z < helpingIceberg.length; z++) {
+                    if (helpingIceberg[z] == null) {
                         helpingIceberg[z] = game.getEnemyPenguinGroups()[i];
                         z = helpingIceberg.length;
                     }
@@ -54,7 +54,7 @@ public class Utils {
             }
         }
         int c = 0;
-        for(int a=0; a < helpingIceberg.length; a++) {
+        for (int a = 0; a < helpingIceberg.length; a++) {
             if (helpingIceberg[a] == null) {
                 a = helpingIceberg.length;
             } else {
@@ -62,27 +62,27 @@ public class Utils {
             }
         }
         PenguinGroup[] helpingIceberg2 = new PenguinGroup[c];
-        for(int a=0; a < c; a++){
+        for (int a = 0; a < c; a++) {
             helpingIceberg2[a] = helpingIceberg[a];
         }
         return helpingIceberg2;
     }
 
-    public static int comingPenguins(Game game, Iceberg myIceberg){
+    public static int comingPenguins(Game game, Iceberg myIceberg) {
         int penguinAmount = 0;
-        for (PenguinGroup temp: game.getEnemyPenguinGroups()) {
+        for (PenguinGroup temp : game.getEnemyPenguinGroups()) {
             if (temp.destination == myIceberg)
                 penguinAmount += temp.penguinAmount;
         }
         return penguinAmount;
     }
 
-    public static void defendIceberg(Game game, Iceberg iceberg){
+    public static void defendIceberg(Game game, Iceberg iceberg) {
         int attackingPenguins = comingPenguins(game, iceberg);
-        if (iceberg.penguinAmount  < attackingPenguins){
+        if (iceberg.penguinAmount < attackingPenguins) {
             for (Iceberg temp : game.getMyIcebergs())
                 if (temp.__distance(iceberg) < 1000 || closestTo(iceberg, game.getMyIcebergs()) == temp)
-                    temp.sendPenguins(iceberg, temp.penguinAmount/2);
+                    temp.sendPenguins(iceberg, temp.penguinAmount / 2);
         }
     }
 
@@ -110,52 +110,4 @@ public class Utils {
         }
         return icebergsUnderAttack;
     }
-    
-    public static PenguinGroup[] getHelpingPenguin(Game game, Iceberg enemy) {
-        PenguinGroup[] enemyPenguinGroups = game.getEnemyPenguinGroups();
-        int counter = 0;
-        for (PenguinGroup enemyPenguinGroup : enemyPenguinGroups) {
-            if (enemyPenguinGroup.destination == enemy) {
-                counter++;
-            }
-        }
-        if (counter == 0)
-            return null;
-        PenguinGroup[] helpingPenguinGroup = new PenguinGroup[counter];
-        counter = 0;
-        for (PenguinGroup enemyPenguinGroup : enemyPenguinGroups) {
-            if (enemyPenguinGroup.destination == enemy && !isInArray(enemyPenguinGroup, helpingPenguinGroup)) {
-                helpingPenguinGroup[counter] = enemyPenguinGroup;
-                counter++;
-            }
-        }
-        return helpingPenguinGroup;
-    }
-
-    public static int minimumPenguinAmountToWinWithFuture(Game game, Iceberg myIceberg, Iceberg enemyIceberg) {
-        int myTurnsTillArrival = myIceberg.getTurnsTillArrival(enemyIceberg);
-        int numPenguins = enemyIceberg.penguinAmount;
-        numPenguins += enemyIceberg.penguinsPerTurn * myTurnsTillArrival;
-        if (helpsIceberg(game, enemyIceberg) != null) {
-            PenguinGroup[] helpingIcebergs = helpsIceberg(game, enemyIceberg);
-            for (int i = 0; i < helpingIcebergs.length; i++) {
-                if (helpingIcebergs[i].turnsTillArrival <= myTurnsTillArrival) {
-                    numPenguins += helpingIcebergs[i].penguinAmount;
-                } else {
-                    numPenguins += helpingIcebergs[i].penguinAmount - (helpingIcebergs[i].turnsTillArrival - myTurnsTillArrival);
-                }
-            }
-        }
-        System.out.println("the number of penguins: " + numPenguins);
-        return numPenguins + 1;
-    }
-
-    public static void attackIceberg(Game game, Iceberg target) {
-        Iceberg attacker = closestTo(target, game.getMyIcebergs());
-        int penguinsToAttack = target.penguinAmount + attacker.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
-        if (attacker.penguinAmount > penguinsToAttack) {
-            attacker.sendPenguins(attacker, penguinsToAttack);
-        }
-    }
-
 }
