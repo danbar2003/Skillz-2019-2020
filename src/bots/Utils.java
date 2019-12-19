@@ -65,4 +65,11 @@ public class Utils {
         return icebergsUnderAttack;
     }
 
+    public static void attackIceberg(Game game, Iceberg target) {
+        Iceberg attacker = closestTo(target, game.getMyIcebergs());
+        int penguinsToAttack = target.penguinAmount + attacker.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
+        if (attacker.penguinAmount > penguinsToAttack) {
+            attacker.sendPenguins(attacker, penguinsToAttack);
+        }
+    }
 }
