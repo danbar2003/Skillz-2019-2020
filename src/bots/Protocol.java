@@ -9,7 +9,7 @@ public class Protocol<T> implements Mission<T> {
     public Queue<Mission<T>> protocol;
 
     public State act(T t){
-        return State.FINISHED;
+        return protocol.poll().act(t);
     }
 
     public void add(Mission<T> mission){

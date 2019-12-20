@@ -5,6 +5,7 @@ import penguin_game.*;
 public class MyGame {
     public static Game game;
     public static int turn;
+
     //icebergs
     public static Iceberg[] myIcebergs;
     public static Iceberg[] enemyIcebergs;

@@ -23,7 +23,7 @@ public class Utils {
     }
     */
 
-    public static <T extends GameObject> T closestTo(MapObject object, T[] arr){
+    public static <T extends GameObject> T closestTo(GameObject object, T[] arr){
         if (arr.length > 0){
             T obj = arr[0];
             int minDistance = object.__distance(obj);
@@ -36,5 +36,14 @@ public class Utils {
             return obj;
         }
         return null;
+    }
+
+    public static int amountOfPenguinsComing(Iceberg myIceberg) {
+        int penguinAmount = 0;
+        for (PenguinGroup temp : MyGame.enemyPenguinGroups) {
+            if (temp.destination == myIceberg)
+                penguinAmount += temp.penguinAmount;
+        }
+        return penguinAmount;
     }
 }
