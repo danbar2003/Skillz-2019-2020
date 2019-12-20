@@ -10,5 +10,4 @@ public class Protocol<T> implements Mission<T> {
     public State act(T t){
         return State.FINISHED;
     }
-
 }
