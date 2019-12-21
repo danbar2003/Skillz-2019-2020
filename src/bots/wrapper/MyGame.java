@@ -18,6 +18,7 @@ public class MyGame {
     public static PenguinGroup[] enemyPenguinGroups;
     public static PenguinGroup[] allPenguinGroups;
 
+
     public static void init(Game game){
         MyGame.game = game;
     }
