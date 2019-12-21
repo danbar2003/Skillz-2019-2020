@@ -23,12 +23,12 @@ public class Utils {
     }
     */
 
-    public static <T extends GameObject> T closestTo(GameObject object, T[] arr){
-        if (arr.length > 0){
+    public static <T extends GameObject> T closestTo(GameObject object, T[] arr) {
+        if (arr.length > 0) {
             T obj = arr[0];
             int minDistance = object.__distance(obj);
             for (T temp : arr) {
-                if (object.__distance(temp) < minDistance){
+                if (object.__distance(temp) < minDistance) {
                     minDistance = object.__distance(temp);
                     obj = temp;
                 }
@@ -38,12 +38,29 @@ public class Utils {
         return null;
     }
 
-    public static int amountOfPenguinsComing(Iceberg myIceberg) {
-        int penguinAmount = 0;
-        for (PenguinGroup temp : MyGame.enemyPenguinGroups) {
-            if (temp.destination == myIceberg)
-                penguinAmount += temp.penguinAmount;
+    //shel Daniel
+    public static int minPenguinsToWinTemp(Iceberg attacker, Iceberg target) {
+        return target.penguinAmount + attacker.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
+    }
+
+    //shel Roi ve Yuval
+    public static int minPenguinsToWin(Iceberg attacker, Iceberg target) {
+        return minPenguinsToWinTemp(attacker, target) + penguinsComing(target);
+    }
+
+    public static int penguinsComing(Iceberg iceberg){
+        int penguinsComing = 0;
+        if (iceberg.owner.equals(MyGame.myIcebergs[0].owner)){
+            for (PenguinGroup penguinGroup : MyGame.myPenguinGroups) {
+                if (penguinGroup.destination == iceberg)
+                    penguinsComing += penguinGroup.penguinAmount;
+            }
+            return penguinsComing;
         }
-        return penguinAmount;
+        for (PenguinGroup penguinGroup : MyGame.enemyPenguinGroups) {
+            if (penguinGroup.destination == iceberg)
+                penguinsComing += penguinGroup.penguinAmount;
+        }
+        return penguinsComing;
     }
 }
