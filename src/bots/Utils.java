@@ -4,6 +4,10 @@ import bots.wrapper.MyGame;
 import javafx.scene.control.IndexedCell;
 import penguin_game.*;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class Utils {
     /*TODO someone create the functions with MyGame obj (see example)
     * if the original function got a Game as a parameter, rewrite the func
@@ -56,6 +60,7 @@ public class Utils {
                 friendlyPenguinsComing(target) + 1;
     }
 
+    //Amount of supporting penguins
     public static int friendlyPenguinsComing(Iceberg iceberg) {
         int penguinsComing = 0;
         if (iceberg.owner.equals(MyGame.myIcebergs[0].owner)) {
@@ -72,5 +77,20 @@ public class Utils {
         return penguinsComing;
     }
 
-
+    //Amount of attacking penguins
+    public static int attackingPenguinsComing(Iceberg iceberg){
+        int penguinsComing = 0;
+        if (iceberg.owner.equals(MyGame.myIcebergs[0].owner)) {
+            for (PenguinGroup penguinGroup : MyGame.enemyPenguinGroups) {
+                if (penguinGroup.destination == iceberg)
+                    penguinsComing += penguinGroup.penguinAmount;
+            }
+            return penguinsComing;
+        }
+        for (PenguinGroup penguinGroup : MyGame.myPenguinGroups) {
+            if (penguinGroup.destination == iceberg)
+                penguinsComing += penguinGroup.penguinAmount;
+        }
+        return penguinsComing;
+    }
 }
