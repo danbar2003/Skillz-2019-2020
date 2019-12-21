@@ -8,7 +8,6 @@ public class AttackWeakest implements Mission<Iceberg> {
 
     @Override
     public State act(Iceberg iceberg){
-
         return State.FINISHED;
     }
 }

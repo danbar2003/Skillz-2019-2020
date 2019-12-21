@@ -1,6 +1,7 @@
 package bots;
 
 import bots.wrapper.MyGame;
+import javafx.scene.control.IndexedCell;
 import penguin_game.*;
 
 public class Utils {
@@ -36,16 +37,6 @@ public class Utils {
             return obj;
         }
         return null;
-    }
-
-    //shel Daniel
-    public static int minPenguinsToWinTemp(Iceberg attacker, Iceberg target) {
-        return target.penguinAmount + attacker.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
-    }
-
-    //shel Roi ve Yuval
-    public static int minPenguinsToWin(Iceberg attacker, Iceberg target) {
-        return minPenguinsToWinTemp(attacker, target) + penguinsComing(target);
     }
 
     public static int penguinsComing(Iceberg iceberg){
