@@ -24,7 +24,7 @@ public class Utils {
             if (temp.destination == myIceberg)
                 penguinAmount += temp.penguinAmount;
         }
-        return penguinAmount;
+        retur
     }
     */
 
