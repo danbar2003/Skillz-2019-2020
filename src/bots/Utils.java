@@ -39,9 +39,26 @@ public class Utils {
         return null;
     }
 
-    public static int penguinsComing(Iceberg iceberg){
+    //shel Daniel
+    public static int minPenguinsToWinTemp(Iceberg attacker, Iceberg target) {
+        int comingPenguins = 0;
+        for (PenguinGroup penguinGroup : MyGame.enemyPenguinGroups) {
+            if (penguinGroup.destination == target && penguinGroup.turnsTillArrival > attacker.getTurnsTillArrival(target)) {
+                comingPenguins += penguinGroup.penguinAmount;
+            }
+        }
+        return target.penguinAmount + target.penguinsPerTurn * attacker.getTurnsTillArrival(target) + comingPenguins + 1;
+    }
+
+    //shel Roi, Yuval
+    public static int minPenguinsToWin(Iceberg attacker, Iceberg target) {
+        return target.penguinAmount + target.penguinsPerTurn * attacker.getTurnsTillArrival(target) +
+                friendlyPenguinsComing(target) + 1;
+    }
+
+    public static int friendlyPenguinsComing(Iceberg iceberg) {
         int penguinsComing = 0;
-        if (iceberg.owner.equals(MyGame.myIcebergs[0].owner)){
+        if (iceberg.owner.equals(MyGame.myIcebergs[0].owner)) {
             for (PenguinGroup penguinGroup : MyGame.myPenguinGroups) {
                 if (penguinGroup.destination == iceberg)
                     penguinsComing += penguinGroup.penguinAmount;
@@ -54,4 +71,6 @@ public class Utils {
         }
         return penguinsComing;
     }
+
+
 }

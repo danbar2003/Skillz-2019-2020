@@ -11,7 +11,7 @@ public class Protocol<T> implements Mission<T> {
     public State act(T t){
         return protocol.poll().act(t);
     }
-
+    
     public void add(Mission<T> mission){
         protocol.add(mission);
     }

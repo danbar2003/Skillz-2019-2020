@@ -8,7 +8,7 @@ public class MissionManager {
 
     public static Protocol<Iceberg> createIcebergMission(Iceberg iceberg){
         Protocol<Iceberg> protocol = new Protocol<>();
-        protocol.add(new AttackWeakest());
+        //example : protocol.add(new AttackWeakest());
         return protocol;
     }
 }
