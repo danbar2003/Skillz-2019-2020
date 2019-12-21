@@ -11,7 +11,7 @@ public class MyGame {
     public static Iceberg[] enemyIcebergs;
     public static Iceberg[] allIcebergs;
     public static Iceberg[] neutralIcebergs;
-    //TODO create an notFriendlyIcebergs Iceberg array
+    //TODO create a notFriendlyIcebergs Iceberg array
 
     //penguin_groups
     public static PenguinGroup[] myPenguinGroups;
