@@ -1,13 +1,14 @@
 package bots.missions;
+
 import penguin_game.*;
 
-public interface Mission{
+public interface Mission {
 
-    enum State{
+    enum State {
         CONTINUE,
         FINISHED,
         STOP;
     }
 
-   State act(Game game, Iceberg iceberg);
+    State act(Game game, Iceberg iceberg);
 }

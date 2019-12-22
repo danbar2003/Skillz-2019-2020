@@ -4,8 +4,6 @@ import bots.wrapper.*;
 import penguin_game.*;
 
 
-
-
 /**
  * This is an example for a bot.
  */
@@ -21,7 +19,7 @@ public class MyBot implements SkillzBot {
     }
 
     private void handleIcebergs(Game game) {
-        for (Iceberg myIceberg : game.getMyIcebergs()){
+        for (Iceberg myIceberg : game.getMyIcebergs()) {
             Protocol protocol = MissionManager.createIcebergMission(myIceberg);
             protocol.act(game, myIceberg);
         }

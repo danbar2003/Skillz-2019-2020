@@ -4,6 +4,12 @@ import penguin_game.*;
 
 public class Utils {
 
+
+    /**
+     * @param object is the object you want to find the
+     * @param arr    is an array that you want to find the closest object to "object" from.
+     * @return the closest object to "object" from the array
+     */
     public static <T extends GameObject> T closestTo(GameObject object, T[] arr) {
         if (arr.length > 0) {
             T obj = arr[0];
