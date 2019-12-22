@@ -2,9 +2,9 @@ package bots.missions;
 //asd
 import penguin_game.*;
 
-public class UpgradeIceberg implements Mission<Iceberg> {
+public class UpgradeIceberg implements Mission{
 
-    public State act(Iceberg iceberg){
+    public State act(Game game, Iceberg iceberg){
         if (iceberg.canUpgrade()) {
             iceberg.upgrade();
             return State.FINISHED;

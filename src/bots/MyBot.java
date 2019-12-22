@@ -1,7 +1,6 @@
 package bots;
 
 import bots.wrapper.*;
-import bots.missions.*;
 import penguin_game.*;
 
 
@@ -18,9 +17,6 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
-        if (game.turn == 1)
-            MyGame.init(game);
-        MyGame.update(game);
         handleIcebergs(game);
     }
 
