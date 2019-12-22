@@ -1,7 +1,12 @@
 package bots;
 
 import bots.wrapper.MyGame;
+import javafx.scene.control.IndexedCell;
 import penguin_game.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Utils {
     /*TODO someone create the functions with MyGame obj (see example)
@@ -19,7 +24,7 @@ public class Utils {
             if (temp.destination == myIceberg)
                 penguinAmount += temp.penguinAmount;
         }
-        return penguinAmount;
+        retur
     }
     */
 
@@ -40,17 +45,25 @@ public class Utils {
 
     //shel Daniel
     public static int minPenguinsToWinTemp(Iceberg attacker, Iceberg target) {
-        return target.penguinAmount + attacker.getTurnsTillArrival(target) * target.penguinsPerTurn + 1;
+        int comingPenguins = 0;
+        for (PenguinGroup penguinGroup : MyGame.enemyPenguinGroups) {
+            if (penguinGroup.destination == target && penguinGroup.turnsTillArrival > attacker.getTurnsTillArrival(target)) {
+                comingPenguins += penguinGroup.penguinAmount;
+            }
+        }
+        return target.penguinAmount + target.penguinsPerTurn * attacker.getTurnsTillArrival(target) + comingPenguins + 1;
     }
 
-    //shel Roi ve Yuval
+    //shel Roi, Yuval
     public static int minPenguinsToWin(Iceberg attacker, Iceberg target) {
-        return minPenguinsToWinTemp(attacker, target) + penguinsComing(target);
+        return target.penguinAmount + target.penguinsPerTurn * attacker.getTurnsTillArrival(target) +
+                friendlyPenguinsComing(target) + 1;
     }
 
-    public static int penguinsComing(Iceberg iceberg){
+    //Amount of supporting penguins
+    public static int friendlyPenguinsComing(Iceberg iceberg) {
         int penguinsComing = 0;
-        if (iceberg.owner.equals(MyGame.myIcebergs[0].owner)){
+        if (iceberg.owner.equals(MyGame.myIcebergs[0].owner)) {
             for (PenguinGroup penguinGroup : MyGame.myPenguinGroups) {
                 if (penguinGroup.destination == iceberg)
                     penguinsComing += penguinGroup.penguinAmount;
@@ -58,6 +71,23 @@ public class Utils {
             return penguinsComing;
         }
         for (PenguinGroup penguinGroup : MyGame.enemyPenguinGroups) {
+            if (penguinGroup.destination == iceberg)
+                penguinsComing += penguinGroup.penguinAmount;
+        }
+        return penguinsComing;
+    }
+
+    //Amount of attacking penguins
+    public static int attackingPenguinsComing(Iceberg iceberg){
+        int penguinsComing = 0;
+        if (iceberg.owner.equals(MyGame.myIcebergs[0].owner)) {
+            for (PenguinGroup penguinGroup : MyGame.enemyPenguinGroups) {
+                if (penguinGroup.destination == iceberg)
+                    penguinsComing += penguinGroup.penguinAmount;
+            }
+            return penguinsComing;
+        }
+        for (PenguinGroup penguinGroup : MyGame.myPenguinGroups) {
             if (penguinGroup.destination == iceberg)
                 penguinsComing += penguinGroup.penguinAmount;
         }
