@@ -6,7 +6,8 @@ import penguin_game.*;
 public class SavePenguins implements Mission {
 
     @Override
-    public State act(Game game, Iceberg iceberg) {
-        return State.FINISHED;
+    public State act(Game game, Iceberg iceberg){
+        return State.NOT_ACTED;
+
     }
 }
