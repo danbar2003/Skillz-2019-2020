@@ -34,28 +34,21 @@ public class Utils {
      * @return the enemy's penguinGroups that their destination is "iceberg"
      */
     public static List<PenguinGroup> getHelpingPenguinGroupsToIceberg(Game game, Iceberg iceberg) {
-        PenguinGroup[] enemyPenguinGroups = game.getEnemyPenguinGroups();
-        List<PenguinGroup> helpers = new LinkedList<>();
-        for (PenguinGroup enemyPenguinGroup : enemyPenguinGroups) {
-            if (enemyPenguinGroup.destination == iceberg) {
-                helpers.add(enemyPenguinGroup);
-            }
-        }
-        return helpers;
+        iasd
     }
 
     /**
-     * @param myIceberg    - the attacker
-     * @param enemyIceberg - the target
+     * @param attacker    - the attacker
+     * @param target - the target
      * @return the amount of penguins the attacker needs to send to the target.
      */
-    public static int minimumAmountToWin(Game game, Iceberg myIceberg, Iceberg enemyIceberg) {
-        int penguinAmount = enemyIceberg.penguinAmount +
-                enemyIceberg.penguinsPerTurn * myIceberg.getTurnsTillArrival(enemyIceberg);
-        List<PenguinGroup> helpers = getHelpingPenguinGroupsToIceberg(game, enemyIceberg);
+    public static int minPenguinAmountToWin(Game game, Iceberg attacker, Iceberg target) {
+        int penguinAmount = target.penguinAmount +
+                target.penguinsPerTurn * attacker.getTurnsTillArrival(target);
+        List<PenguinGroup> helpers = getHelpingPenguinGroupsToIceberg(game, target);
         if (!helpers.isEmpty()) {
             for (PenguinGroup helper : helpers) {
-                if (helper.turnsTillArrival < myIceberg.getTurnsTillArrival(enemyIceberg)) {
+                if (helper.turnsTillArrival < attacker.getTurnsTillArrival(target)) {
                     penguinAmount += helper.penguinAmount;
                 }
             }
