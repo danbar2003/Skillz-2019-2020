@@ -6,7 +6,7 @@ public interface Mission {
 
     enum State {
         NOT_ACTED,
-        ACTED;
+        ACTED
     }
 
     State act(Game game, Iceberg iceberg);
