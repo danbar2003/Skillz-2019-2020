@@ -1,12 +1,12 @@
 package bots;
 
+import bots.missions.AttackWeakestIceberg;
 import bots.missions.Mission;
+import bots.missions.UpgradeIceberg;
 import haxe.root.Array;
 import penguin_game.*;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 public class Utils {
@@ -31,13 +31,28 @@ public class Utils {
         return null;
     }
 
+    public static <T extends GameObject> T closestTo(GameObject object, List<T> arr) {
+        if (arr.size() > 0) {
+            T obj = arr.get(0);
+            int minDistance = object.__distance(obj);
+            for (T temp : arr) {
+                if (object.__distance(temp) < minDistance) {
+                    minDistance = object.__distance(temp);
+                    obj = temp;
+                }
+            }
+            return obj;
+        }
+        return null;
+    }
+
     /**
      * @param iceberg can be an enemy iceberg or a neutral iceberg
      * @return the enemy's penguinGroups that their destination is "iceberg"
      */
     public static List<PenguinGroup> getHelpingPenguinGroupsToIceberg(Game game, Iceberg iceberg) {
         List<PenguinGroup> penguinGroups = new LinkedList<>();
-        if (iceberg.owner == game.getMyIcebergs()[0].owner){
+        if (iceberg.owner == game.getMyIcebergs()[0].owner) {
             for (PenguinGroup penguinGroup : game.getMyPenguinGroups()) {
                 if (penguinGroup.destination == iceberg)
                     penguinGroups.add(penguinGroup);
@@ -51,9 +66,26 @@ public class Utils {
         return penguinGroups;
     }
 
+    //find better name ty.
+    public static List<PenguinGroup> getAttackingPenguinGroupsToIceberg(Game game, Iceberg iceberg) {
+        List<PenguinGroup> penguinGroups = new LinkedList<>();
+        if (iceberg.owner == game.getMyIcebergs()[0].owner) {
+            for (PenguinGroup penguinGroup : game.getEnemyPenguinGroups()) {
+                if (penguinGroup.destination == iceberg)
+                    penguinGroups.add(penguinGroup);
+            }
+            return penguinGroups;
+        }
+        for (PenguinGroup penguinGroup : game.getMyPenguinGroups()) {
+            if (penguinGroup.destination == iceberg)
+                penguinGroups.add(penguinGroup);
+        }
+        return penguinGroups;
+    }
+
     /**
-     * @param attacker    - the attacker
-     * @param target - the target
+     * @param attacker - the attacker
+     * @param target   - the target
      * @return the amount of penguins the attacker needs to send to the target.
      */
     public static int minPenguinAmountToWin(Game game, Iceberg attacker, Iceberg target) {
