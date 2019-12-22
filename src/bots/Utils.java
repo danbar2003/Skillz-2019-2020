@@ -1,7 +1,10 @@
 package bots;
 
+import bots.missions.Mission;
+import haxe.root.Array;
 import penguin_game.*;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,34 +31,38 @@ public class Utils {
         return null;
     }
 
-
     /**
      * @param iceberg can be an enemy iceberg or a neutral iceberg
      * @return the enemy's penguinGroups that their destination is "iceberg"
      */
     public static List<PenguinGroup> getHelpingPenguinGroupsToIceberg(Game game, Iceberg iceberg) {
-        PenguinGroup[] enemyPenguinGroups = game.getEnemyPenguinGroups();
-        List<PenguinGroup> helpers = new LinkedList<>();
-        for (PenguinGroup enemyPenguinGroup : enemyPenguinGroups) {
-            if (enemyPenguinGroup.destination == iceberg) {
-                helpers.add(enemyPenguinGroup);
+        List<PenguinGroup> penguinGroups = new LinkedList<>();
+        if (iceberg.owner == game.getMyIcebergs()[0].owner){
+            for (PenguinGroup penguinGroup : game.getMyPenguinGroups()) {
+                if (penguinGroup.destination == iceberg)
+                    penguinGroups.add(penguinGroup);
             }
+            return penguinGroups;
         }
-        return helpers;
+        for (PenguinGroup penguinGroup : game.getEnemyPenguinGroups()) {
+            if (penguinGroup.destination == iceberg)
+                penguinGroups.add(penguinGroup);
+        }
+        return penguinGroups;
     }
 
     /**
-     * @param myIceberg    - the attacker
-     * @param enemyIceberg - the target
+     * @param attacker    - the attacker
+     * @param target - the target
      * @return the amount of penguins the attacker needs to send to the target.
      */
-    public static int minimumAmountToWin(Game game, Iceberg myIceberg, Iceberg enemyIceberg) {
-        int penguinAmount = enemyIceberg.penguinAmount +
-                enemyIceberg.penguinsPerTurn * myIceberg.getTurnsTillArrival(enemyIceberg);
-        List<PenguinGroup> helpers = getHelpingPenguinGroupsToIceberg(game, enemyIceberg);
+    public static int minPenguinAmountToWin(Game game, Iceberg attacker, Iceberg target) {
+        int penguinAmount = target.penguinAmount +
+                target.penguinsPerTurn * attacker.getTurnsTillArrival(target);
+        List<PenguinGroup> helpers = getHelpingPenguinGroupsToIceberg(game, target);
         if (!helpers.isEmpty()) {
             for (PenguinGroup helper : helpers) {
-                if (helper.turnsTillArrival < myIceberg.getTurnsTillArrival(enemyIceberg)) {
+                if (helper.turnsTillArrival < attacker.getTurnsTillArrival(target)) {
                     penguinAmount += helper.penguinAmount;
                 }
             }
@@ -63,4 +70,5 @@ public class Utils {
         return penguinAmount;
     }
 
+    //TODO create a function that returns Map of Group Missions (more than one Iceberg) as keys and which icebergs can execute them as values.
 }
