@@ -16,8 +16,9 @@ public class MyBot implements SkillzBot {
     }
 
     private void handleIcebergs(Game game) {
-        for (Iceberg myIceberg : game.getMyIcebergs()){
-            Protocol protocol = MissionManager.createIcebergMission(game, myIceberg);
+
+        for (Iceberg myIceberg : game.getMyIcebergs()) {
+            Protocol protocol = MissionManager.createIcebergMission(myIceberg);
             protocol.act(game, myIceberg);
         }
     }

@@ -2,7 +2,7 @@ package bots.missions;
 
 import penguin_game.*;
 
-public class  AttackWeakestIceberg implements Mission {
+public class AttackWeakestIceberg implements Mission {
 
     //TODO finish this mission.
     @Override
