@@ -208,5 +208,10 @@ public class Utils {
         myIceberg.sendPenguins(enemyWeakest, minimumPenguinAmountToWin(game, myIceberg, enemyWeakest));
     }
 
+    public static void upgrade(Game game, Iceberg myIceberg){
+
+
+    }
+
 }
 
