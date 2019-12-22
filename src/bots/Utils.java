@@ -1,7 +1,10 @@
 package bots;
 
+import bots.missions.Mission;
+import haxe.root.Array;
 import penguin_game.*;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,13 +31,24 @@ public class Utils {
         return null;
     }
 
-
     /**
      * @param iceberg can be an enemy iceberg or a neutral iceberg
      * @return the enemy's penguinGroups that their destination is "iceberg"
      */
     public static List<PenguinGroup> getHelpingPenguinGroupsToIceberg(Game game, Iceberg iceberg) {
-        iasd
+        List<PenguinGroup> penguinGroups = new LinkedList<>();
+        if (iceberg.owner == game.getMyIcebergs()[0].owner){
+            for (PenguinGroup penguinGroup : game.getMyPenguinGroups()) {
+                if (penguinGroup.destination == iceberg)
+                    penguinGroups.add(penguinGroup);
+            }
+            return penguinGroups;
+        }
+        for (PenguinGroup penguinGroup : game.getEnemyPenguinGroups()) {
+            if (penguinGroup.destination == iceberg)
+                penguinGroups.add(penguinGroup);
+        }
+        return penguinGroups;
     }
 
     /**
@@ -56,4 +70,5 @@ public class Utils {
         return penguinAmount;
     }
 
+    //TODO create a function that returns Map of Group Missions (more than one Iceberg) as keys and which icebergs can execute them as values.
 }
