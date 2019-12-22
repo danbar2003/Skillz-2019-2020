@@ -146,7 +146,29 @@ public class Utils {
                 }
             }
             for (PenguinGroup enemy : game.getEnemyPenguinGroups()) {
-                if(enemy.destination == myIceberg && enemy.source == enemyIceberg){
+                if (enemy.destination == myIceberg && enemy.source == enemyIceberg) {
+                    numPenguins += enemy.penguinAmount;
+                }
+            }
+        }
+        System.out.println("the number of penguins: " + numPenguins);
+        return numPenguins + 1;
+    }
+
+    public static int minimumPenguinAmountToWin1(Game game, Iceberg myIceberg, Iceberg enemyIceberg) {
+        int numPenguins = myIceberg.getTurnsTillArrival(enemyIceberg) + enemyIceberg.penguinAmount +
+                enemyIceberg.penguinsPerTurn * myIceberg.getTurnsTillArrival(enemyIceberg);
+        if (helpsIceberg(game, enemyIceberg) != null) {
+            PenguinGroup[] helpingIcebergs = helpsIceberg(game, enemyIceberg);
+            for (int i = 0; i < helpingIcebergs.length; i++) {
+                if (helpingIcebergs[i].turnsTillArrival <= myTurnsTillArrival) {
+                    numPenguins += helpingIcebergs[i].penguinAmount;
+                } else {
+                    numPenguins += helpingIcebergs[i].penguinAmount - (helpingIcebergs[i].turnsTillArrival - myTurnsTillArrival);
+                }
+            }
+            for (PenguinGroup enemy : game.getEnemyPenguinGroups()) {
+                if (enemy.destination == myIceberg && enemy.source == enemyIceberg) {
                     numPenguins += enemy.penguinAmount;
                 }
             }
