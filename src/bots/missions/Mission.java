@@ -7,7 +7,7 @@ public interface Mission {
     enum State {
         CONTINUE,
         FINISHED,
-        STOP;
+        STOP
     }
 
     State act(Game game, Iceberg iceberg);
