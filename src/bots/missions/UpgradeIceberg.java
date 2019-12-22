@@ -7,8 +7,8 @@ public class UpgradeIceberg implements Mission {
     public State act(Game game, Iceberg iceberg) {
         if (iceberg.canUpgrade()) {
             iceberg.upgrade();
-            return State.FINISHED;
+            return State.ACTED;
         }
-        return State.STOP;
+        return State.NOT_ACTED;
     }
 }
