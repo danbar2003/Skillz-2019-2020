@@ -4,9 +4,8 @@ import penguin_game.*;
 public interface Mission{
 
     enum State{
-        CONTINUE,
-        FINISHED,
-        STOP;
+        NOT_ACTED,
+        ACTED;
     }
 
    State act(Game game, Iceberg iceberg);

@@ -6,6 +6,6 @@ public class SavePenguins implements Mission{
 
     @Override
     public State act(Game game, Iceberg iceberg){
-        return State.FINISHED;
+        return State.NOT_ACTED;
     }
 }

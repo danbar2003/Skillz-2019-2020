@@ -1,11 +1,6 @@
 package bots;
 
-import bots.wrapper.*;
 import penguin_game.*;
-
-
-
-
 /**
  * This is an example for a bot.
  */

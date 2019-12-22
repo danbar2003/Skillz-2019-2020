@@ -6,17 +6,12 @@ import java.util.Queue;
 
 
 public class Protocol implements Mission{
-    public Queue<Mission> protocol;
+    private Queue<Mission> protocol;
 
     @Override
     public State act(Game game, Iceberg iceberg){
-        State state = State.FINISHED;
-        for (Mission mission: protocol) {
-             state = mission.act(game, iceberg);
-        }
-        return state;
+        return State.ACTED;
     }
-
 
     public void add(Mission mission){
         protocol.add(mission);
