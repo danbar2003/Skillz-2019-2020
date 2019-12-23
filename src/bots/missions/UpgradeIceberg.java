@@ -1,7 +1,5 @@
 package bots.missions;
-
-import penguin_game.Game;
-import penguin_game.Iceberg;
+import penguin_game.*;
 
 public class UpgradeIceberg implements Mission{
 

@@ -101,6 +101,5 @@ public class Utils {
         }
         return penguinAmount;
     }
-
     //TODO create a function that returns Map of Group Missions (more than one Iceberg) as keys and which icebergs can execute them as values.
 }

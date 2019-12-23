@@ -1,7 +1,9 @@
 package bots;
 
 import bots.missions.Mission;
-import penguin_game.*;
+import penguin_game.Game;
+import penguin_game.Iceberg;
+import penguin_game.SkillzBot;
 
 import java.util.List;
 import java.util.Map;
@@ -27,8 +29,13 @@ public class MyBot implements SkillzBot {
         */
         Map<Iceberg, List<Mission>> icebergsMissions = MissionManager.createMissionsForIcebergs(game);
 
+        //iterating through every iceberg and executing his mission.
         for (Iceberg iceberg : icebergsMissions.keySet()) {
-            //iterating through every iceberg and executing his mission.
+            for (int i = 0; i < icebergsMissions.get(iceberg).size(); i ++){
+                if (icebergsMissions.get(iceberg).get(i).act(game, iceberg)){
+                    break;
+                }
+            }
         }
     }
 }
