@@ -12,7 +12,7 @@ public class Protocol implements Mission {
 
     @Override
     public State act(Game game, Iceberg iceberg) {
-        State state = State.FINISHED;
+        State state = State.ACTED;
         for (Mission mission : protocol) {
             state = mission.act(game, iceberg);
         }
