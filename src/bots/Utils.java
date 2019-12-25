@@ -48,6 +48,14 @@ public class Utils {
         return null;
     }
 
+    public static List<PenguinGroup> allComingPenguinGroups(Game game, Iceberg iceberg) {
+        List<PenguinGroup> comingPenguinGroups = new LinkedList<>();
+        for (PenguinGroup penguinGroup : game.getAllPenguinGroups())
+            if (penguinGroup.destination == iceberg)
+                comingPenguinGroups.add(penguinGroup);
+        return comingPenguinGroups;
+    }
+
     /**
      * @param iceberg can be an enemy iceberg or a neutral iceberg
      * @return the enemy's penguinGroups that their destination is "iceberg"
@@ -103,28 +111,37 @@ public class Utils {
         }
         return penguinAmount;
     }
-  
-    public static boolean canDefendItself(Game game, Iceberg myIceberg) {
-        int myPenguins = myIceberg.penguinAmount;
-        List<PenguinGroup> enemyPenguinGroups = Arrays.asList(game.getEnemyPenguinGroups());
-        for (int i = 0; i < game.getEnemyPenguinGroups().length; i++) {
-            PenguinGroup closestPenguinGroup = closestTo(myIceberg, enemyPenguinGroups);
-            myPenguins += closestPenguinGroup.turnsTillArrival * myIceberg.penguinsPerTurn
-                    - closestPenguinGroup.penguinAmount;
-            if (myPenguins <= 0)
-                return false;
-            enemyPenguinGroups.remove(closestPenguinGroup);
+
+    /**
+     * @param game
+     * @param iceberg
+     * @return
+     */
+    public static boolean canDefendItself(Game game, Iceberg iceberg) {
+        List<PenguinGroup> comingPenguinGroups = allComingPenguinGroups(game, iceberg);
+        int penguinAmount = iceberg.penguinAmount;
+        for (int i = 0; i < comingPenguinGroups.size(); i++) {
+            PenguinGroup closestPenguinGroup = closestTo(iceberg, comingPenguinGroups);
+            if (closestPenguinGroup.owner == iceberg.owner)
+                penguinAmount += iceberg.penguinsPerTurn * closestPenguinGroup.turnsTillArrival
+                        + closestPenguinGroup.penguinAmount;
+            else {
+                penguinAmount += iceberg.penguinsPerTurn * closestPenguinGroup.turnsTillArrival
+                        - closestPenguinGroup.penguinAmount;
+            }
         }
+        if (penguinAmount <= 0)
+            return false;
         return true;
     }
-
-    public static List<Iceberg> getThreatenedIcebergs(Game game){
-     List<Iceberg> threatenedIcebergs = Arrays.asList(game.getMyIcebergs());
-     for (Iceberg iceberg: threatenedIcebergs){
-         if(canDefendItself(game, iceberg))
-             threatenedIcebergs.remove(iceberg);
-     }
-     return threatenedIcebergs;
+    
+    public static List<Iceberg> getThreatenedIcebergs(Game game) {
+        List<Iceberg> threatenedIcebergs = Arrays.asList(game.getMyIcebergs());
+        for (Iceberg iceberg : threatenedIcebergs) {
+            if (canDefendItself(game, iceberg))
+                threatenedIcebergs.remove(iceberg);
+        }
+        return threatenedIcebergs;
 
 
     }
