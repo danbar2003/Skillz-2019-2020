@@ -13,9 +13,16 @@ public class MissionManager {
      * @param game
      * @return Map of executing Icebergs (Keys) and Lists of Missions to execute (Value).
      */
-    public static Map<Mission, Set<Iceberg>> createMissionsForIcebergs(Game game) {
-        Map<Mission, Set<Iceberg>> missionSetIcebergsMap = new HashMap<>();
-
-
+    public static Map<Iceberg, List<Mission>> createMissionsForIcebergs(Game game) {
+        //Map of executing icebergs(Keys) and lists of missions(values) for each one of them to execute.
+        Map<Iceberg, List<Mission>> icebergMissionMap = new HashMap<>();
+        //waiting for utils Group Mission func...
+        Map<Mission, List<Iceberg>> icebergsThatCanExecuteMission;
+        for (Iceberg iceberg : game.getMyIcebergs()) {
+            List<Mission> icebergMissions = new LinkedList<>();
+            //what missions should the iceberg have.
+            icebergMissionMap.put(iceberg, icebergMissions);
+        }
+        return icebergMissionMap;
     }
 }
