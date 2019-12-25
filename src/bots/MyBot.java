@@ -28,7 +28,7 @@ public class MyBot implements SkillzBot {
         (If one mission doesn't execute, it will choose the next Mission in the list)
         */
         Map<Iceberg, List<Mission>> icebergsMissions = MissionManager.createMissionsForIcebergs(game);
-
+        Map<Iceberg, Integer> penguinsIcebergNeeds;
         //iterating through every iceberg and executing his mission.
         for (Iceberg iceberg : icebergsMissions.keySet())
             for (int i = 0; i < icebergsMissions.get(iceberg).size(); i ++)

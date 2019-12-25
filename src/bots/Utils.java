@@ -1,14 +1,8 @@
 
 package bots;
 
-import penguin_game.Game;
-import penguin_game.GameObject;
-import penguin_game.Iceberg;
-import penguin_game.PenguinGroup;
-
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import penguin_game.*;
+import java.util.*;
 
 
 public class Utils {
@@ -48,6 +42,11 @@ public class Utils {
         return null;
     }
 
+    /**
+     * @param game
+     * @param iceberg
+     * @return all the penguin groups that their destination is the iceberg
+     */
     public static List<PenguinGroup> allComingPenguinGroups(Game game, Iceberg iceberg) {
         List<PenguinGroup> comingPenguinGroups = new LinkedList<>();
         for (PenguinGroup penguinGroup : game.getAllPenguinGroups())
@@ -76,7 +75,6 @@ public class Utils {
         return penguinGroups;
     }
 
-    //find better name ty.
     public static List<PenguinGroup> getAttackingPenguinGroupsToIceberg(Game game, Iceberg iceberg) {
         List<PenguinGroup> penguinGroups = new LinkedList<>();
         if (iceberg.owner == game.getMyIcebergs()[0].owner) {
@@ -134,16 +132,18 @@ public class Utils {
             return false;
         return true;
     }
-    
+
+    /**
+     * @param game
+     * @return list of threatenedIcebergs
+     */
     public static List<Iceberg> getThreatenedIcebergs(Game game) {
-        List<Iceberg> threatenedIcebergs = Arrays.asList(game.getMyIcebergs());
+        List<Iceberg> threatenedIcebergs = new LinkedList<>();
         for (Iceberg iceberg : threatenedIcebergs) {
-            if (canDefendItself(game, iceberg))
-                threatenedIcebergs.remove(iceberg);
+            if (!canDefendItself(game, iceberg))
+                threatenedIcebergs.add(iceberg);
         }
         return threatenedIcebergs;
-
-
     }
     //TODO create a function that returns Map of Group Missions (more than one Iceberg) as keys and which icebergs can execute them as values.
 }
