@@ -1,7 +1,8 @@
 package bots.missions;
+
 import penguin_game.*;
 
-public class UpgradeIceberg implements Mission{
+public class UpgradeIceberg implements Mission {
 
     /**
      * @param game
@@ -10,12 +11,12 @@ public class UpgradeIceberg implements Mission{
      */
     @Override
     public boolean act(Game game, Iceberg iceberg) {
-        System.out.println(iceberg+"\n is executing UpgradeIceberg mission");
-        if (iceberg.canUpgrade()){
+        System.out.println(iceberg + "\n is executing UpgradeIceberg mission");
+        if (iceberg.canUpgrade()) {
             iceberg.upgrade();
             return true;
         }
-        System.out.println("UpgradeIceberg : could not upgrade iceberg:\n"+iceberg.__location);
+        System.out.println("UpgradeIceberg : could not upgrade iceberg:\n" + iceberg.__location);
         return false;
     }
 
