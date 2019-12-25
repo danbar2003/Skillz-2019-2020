@@ -30,12 +30,9 @@ public class MyBot implements SkillzBot {
         Map<Iceberg, List<Mission>> icebergsMissions = MissionManager.createMissionsForIcebergs(game);
 
         //iterating through every iceberg and executing his mission.
-        for (Iceberg iceberg : icebergsMissions.keySet()) {
-            for (int i = 0; i < icebergsMissions.get(iceberg).size(); i ++){
-                if (icebergsMissions.get(iceberg).get(i).act(game, iceberg)){
+        for (Iceberg iceberg : icebergsMissions.keySet())
+            for (int i = 0; i < icebergsMissions.get(iceberg).size(); i ++)
+                if (icebergsMissions.get(iceberg).get(i).act(game, iceberg)) // if acted, do not execute the next mission
                     break;
-                }
-            }
-        }
     }
 }
