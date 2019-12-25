@@ -1,13 +1,14 @@
 
 package bots;
 
-import bots.missions.AttackWeakestIceberg;
-import bots.missions.Mission;
-import bots.missions.UpgradeIceberg;
-import haxe.root.Array;
-import penguin_game.*;
+import penguin_game.Game;
+import penguin_game.GameObject;
+import penguin_game.Iceberg;
+import penguin_game.PenguinGroup;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class Utils {
@@ -101,6 +102,31 @@ public class Utils {
             }
         }
         return penguinAmount;
+    }
+  
+    public static boolean canDefendItself(Game game, Iceberg myIceberg) {
+        int myPenguins = myIceberg.penguinAmount;
+        List<PenguinGroup> enemyPenguinGroups = Arrays.asList(game.getEnemyPenguinGroups());
+        for (int i = 0; i < game.getEnemyPenguinGroups().length; i++) {
+            PenguinGroup closestPenguinGroup = closestTo(myIceberg, enemyPenguinGroups);
+            myPenguins += closestPenguinGroup.turnsTillArrival * myIceberg.penguinsPerTurn
+                    - closestPenguinGroup.penguinAmount;
+            if (myPenguins <= 0)
+                return false;
+            enemyPenguinGroups.remove(closestPenguinGroup);
+        }
+        return true;
+    }
+
+    public static List<Iceberg> getThreatenedIcebergs(Game game){
+     List<Iceberg> threatenedIcebergs = Arrays.asList(game.getMyIcebergs());
+     for (Iceberg iceberg: threatenedIcebergs){
+         if(canDefendItself(game, iceberg))
+             threatenedIcebergs.remove(iceberg);
+     }
+     return threatenedIcebergs;
+
+
     }
     //TODO create a function that returns Map of Group Missions (more than one Iceberg) as keys and which icebergs can execute them as values.
 }
