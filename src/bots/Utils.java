@@ -102,7 +102,7 @@ public class Utils {
         }
         return penguinAmount;
     }
-
+  
     public static boolean canDefendItself(Game game, Iceberg myIceberg) {
         int myPenguins = myIceberg.penguinAmount;
         List<PenguinGroup> enemyPenguinGroups = Arrays.asList(game.getEnemyPenguinGroups());
@@ -127,6 +127,5 @@ public class Utils {
 
 
     }
-
     //TODO create a function that returns Map of Group Missions (more than one Iceberg) as keys and which icebergs can execute them as values.
 }
