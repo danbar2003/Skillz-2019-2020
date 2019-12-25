@@ -17,10 +17,10 @@ public class MissionManager {
         //Map of executing icebergs(Keys) and lists of missions(values) for each one of them to execute.
         Map<Iceberg, List<Mission>> icebergMissionMap = new HashMap<>();
         //waiting for utils Group Mission func...
-        Map<Mission, List<Iceberg>> icebergsThatCanExecuteMission;
+        Map<Mission, Set<Iceberg>> icebergsThatCanExecuteMission;
         for (Iceberg iceberg : game.getMyIcebergs()) {
-            List<Mission> icebergMissions = new LinkedList<>();
             //what missions should the iceberg have.
+            List<Mission> icebergMissions = new LinkedList<>();
             icebergMissionMap.put(iceberg, icebergMissions);
         }
         return icebergMissionMap;
