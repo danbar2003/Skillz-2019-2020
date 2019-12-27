@@ -1,19 +1,18 @@
 package bots.missions;
 
+import bots.wrapper.*;
 import penguin_game.*;
-
-import java.util.*;
 
 public class AttackWeakestIceberg implements Mission {
 
     /**
-     * @param game
+     * @param game - game info
      * @param iceberg -
      * @return returns if the iceberg actually acted
      */
     @Override
-    public boolean act(Game game, Iceberg iceberg) {
+    public boolean act(MyGame game, MyIceberg iceberg) {
         //TODO we need to define what is the weakest Iceberg
-        return true;
+        return false;
     }
 }
