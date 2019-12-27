@@ -13,6 +13,6 @@ public class AttackWeakestIceberg implements Mission {
     @Override
     public boolean act(MyGame game, MyIceberg iceberg) {
         //TODO we need to define what is the weakest Iceberg
-        return true;
+        return false;
     }
 }

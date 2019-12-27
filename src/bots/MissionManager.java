@@ -20,6 +20,7 @@ public class MissionManager {
         for (MyIceberg iceberg : game.getMyIcebergs()) {
             //what missions should the iceberg have.
             List<Mission> icebergMissions = new LinkedList<>();
+            //write some code here...
             icebergMissionMap.put(iceberg, icebergMissions);
         }
         return icebergMissionMap;
