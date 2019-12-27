@@ -9,7 +9,6 @@ public class MissionManager {
 
     /**
      * This function creates for each iceberg a List of missions in the execute order/priority.
-     *
      * @param game
      * @return Map of executing Icebergs (Keys) and Lists of Missions to execute (Value).
      */

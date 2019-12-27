@@ -1,9 +1,7 @@
 package bots;
 
-import bots.missions.Mission;
-import penguin_game.Game;
-import penguin_game.Iceberg;
-import penguin_game.SkillzBot;
+import bots.missions.*;
+import penguin_game.*;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +21,7 @@ public class MyBot implements SkillzBot {
     }
 
     private void handleIcebergs(Game game) {
-        /*
+        /*שדג
         Dictionary of iceberg and List of missions in the execute order/priority.
         (If one mission doesn't execute, it will choose the next Mission in the list)
         */
