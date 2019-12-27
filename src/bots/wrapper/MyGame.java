@@ -3,8 +3,8 @@ package bots.wrapper;
 import penguin_game.*;
 
 public class MyGame {
-    public final Game game;
-
+    private final Game game;
+    //TODO add functionality
     public MyGame(Game game){
         this.game = game;
     }

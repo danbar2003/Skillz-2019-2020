@@ -1,8 +1,6 @@
 package bots.wrapper;
 
-import penguin_game.Game;
-import penguin_game.Iceberg;
-import penguin_game.PenguinGroup;
+import penguin_game.*;
 
 import java.util.LinkedList;
 import java.util.List;

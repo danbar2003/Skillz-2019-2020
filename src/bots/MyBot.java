@@ -1,6 +1,7 @@
 package bots;
 
 import bots.missions.Mission;
+import bots.wrapper.MyGame;
 import penguin_game.Game;
 import penguin_game.Iceberg;
 import penguin_game.SkillzBot;
