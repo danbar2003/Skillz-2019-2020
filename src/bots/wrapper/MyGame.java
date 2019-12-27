@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MyGame {
-    private final Game game;
+    public final Game game;
 
     public MyGame(Game game) {
         this.game = game;
