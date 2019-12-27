@@ -7,7 +7,7 @@ import java.util.*;
 public class AttackWeakestIceberg implements Mission {
 
     /**
-     * @param game
+     * @param game - game info
      * @param iceberg -
      * @return returns if the iceberg actually acted
      */
