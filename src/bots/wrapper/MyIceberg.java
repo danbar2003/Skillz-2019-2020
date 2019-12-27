@@ -5,7 +5,7 @@ import penguin_game.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MyIceberg extends MyGameObject {
+public class MyIceberg extends MyGameObject implements Comparable<MyIceberg>{
 
     public Iceberg iceberg;
     private int savedPenguins;
@@ -109,5 +109,10 @@ public class MyIceberg extends MyGameObject {
             }
         }
         return penguinAmount >= 0;
+    }
+
+    @Override
+    public int compareTo(MyIceberg myIceberg) {
+        return 0;
     }
 }
