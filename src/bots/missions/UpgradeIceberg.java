@@ -1,5 +1,6 @@
 package bots.missions;
 
+import bots.wrapper.*;
 import penguin_game.*;
 
 public class UpgradeIceberg implements Mission {
@@ -10,13 +11,13 @@ public class UpgradeIceberg implements Mission {
      * @return
      */
     @Override
-    public boolean act(Game game, Iceberg iceberg) {
+    public boolean act(MyGame game, MyIceberg iceberg) {
         System.out.println(iceberg + "\n is executing UpgradeIceberg mission");
-        if (iceberg.canUpgrade()) {
-            iceberg.upgrade();
+        if (iceberg.iceberg.canUpgrade()) {
+            iceberg.iceberg.upgrade();
             return true;
         }
-        System.out.println("UpgradeIceberg : could not upgrade iceberg:\n" + iceberg.__location);
+        System.out.println("UpgradeIceberg : could not upgrade iceberg:\n" + iceberg.iceberg.__location);
         return false;
     }
 
