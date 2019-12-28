@@ -9,9 +9,4 @@ public class Utils {
 
     private Utils(){
     }
-
-    public static Queue<MyIceberg> icebergsStrengthQueue(MyGame game){
-        Queue<MyIceberg> myIcebergsByStrength = new PriorityQueue<>();
-        
-    }
 }

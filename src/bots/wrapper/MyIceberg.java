@@ -14,7 +14,6 @@ public class MyIceberg extends MyGameObject implements Comparable<MyIceberg>{
         super(iceberg);
         this.iceberg = iceberg;
         this.savedPenguins = 0;
-
     }
 
     public void savePenguins(int penguinAmount) {

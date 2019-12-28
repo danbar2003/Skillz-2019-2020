@@ -11,7 +11,6 @@ import java.util.Map;
  * This is an example for a bot.
  */
 public class MyBot implements SkillzBot {
-    public static Map<MyIceberg, List<Mission>> icebergsMissions;
 
     /**
      * Makes the bot run a single turn.
@@ -28,8 +27,7 @@ public class MyBot implements SkillzBot {
         Dictionary of iceberg and List of missions in the execute order/priority.
         (If one mission doesn't execute, it will choose the next Mission in the list)
         */
-        MyBot.icebergsMissions = MissionManager.createMissionsForIcebergs(game); // give access to other classes
-        Map<MyIceberg, List<Mission>> icebergsMissions = MyBot.icebergsMissions;
+        Map<MyIceberg, List<Mission>> icebergsMissions = MissionManager.createMissionsForIcebergs(game);
         Map<MyIceberg, Integer> penguinsIcebergNeeds;
         //iterating through every iceberg and executing his mission.
         for (MyIceberg iceberg : icebergsMissions.keySet())
