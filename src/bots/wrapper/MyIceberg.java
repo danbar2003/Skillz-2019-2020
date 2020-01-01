@@ -1,11 +1,12 @@
 package bots.wrapper;
 
-import penguin_game.*;
+import penguin_game.Iceberg;
+import penguin_game.PenguinGroup;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class MyIceberg extends MyGameObject{
+public class MyIceberg extends MyGameObject {
 
     public Iceberg iceberg;
     private int savedPenguins;
@@ -18,27 +19,37 @@ public class MyIceberg extends MyGameObject{
     }
 
     public void savePenguins(int penguinAmount) {
-        this.savedPenguins = penguinAmount;
+        if (penguinAmount <= 0)
+            this.savedPenguins = penguinAmount;
     }
 
     public int getSavedPenguins() {
         return this.savedPenguins;
     }
 
-    public int getFreePenguins(){
+    public int getFreePenguins() {
         return (iceberg.penguinAmount - getSavedPenguins());
     }
 
-    public int getPenguinsComingFromIceberg(MyGame game, MyIceberg iceberg){
+    /**
+     * @param game
+     * @param iceberg - iceberg sending the penguins
+     * @return -penguin amount coming
+     */
+    public int getPenguinsComingFromIceberg(MyGame game, MyIceberg iceberg) {
         int penguinAmountFromIceberg = 0;
-        for (PenguinGroup penguinGroup : iceberg.getFriendlyPenguinGroupsToIceberg(game)){
-            if (penguinGroup.source == iceberg.iceberg && penguinGroup.destination == this.iceberg){
+        for (PenguinGroup penguinGroup : iceberg.getFriendlyPenguinGroupsToIceberg(game)) {
+            if (penguinGroup.source == iceberg.iceberg && penguinGroup.destination == this.iceberg) {
                 penguinAmountFromIceberg += penguinGroup.penguinAmount;
             }
         }
         return penguinAmountFromIceberg;
     }
 
+    /**
+     * @param game
+     * @return
+     */
     private List<PenguinGroup> getFriendlyPenguinGroupsToIceberg(MyGame game) {
         List<PenguinGroup> friendlyPenguinGroups = new LinkedList<>();
         for (PenguinGroup penguinGroup : game.game.getAllPenguinGroups()) {
@@ -48,6 +59,10 @@ public class MyIceberg extends MyGameObject{
         return friendlyPenguinGroups;
     }
 
+    /**
+     * @param game
+     * @return
+     */
     private List<PenguinGroup> getEnemyPenguinGroupsToIceberg(MyGame game) {
         List<PenguinGroup> enemyPenguinGroups = new LinkedList<>();
         for (PenguinGroup penguinGroup : game.game.getAllPenguinGroups()) {
@@ -57,6 +72,10 @@ public class MyIceberg extends MyGameObject{
         return enemyPenguinGroups;
     }
 
+    /**
+     * @param game - game info
+     * @return - list of coming penguin groups
+     */
     public List<PenguinGroup> allComingPenguinGroups(MyGame game) {
         List<PenguinGroup> comingPenguinGroups = new LinkedList<>();
         for (PenguinGroup penguinGroup : game.game.getAllPenguinGroups())
@@ -65,6 +84,10 @@ public class MyIceberg extends MyGameObject{
         return comingPenguinGroups;
     }
 
+    /**
+     * @param game
+     * @return
+     */
     public List<PenguinGroup> getHelpingPenguinGroupsToIceberg(MyGame game) {
         List<PenguinGroup> friendlyPenguinGroups = getFriendlyPenguinGroupsToIceberg(game);
         for (PenguinGroup penguinGroup : friendlyPenguinGroups) {
@@ -74,6 +97,10 @@ public class MyIceberg extends MyGameObject{
         return friendlyPenguinGroups;
     }
 
+    /**
+     * @param game
+     * @return
+     */
     public List<PenguinGroup> getAttackingPenguinGroupsToIceberg(MyGame game) {
         List<PenguinGroup> enemyPenguinGroups = getEnemyPenguinGroupsToIceberg(game);
         for (PenguinGroup penguinGroup : enemyPenguinGroups) {
@@ -83,6 +110,11 @@ public class MyIceberg extends MyGameObject{
         return enemyPenguinGroups;
     }
 
+    /**
+     * @param game
+     * @param target
+     * @return
+     */
     public int minPenguinAmountToWin(MyGame game, MyIceberg target) {
         int penguinAmount = target.iceberg.penguinAmount +
                 target.iceberg.penguinsPerTurn * iceberg.getTurnsTillArrival(target.iceberg);
@@ -95,19 +127,11 @@ public class MyIceberg extends MyGameObject{
         return penguinAmount + getPenguinsComingFromIceberg(game, target) + 1;
     }
 
-    public boolean canDefendItself(MyGame game) {
-        List<PenguinGroup> comingPenguinGroups = allComingPenguinGroups(game);
-        int penguinAmount = iceberg.penguinAmount;
-        for (int i = 0; i < comingPenguinGroups.size(); i++) {
-            PenguinGroup closestPenguinGroup = closestTo(comingPenguinGroups);
-            if (closestPenguinGroup.owner == iceberg.owner)
-                penguinAmount += iceberg.penguinsPerTurn * closestPenguinGroup.turnsTillArrival
-                        + closestPenguinGroup.penguinAmount;
-            else {
-                penguinAmount += iceberg.penguinsPerTurn * closestPenguinGroup.turnsTillArrival
-                        - closestPenguinGroup.penguinAmount;
-            }
-        }
-        return penguinAmount >= 0;
+    /**
+     * @param game;
+     * @return - penguin amount
+     */
+    public int amountToDefend(MyGame game) {
+        return 0;
     }
 }

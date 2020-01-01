@@ -16,6 +16,7 @@ public class MissionManager {
     public static Map<MyIceberg, List<Mission>> createMissionsForIcebergs(MyGame game) {
         //Map of executing icebergs(Keys) and lists of missions(values) for each one of them to execute.
         Map<MyIceberg, List<Mission>> icebergMissionMap = new HashMap<>();
+        List<MyIceberg> myThreatenedIcebergs = Utils.myThreatenedIcebergs(game);
         for (MyIceberg iceberg : game.getMyIcebergs()) {
             //what missions should the iceberg have.
             List<Mission> icebergMissions = new LinkedList<>();
