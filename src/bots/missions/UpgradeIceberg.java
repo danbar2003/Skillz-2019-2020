@@ -6,9 +6,9 @@ import penguin_game.*;
 public class UpgradeIceberg implements Mission {
 
     /**
-     * @param game
-     * @param iceberg
-     * @return
+     * @param game - game info
+     * @param iceberg - iceberg acting
+     * @return - if acted or not
      */
     @Override
     public boolean act(MyGame game, MyIceberg iceberg) {
