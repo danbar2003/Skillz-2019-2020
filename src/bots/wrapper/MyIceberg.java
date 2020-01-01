@@ -5,7 +5,7 @@ import penguin_game.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MyIceberg extends MyGameObject {
+public class MyIceberg extends MyGameObject{
 
     public Iceberg iceberg;
     private int savedPenguins;

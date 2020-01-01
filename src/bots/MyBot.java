@@ -30,7 +30,6 @@ public class MyBot implements SkillzBot {
         */
         MyBot.icebergsMissions = MissionManager.createMissionsForIcebergs(game); // give access to other classes
         Map<MyIceberg, List<Mission>> icebergsMissions = MyBot.icebergsMissions;
-        Map<MyIceberg, Integer> penguinsIcebergNeeds;
         //iterating through every iceberg and executing his mission.
         for (MyIceberg iceberg : icebergsMissions.keySet())
             for (int i = 0; i < icebergsMissions.get(iceberg).size(); i ++)
