@@ -31,7 +31,7 @@ public class MyGame {
         return convertToMyIcebergType(game.getAllIcebergs());
     }
 
-    private List<MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
+    private static List<MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
         LinkedList<MyIceberg> myIcebergs = new LinkedList<>();
         for (Iceberg iceberg : arr) {
             myIcebergs.add(new MyIceberg(iceberg));
