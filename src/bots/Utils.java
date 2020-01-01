@@ -8,5 +8,7 @@ import java.util.*;
 public class Utils {
 
     private Utils(){
+
     }
+
 }
