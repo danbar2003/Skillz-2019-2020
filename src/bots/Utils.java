@@ -21,5 +21,6 @@ public class Utils {
         for (MyIceberg iceberg : game.getMyIcebergs()){
             iceberg.savePenguins(iceberg.amountToDefend(game));
         }
+
     }
 }

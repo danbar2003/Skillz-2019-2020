@@ -1,7 +1,6 @@
 package bots.wrapper;
 
-import penguin_game.Iceberg;
-import penguin_game.PenguinGroup;
+import penguin_game.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -132,6 +131,33 @@ public class MyIceberg extends MyGameObject {
      * @return - penguin amount
      */
     public int amountToDefend(MyGame game) {
-        return 0;
+        List<PenguinGroup> comingPenguinGroups = allComingPenguinGroups(game);
+        int penguinAmount = iceberg.penguinAmount;
+        int previousTurnsTillArrival = 0;
+        Player icebergOwner = iceberg.owner;
+        while (!comingPenguinGroups.isEmpty()) {
+            PenguinGroup closestPenguinGroup = closestTo(comingPenguinGroups);
+            icebergOwner = game.game.getMyself();
+            if(penguinAmount < 0 )
+                icebergOwner = game.game.getEnemy();
+            else if(penguinAmount == 0)
+                icebergOwner = game.game.getNeutral();
+            if(icebergOwner.equals(game.game.getNeutral()))
+                if()
+
+            if (closestPenguinGroup.owner.equals(icebergOwner)) {
+                penguinAmount += closestPenguinGroup.penguinAmount +
+                        (closestPenguinGroup.turnsTillArrival - previousTurnsTillArrival) * iceberg.penguinsPerTurn;
+            } else {
+                penguinAmount += -closestPenguinGroup.penguinAmount +
+                        (closestPenguinGroup.turnsTillArrival - previousTurnsTillArrival) * iceberg.penguinsPerTurn;
+            }
+            previousTurnsTillArrival = closestPenguinGroup.turnsTillArrival;
+            comingPenguinGroups.remove(closestPenguinGroup);
+        }
+        if (!icebergOwner.equals(game.game.getMyself()))
+            penguinAmount = penguinAmount *-1;
+        return penguinAmount;
     }
+
 }
