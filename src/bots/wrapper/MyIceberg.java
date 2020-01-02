@@ -2,6 +2,7 @@ package bots.wrapper;
 
 import penguin_game.Iceberg;
 import penguin_game.PenguinGroup;
+import penguin_game.Player;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -129,9 +130,55 @@ public class MyIceberg extends MyGameObject {
 
     /**
      * @param game;
-     * @return - penguin amount
+     * @return - penguin amount need to save in Iceberg
      */
     public int amountToDefend(MyGame game) {
-        return 0;
+        List<PenguinGroup> comingPenguinGroups = allComingPenguinGroups(game);
+        int penguinAmount = iceberg.penguinAmount;
+        int previousTurnsTillArrival = 0;
+        Player icebergOwner = iceberg.owner;
+        while (!comingPenguinGroups.isEmpty()) {
+            PenguinGroup closestPenguinGroup = closestTo(comingPenguinGroups);
+            if (icebergOwner.equals(game.game.getMyself())) {
+                if (closestPenguinGroup.owner.equals(icebergOwner)) {
+                    penguinAmount += closestPenguinGroup.penguinAmount +
+                            (closestPenguinGroup.turnsTillArrival - previousTurnsTillArrival) *
+                                    iceberg.penguinsPerTurn;
+                } else {
+                    penguinAmount += -closestPenguinGroup.penguinAmount +
+                            (closestPenguinGroup.turnsTillArrival - previousTurnsTillArrival) *
+                                    iceberg.penguinsPerTurn;
+                }
+            }
+            if (icebergOwner.equals(game.game.getEnemy())) {
+                if (closestPenguinGroup.owner.equals(icebergOwner)) {
+                    penguinAmount += -closestPenguinGroup.penguinAmount +
+                            -(closestPenguinGroup.turnsTillArrival - previousTurnsTillArrival) *
+                                    iceberg.penguinsPerTurn;
+                } else {
+                    penguinAmount += closestPenguinGroup.penguinAmount +
+                            -(closestPenguinGroup.turnsTillArrival - previousTurnsTillArrival) *
+                                    iceberg.penguinsPerTurn;
+                }
+            }
+            if (icebergOwner.equals(game.game.getNeutral())){
+                if (closestPenguinGroup.owner.equals(game.game.getMyself())) {
+                    penguinAmount = closestPenguinGroup.penguinAmount;
+                } else {
+                    penguinAmount = -closestPenguinGroup.penguinAmount;
+                }
+            }
+            if (penguinAmount < 0)
+                icebergOwner = game.game.getEnemy();
+            if (penguinAmount == 0)
+                icebergOwner = game.game.getNeutral();
+            if (penguinAmount > 0)
+                icebergOwner = game.game.getMyself();
+            previousTurnsTillArrival = closestPenguinGroup.turnsTillArrival;
+            comingPenguinGroups.remove(closestPenguinGroup);
+        }
+        if (penguinAmount <= 0)
+            return 0;
+        return iceberg.penguinAmount - penguinAmount;
     }
 }
