@@ -2,6 +2,7 @@ package bots.wrapper;
 
 import penguin_game.Iceberg;
 import penguin_game.PenguinGroup;
+import penguin_game.Player;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -132,6 +133,19 @@ public class MyIceberg extends MyGameObject {
      * @return - penguin amount
      */
     public int amountToDefend(MyGame game) {
+        List<PenguinGroup> comingPenguinGroups = allComingPenguinGroups(game);
+        int penguinAmount = iceberg.penguinAmount;
+        int previousTurnsTillArrival = 0;
+        while (!comingPenguinGroups.isEmpty()) {
+            PenguinGroup closestPenguinGroup = closestTo(comingPenguinGroups);
+            if (closestPenguinGroup.owner.equals(iceberg.owner)) {
+                penguinAmount += closestPenguinGroup.penguinAmount +
+                        (closestPenguinGroup.turnsTillArrival - previousTurnsTillArrival) * iceberg.penguinsPerTurn;
+            } else {
+                penguinAmount += -closestPenguinGroup.penguinAmount +
+                        (closestPenguinGroup.turnsTillArrival - previousTurnsTillArrival) * iceberg.penguinsPerTurn;
+            }
+        }
         return 0;
     }
 }
