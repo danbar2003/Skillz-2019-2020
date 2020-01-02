@@ -23,6 +23,7 @@ public class MyBot implements SkillzBot {
         handleIcebergs(myGame);
     }
     private void handleIcebergs(MyGame game) {
+        Utils.setupIcebergPenguins(game);
         /*
         Dictionary of iceberg and List of missions in the execute order/priority.
         (If one mission doesn't execute, it will choose the next Mission in the list)

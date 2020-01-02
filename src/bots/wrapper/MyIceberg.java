@@ -1,5 +1,6 @@
 package bots.wrapper;
 
+import bots.Utils;
 import penguin_game.Iceberg;
 import penguin_game.PenguinGroup;
 import penguin_game.Player;
@@ -32,8 +33,17 @@ public class MyIceberg extends MyGameObject {
         return (iceberg.penguinAmount - getSavedPenguins());
     }
 
+    public void sendPenguins(int penguins, MyIceberg target){
+        if (getFreePenguins() >= penguins){
+            iceberg.sendPenguins(target.iceberg, penguins);
+        }
+        else{
+            System.out.println("sendPenguins: \n freePenguins: "+getFreePenguins() + "tried to send: "+penguins);
+        }
+    }
+
     /**
-     * @param game
+     * @param game - game info
      * @param iceberg - iceberg sending the penguins
      * @return -penguin amount coming
      */
@@ -48,8 +58,8 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     * @param game
-     * @return
+     * @param game - game info
+     * @return list of friendly penguin groups to icebergs
      */
     private List<PenguinGroup> getFriendlyPenguinGroupsToIceberg(MyGame game) {
         List<PenguinGroup> friendlyPenguinGroups = new LinkedList<>();
@@ -61,8 +71,8 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     * @param game
-     * @return
+     * @param game - game info
+     * @return -
      */
     private List<PenguinGroup> getEnemyPenguinGroupsToIceberg(MyGame game) {
         List<PenguinGroup> enemyPenguinGroups = new LinkedList<>();
@@ -86,8 +96,8 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     * @param game
-     * @return
+     * @param game - game info
+     * @return -
      */
     public List<PenguinGroup> getHelpingPenguinGroupsToIceberg(MyGame game) {
         List<PenguinGroup> friendlyPenguinGroups = getFriendlyPenguinGroupsToIceberg(game);
@@ -112,9 +122,9 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     * @param game
-     * @param target
-     * @return
+     * @param game game info
+     * @param target attacked Iceberg
+     * @return -
      */
     public int minPenguinAmountToWin(MyGame game, MyIceberg target) {
         int penguinAmount = target.iceberg.penguinAmount +
@@ -129,7 +139,7 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     * @param game;
+     * @param game - game info
      * @return - penguin amount needs to be saved in Iceberg
      */
     public int amountToDefend(MyGame game) {
@@ -181,4 +191,5 @@ public class MyIceberg extends MyGameObject {
             return 0;
         return iceberg.penguinAmount - penguinAmount;
     }
+
 }

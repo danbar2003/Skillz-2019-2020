@@ -2,11 +2,20 @@ package bots;
 
 import bots.wrapper.MyGame;
 import bots.wrapper.MyIceberg;
+import penguin_game.Iceberg;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Utils {
+
+    public static List<MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
+        LinkedList<MyIceberg> myIcebergs = new LinkedList<>();
+        for (Iceberg iceberg : arr) {
+            myIcebergs.add(new MyIceberg(iceberg));
+        }
+        return myIcebergs;
+    }
 
     public static List<MyIceberg> myThreatenedIcebergs(MyGame game) {
         List<MyIceberg> threatenedIcebergs = new LinkedList<>();
