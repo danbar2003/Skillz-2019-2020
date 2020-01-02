@@ -3,6 +3,7 @@ package bots;
 import bots.wrapper.MyGame;
 import bots.wrapper.MyIceberg;
 import penguin_game.Iceberg;
+import penguin_game.MapObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,16 +30,6 @@ public class Utils {
     public static void setupIcebergPenguins(MyGame game){
         for (MyIceberg iceberg : game.getMyIcebergs()){
             iceberg.savePenguins(iceberg.amountToDefend(game));
-        }
-    }
-
-    public static void setAvaiablePenguins(MyGame game, List<MyIceberg> myIcebergs){
-        for (MyIceberg iceberg : myIcebergs){
-            if (iceberg.canDefendItself(game))
-                iceberg.savePenguins(0);
-            else{
-                iceberg.getAttackingPenguinGroupsToIceberg(game);
-            }
         }
     }
 }

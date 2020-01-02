@@ -26,4 +26,12 @@ public abstract class MyGameObject extends GameObject{
         }
         return null;
     }
+
+    public <T extends MapObject> double avgDistance(List<T> arr){
+        double distance = 0;
+        for (T obj : arr){
+            distance += this.gameObject.__distance(obj);
+        }
+        return (distance / arr.size());
+    }
 }
