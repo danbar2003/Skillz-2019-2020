@@ -130,7 +130,7 @@ public class MyIceberg extends MyGameObject {
 
     /**
      * @param game;
-     * @return - penguin amount need to save in Iceberg
+     * @return - penguin amount needs to be saved in Iceberg
      */
     public int amountToDefend(MyGame game) {
         List<PenguinGroup> comingPenguinGroups = allComingPenguinGroups(game);
