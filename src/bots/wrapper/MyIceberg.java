@@ -5,7 +5,7 @@ import penguin_game.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MyIceberg extends MyGameObject implements Comparable<MyIceberg>{
+public class MyIceberg extends MyGameObject {
 
     public Iceberg iceberg;
     private int savedPenguins;
@@ -25,14 +25,14 @@ public class MyIceberg extends MyGameObject implements Comparable<MyIceberg>{
         return this.savedPenguins;
     }
 
-    public int getFreePenguins(){
+    public int getFreePenguins() {
         return (iceberg.penguinAmount - getSavedPenguins());
     }
 
-    public int getPenguinsComingFromIceberg(MyGame game, MyIceberg iceberg){
+    public int getPenguinsComingFromIceberg(MyGame game, MyIceberg iceberg) {
         int penguinAmountFromIceberg = 0;
-        for (PenguinGroup penguinGroup : iceberg.getFriendlyPenguinGroupsToIceberg(game)){
-            if (penguinGroup.source == iceberg.iceberg && penguinGroup.destination == this.iceberg){
+        for (PenguinGroup penguinGroup : iceberg.getFriendlyPenguinGroupsToIceberg(game)) {
+            if (penguinGroup.source == iceberg.iceberg && penguinGroup.destination == this.iceberg) {
                 penguinAmountFromIceberg += penguinGroup.penguinAmount;
             }
         }
@@ -111,8 +111,26 @@ public class MyIceberg extends MyGameObject implements Comparable<MyIceberg>{
         return penguinAmount >= 0;
     }
 
-    @Override
-    public int compareTo(MyIceberg myIceberg) {
-        return 0;
+    /**
+     * @param game - must be the same team
+     * @return
+     */
+
+    public int strength(MyGame game) {
+        int thisIceberg = this.iceberg.level * this.iceberg.penguinAmount;
+        int averageDistance = 0;
+        for (MyIceberg iceberg : game.getMyIcebergs()) {
+            averageDistance += iceberg.iceberg.__distance(this.iceberg) * iceberg.iceberg.level;
+        }
+        averageDistance = game.getMyIcebergs().size() - 1;
+
+        thisIceberg *= averageDistance;
+
+        for (MyIceberg iceberg : game.getEnemyIcebergs()) {
+            averageDistance += iceberg.iceberg.__distance(this.iceberg) * iceberg.iceberg.level;
+        }
+        thisIceberg /= averageDistance;
+
+        return thisIceberg;
     }
 }
