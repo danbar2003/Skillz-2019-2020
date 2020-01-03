@@ -44,19 +44,19 @@ public class Utils {
      * penguin amount that each iceberg is contributing as value
      */
     public static Map<MyIceberg, Integer> penguinsFromEachIceberg(MyGame game, List<MyIceberg> attackers, MyIceberg target){
-        //TODO - create this function
+
     }
     /**
      *
      * @param game - game info
-     * @return - all opstions to attack each enemy iceberg
+     * @return - all options to attack each enemy iceberg
      *           key - target (enemy iceberg)
-     *           value - list of opstions to attack the iceberg
+     *           value - list of options to attack the iceberg
      *                  value(Map):
      *                      key - attacking Iceberg
      *                      value - penguins amount
      */
-    public static Map<MyIceberg, List<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game){
+    public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game){
         //TODO - create this function after you finished penguinsFromEachIceberg
     }
 }
