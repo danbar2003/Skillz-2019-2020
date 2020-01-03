@@ -30,7 +30,7 @@ public class MyIceberg extends MyGameObject {
     }
 
     public int getFreePenguins() {
-        return (iceberg.penguinAmount - getSavedPenguins());
+        return (iceberg.penguinAmount - savedPenguins);
     }
 
     public void sendPenguins(int penguins, MyIceberg target){

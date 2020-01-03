@@ -2,9 +2,7 @@ package bots;
 
 import bots.wrapper.MyGame;
 import bots.wrapper.MyIceberg;
-import penguin_game.Game;
 import penguin_game.Iceberg;
-import penguin_game.MapObject;
 
 import java.util.*;
 
@@ -44,7 +42,6 @@ public class Utils {
      * penguin amount that each iceberg is contributing as value
      */
     public static Map<MyIceberg, Integer> penguinsFromEachIceberg(MyGame game, List<MyIceberg> attackers, MyIceberg target){
-
     }
     /**
      *
