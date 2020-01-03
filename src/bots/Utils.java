@@ -42,6 +42,7 @@ public class Utils {
      * penguin amount that each iceberg is contributing as value
      */
     public static Map<MyIceberg, Integer> penguinsFromEachIceberg(MyGame game, List<MyIceberg> attackers, MyIceberg target){
+        //TODO create this function
     }
     /**
      *
