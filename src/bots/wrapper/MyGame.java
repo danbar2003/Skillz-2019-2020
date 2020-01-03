@@ -1,5 +1,6 @@
 package bots.wrapper;
 
+import bots.Utils;
 import penguin_game.Game;
 import penguin_game.Iceberg;
 import penguin_game.PenguinGroup;
@@ -16,26 +17,19 @@ public class MyGame {
 
     //MyIcebergs
     public List<MyIceberg> getMyIcebergs() {
-        return convertToMyIcebergType(game.getMyIcebergs());
+        return Utils.convertToMyIcebergType(game.getMyIcebergs());
     }
 
     public List<MyIceberg> getEnemyIcebergs() {
-        return convertToMyIcebergType(game.getEnemyIcebergs());
+        return Utils.convertToMyIcebergType(game.getEnemyIcebergs());
     }
 
     public List<MyIceberg> getNeutralIcebergs(){
-        return convertToMyIcebergType(game.getNeutralIcebergs());
+        return Utils.convertToMyIcebergType(game.getNeutralIcebergs());
     }
 
     public List<MyIceberg> getAllIcebergs() {
-        return convertToMyIcebergType(game.getAllIcebergs());
+        return Utils.convertToMyIcebergType(game.getAllIcebergs());
     }
 
-    private List<MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
-        LinkedList<MyIceberg> myIcebergs = new LinkedList<>();
-        for (Iceberg iceberg : arr) {
-            myIcebergs.add(new MyIceberg(iceberg));
-        }
-        return myIcebergs;
-    }
 }
