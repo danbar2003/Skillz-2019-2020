@@ -21,7 +21,7 @@ public class MyIceberg extends MyGameObject {
     }
 
     public void savePenguins(int penguinAmount) {
-        if (penguinAmount <= 0)
+        if (penguinAmount >= 0)
             this.savedPenguins = penguinAmount;
     }
 
