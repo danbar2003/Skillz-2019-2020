@@ -57,6 +57,6 @@ public class Utils {
      *                      value - penguins amount
      */
     public static Map<MyIceberg, List<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game){
-        //TODO - create this function after you finished
+        //TODO - create this function after you finished penguinsFromEachIceberg
     }
 }
