@@ -191,5 +191,4 @@ public class MyIceberg extends MyGameObject {
             return 0;
         return iceberg.penguinAmount - penguinAmount;
     }
-
 }
