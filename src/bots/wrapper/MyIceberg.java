@@ -21,7 +21,7 @@ public class MyIceberg extends MyGameObject {
     }
 
     public void savePenguins(int penguinAmount) {
-        if (penguinAmount <= 0)
+        if (penguinAmount >= 0)
             this.savedPenguins = penguinAmount;
     }
 
@@ -30,7 +30,7 @@ public class MyIceberg extends MyGameObject {
     }
 
     public int getFreePenguins() {
-        return (iceberg.penguinAmount - getSavedPenguins());
+        return (iceberg.penguinAmount - savedPenguins);
     }
 
     public void sendPenguins(int penguins, MyIceberg target){
@@ -109,8 +109,8 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     * @param game
-     * @return
+     * @param game - game info
+     * @return - list of enemy penguin groups coming to iceberg
      */
     public List<PenguinGroup> getAttackingPenguinGroupsToIceberg(MyGame game) {
         List<PenguinGroup> enemyPenguinGroups = getEnemyPenguinGroupsToIceberg(game);
@@ -189,6 +189,6 @@ public class MyIceberg extends MyGameObject {
         }
         if (penguinAmount <= 0)
             return 0;
-        return iceberg.penguinAmount - penguinAmount;
+        return iceberg.penguinAmount - penguinAmount + 1;
     }
 }
