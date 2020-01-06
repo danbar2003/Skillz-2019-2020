@@ -1,8 +1,8 @@
 package bots.missions;
 
-import penguin_game.*;
+import bots.wrapper.*;
 
 public interface Mission {
 
-    boolean act(Game game, Iceberg iceberg);
+    boolean act(MyGame game, MyIceberg iceberg);
 }

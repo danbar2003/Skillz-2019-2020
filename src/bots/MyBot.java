@@ -1,9 +1,8 @@
 package bots;
 
-import bots.missions.Mission;
-import penguin_game.Game;
-import penguin_game.Iceberg;
-import penguin_game.SkillzBot;
+import bots.missions.*;
+import bots.wrapper.*;
+import penguin_game.*;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +11,7 @@ import java.util.Map;
  * This is an example for a bot.
  */
 public class MyBot implements SkillzBot {
+
     /**
      * Makes the bot run a single turn.
      *
@@ -19,18 +19,19 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
-        handleIcebergs(game);
+        MyGame myGame = new MyGame(game);
+        handleIcebergs(myGame);
     }
-
-    private void handleIcebergs(Game game) {
+    
+    private void handleIcebergs(MyGame game) {
+        Utils.setupIcebergPenguins(game); //update saved penguins for each iceberg
         /*
         Dictionary of iceberg and List of missions in the execute order/priority.
         (If one mission doesn't execute, it will choose the next Mission in the list)
         */
-        Map<Iceberg, List<Mission>> icebergsMissions = MissionManager.createMissionsForIcebergs(game);
-        Map<Iceberg, Integer> penguinsIcebergNeeds;
+        Map<MyIceberg, List<Mission>> icebergsMissions = MissionManager.createMissionsForIcebergs(game);
         //iterating through every iceberg and executing his mission.
-        for (Iceberg iceberg : icebergsMissions.keySet())
+        for (MyIceberg iceberg : icebergsMissions.keySet())
             for (int i = 0; i < icebergsMissions.get(iceberg).size(); i ++)
                 if (icebergsMissions.get(iceberg).get(i).act(game, iceberg)) // if acted, do not execute the next mission
                     break;
