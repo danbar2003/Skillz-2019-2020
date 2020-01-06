@@ -44,6 +44,8 @@ public class Utils {
     public static Map<MyIceberg, Integer> penguinsFromEachIceberg(MyGame game, List<MyIceberg> attackers, MyIceberg target) {
         //TODO create this function
         Map<MyIceberg, Integer> penguinsFromIcebergs = new HashMap<>();
+        int neededPenguins = target.farthest(attackers).iceberg.getTurnsTillArrival(target.iceberg)
+                * target.iceberg.penguinsPerTurn + target.iceberg.penguinAmount;
     }
 
     /**

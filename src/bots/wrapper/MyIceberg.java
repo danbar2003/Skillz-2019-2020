@@ -47,7 +47,7 @@ public class MyIceberg extends MyGameObject {
      * @param iceberg - iceberg sending the penguins
      * @return -penguin amount coming
      */
-    private int getPenguinsComingFromIceberg(MyGame game, MyIceberg iceberg) {
+    public int getPenguinsComingFromIceberg(MyGame game, MyIceberg iceberg) {
         int penguinAmountFromIceberg = 0;
         for (PenguinGroup penguinGroup : iceberg.getFriendlyPenguinGroupsToIceberg(game)) {
             if (penguinGroup.source == iceberg.iceberg && penguinGroup.destination == this.iceberg) {
