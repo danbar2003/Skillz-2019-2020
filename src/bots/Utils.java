@@ -59,7 +59,7 @@ public class Utils {
                 total += penguinsFromIcebergs.get(attackers.get(i));
                 if(i == attackers.size()-1){
                     penguinsFromIcebergs.put(attackers.get(i), neededPenguins - total );
-
+//daniel gay
                 }
             }
             return penguinsFromIcebergs;
