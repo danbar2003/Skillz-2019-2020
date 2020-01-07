@@ -89,16 +89,17 @@ public class Utils {
      * value - penguins amount
      */
     public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game) {
-        //TODO - create this function after you finished penguinsFromEachIceberg
         Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
-        Set<Set<MyIceberg>> icebergGroups = allMyIcebergGroups(game);
         List<MyIceberg> specificGroup = new LinkedList<MyIceberg>();
+
         for (MyIceberg enemyIceberg: game.getEnemyIcebergs()){
             Set<Map<MyIceberg, Integer>> waysToAttack = new HashSet<>();
-            for(Set<MyIceberg> group: icebergGroups){
-                specificGroup.addAll(group);
+
+            for(Set<MyIceberg> group: allMyIcebergGroups(game)){
+                specificGroup.addAll(group);// turns the set list
                 waysToAttack.add(penguinsFromEachIceberg(game, specificGroup, enemyIceberg));
             }
+
             optionToAttackEnemy.put(enemyIceberg, waysToAttack);
         }
         return optionToAttackEnemy;
