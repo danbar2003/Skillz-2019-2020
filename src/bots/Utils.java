@@ -31,6 +31,16 @@ public class Utils {
         }
     }
 
+    //max icebergs in group - 3
+    private static Set<Set<MyIceberg>> allMyIcebergGroups(MyGame game){
+        Set<Set<MyIceberg>> allIcebergGroups = new HashSet<>();
+        int numberOfPenguins = 3;
+
+        List<MyIceberg> availableIcebergs = game.getMyIcebergs();
+        availableIcebergs.remove(myThreatenedIcebergs(game));
+
+
+    }
     /**
      * attckers - friendly (ours)
      * target - enemy iceberg
@@ -41,11 +51,26 @@ public class Utils {
      * @return - map of icebergs who contribute to the attack as keys and
      * penguin amount that each iceberg is contributing as value
      */
-    public static Map<MyIceberg, Integer> penguinsFromEachIceberg(MyGame game, List<MyIceberg> attackers, MyIceberg target) {
-        //TODO create this function
+    public static Map<MyIceberg, Integer> penguinsFromEachIceberg(MyGame game, List<MyIceberg> attackers, MyIceberg target)
+    {
         Map<MyIceberg, Integer> penguinsFromIcebergs = new HashMap<>();
         int neededPenguins = target.farthest(attackers).iceberg.getTurnsTillArrival(target.iceberg)
-                * target.iceberg.penguinsPerTurn + target.iceberg.penguinAmount;
+                * target.iceberg.penguinsPerTurn + target.iceberg.penguinAmount + 1;
+
+        double availablePenguins = 0;
+        for (MyIceberg iceberg : attackers) {
+            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(game, target) <= 0)
+                return null;
+            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(game, target);
+        }
+
+        if (availablePenguins > neededPenguins) {
+            for (MyIceberg iceberg : attackers) {
+                int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(game, target);
+                penguinsFromIcebergs.put(iceberg, (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins));
+            }
+        }
+        return null;
     }
 
     /**
