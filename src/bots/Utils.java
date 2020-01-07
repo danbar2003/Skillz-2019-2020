@@ -34,7 +34,7 @@ public class Utils {
     }
 
     /**
-     * attckers - friendly (ours)
+     * attackers - friendly (ours)
      * target - enemy iceberg
      *
      * @param game - game info
@@ -44,7 +44,10 @@ public class Utils {
      * penguin amount that each iceberg is contributing as value
      */
     public static Map<MyIceberg, Integer> penguinsFromEachIceberg(MyGame game, List<MyIceberg> attackers, MyIceberg target){
-
+        int penguins = 0;
+        for(MyIceberg iceberg: attackers){
+                penguins -= iceberg.iceberg.
+        }
     }
     /**
      *
@@ -58,5 +61,6 @@ public class Utils {
      */
     public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game){
         //TODO - create this function after you finished penguinsFromEachIceberg
+
     }
 }
