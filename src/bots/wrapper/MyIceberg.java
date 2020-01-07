@@ -47,7 +47,7 @@ public class MyIceberg extends MyGameObject {
      * @param iceberg - iceberg sending the penguins
      * @return -penguin amount coming
      */
-    private int getPenguinsComingFromIceberg(MyGame game, MyIceberg iceberg) {
+    public int getPenguinsComingFromIceberg(MyGame game, MyIceberg iceberg) {
         int penguinAmountFromIceberg = 0;
         for (PenguinGroup penguinGroup : iceberg.getFriendlyPenguinGroupsToIceberg(game)) {
             if (penguinGroup.source == iceberg.iceberg && penguinGroup.destination == this.iceberg) {
@@ -171,7 +171,7 @@ public class MyIceberg extends MyGameObject {
                                     iceberg.penguinsPerTurn;
                 }
             }
-            if (icebergOwner.equals(game.game.getNeutral())){
+            if (icebergOwner.equals(game.game.getNeutral())) {
                 if (closestPenguinGroup.owner.equals(game.game.getMyself())) {
                     penguinAmount = closestPenguinGroup.penguinAmount;
                 } else {
@@ -180,9 +180,9 @@ public class MyIceberg extends MyGameObject {
             }
             if (penguinAmount < 0)
                 icebergOwner = game.game.getEnemy();
-            if (penguinAmount == 0)
+            else if (penguinAmount == 0)
                 icebergOwner = game.game.getNeutral();
-            if (penguinAmount > 0)
+            else //(penguinAmount > 0)
                 icebergOwner = game.game.getMyself();
             previousTurnsTillArrival = closestPenguinGroup.turnsTillArrival;
             comingPenguinGroups.remove(closestPenguinGroup);

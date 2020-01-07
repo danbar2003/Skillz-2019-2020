@@ -36,4 +36,5 @@ public class MyBot implements SkillzBot {
                 if (icebergsMissions.get(iceberg).get(i).act(game, iceberg)) // if acted, do not execute the next mission
                     break;
     }
+
 }
