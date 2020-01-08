@@ -34,12 +34,16 @@ public class Utils {
     //max icebergs in group - 3
     private static Set<Set<MyIceberg>> allMyIcebergGroups(MyGame game){
         Set<Set<MyIceberg>> allIcebergGroups = new HashSet<>();
-        int numberOfPenguins = 3;
+        int maxNumberInGroups = 3;
 
         List<MyIceberg> availableIcebergs = game.getMyIcebergs();
         availableIcebergs.remove(myThreatenedIcebergs(game));
 
+        for (int i = 1; i < maxNumberInGroups; i ++){
+            for (MyIceberg iceberg : availableIcebergs){
 
+            }
+        }
     }
     /**
      * attckers - friendly (ours)
