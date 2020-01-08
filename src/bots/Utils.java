@@ -32,16 +32,16 @@ public class Utils {
     }
 
     private static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
-        Set<Set<T>> sets = new HashSet<Set<T>>();
+        Set<Set<T>> sets = new HashSet<>();
         if (originalSet.isEmpty()) {
-            sets.add(new HashSet<T>());
+            sets.add(new HashSet<>());
             return sets;
         }
-        List<T> list = new ArrayList<T>(originalSet);
+        List<T> list = new ArrayList<>(originalSet);
         T head = list.get(0);
-        Set<T> rest = new HashSet<T>(list.subList(1, list.size()));
+        Set<T> rest = new HashSet<>(list.subList(1, list.size()));
         for (Set<T> set : powerSet(rest)) {
-            Set<T> newSet = new HashSet<T>();
+            Set<T> newSet = new HashSet<>();
             newSet.add(head);
             newSet.addAll(set);
             sets.add(newSet);
@@ -97,7 +97,7 @@ public class Utils {
      * key - attacking Iceberg
      * value - penguins amount
      */
-    public static Map<bots.wrapper.MyIceberg, Set<Map<bots.wrapper.MyIceberg, Integer>>> optionsToAttack(MyGame game) {
+    public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game) {
         Map<bots.wrapper.MyIceberg, Set<Map<bots.wrapper.MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
         for (bots.wrapper.MyIceberg enemyIceberg: game.getEnemyIcebergs()){
             Set<Map<bots.wrapper.MyIceberg, Integer>> waysToAttack = new HashSet<>();
