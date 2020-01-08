@@ -171,7 +171,7 @@ public class MyIceberg extends MyGameObject {
                                     iceberg.penguinsPerTurn;
                 }
             }
-            if (icebergOwner.equals(game.game.getNeutral())){
+            if (icebergOwner.equals(game.game.getNeutral())) {
                 if (closestPenguinGroup.owner.equals(game.game.getMyself())) {
                     penguinAmount = closestPenguinGroup.penguinAmount;
                 } else {
@@ -180,9 +180,9 @@ public class MyIceberg extends MyGameObject {
             }
             if (penguinAmount < 0)
                 icebergOwner = game.game.getEnemy();
-            if (penguinAmount == 0)
+            else if (penguinAmount == 0)
                 icebergOwner = game.game.getNeutral();
-            if (penguinAmount > 0)
+            else //(penguinAmount > 0)
                 icebergOwner = game.game.getMyself();
             previousTurnsTillArrival = closestPenguinGroup.turnsTillArrival;
             comingPenguinGroups.remove(closestPenguinGroup);
