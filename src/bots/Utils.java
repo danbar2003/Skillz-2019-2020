@@ -46,10 +46,6 @@ public class Utils {
         List<MyIceberg> availableIcebergs = game.getMyIcebergs();
         availableIcebergs.removeAll(myThreatenedIcebergs(game));
 
-
-        }
-
-
     }
     /**
      * attckers - friendly (ours)
