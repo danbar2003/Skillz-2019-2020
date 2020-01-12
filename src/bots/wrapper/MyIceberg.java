@@ -1,6 +1,5 @@
 package bots.wrapper;
 
-import bots.Utils;
 import penguin_game.Iceberg;
 import penguin_game.PenguinGroup;
 import penguin_game.Player;
@@ -33,7 +32,7 @@ public class MyIceberg extends MyGameObject {
         return (iceberg.penguinAmount - savedPenguins);
     }
 
-    public void sendPenguins(int penguins, MyIceberg target){
+    public void sendPenguins(MyIceberg target, int penguins){
         if (getFreePenguins() >= penguins){
             iceberg.sendPenguins(target.iceberg, penguins);
         }
