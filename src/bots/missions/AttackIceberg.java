@@ -1,6 +1,7 @@
 package bots.missions;
 
-import bots.wrapper.*;
+import bots.wrapper.MyGame;
+import bots.wrapper.MyIceberg;
 
 public class AttackIceberg implements Mission {
 
@@ -18,7 +19,7 @@ public class AttackIceberg implements Mission {
      */
     @Override
     public boolean act(MyGame game, MyIceberg iceberg) {
-        iceberg.sendPenguins(penguinAmount, target);
+        iceberg.sendPenguins(target, penguinAmount);
         return false;
     }
 }
