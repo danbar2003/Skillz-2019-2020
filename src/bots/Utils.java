@@ -98,11 +98,13 @@ public class Utils {
      */
     public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game) {
         Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
+        Set<Set<MyIceberg>> availableIcebergGroups = allMyIcebergGroups(game);
         for (MyIceberg enemyIceberg: game.getEnemyIcebergs()){
             Set<Map<MyIceberg, Integer>> waysToAttack = new HashSet<>();
-            for(Set<MyIceberg> group: allMyIcebergGroups(game)){
-                List<MyIceberg> specificGroup = new LinkedList<>(group);
-                waysToAttack.add(penguinsFromEachIceberg(game, specificGroup, enemyIceberg));
+            for(Set<MyIceberg> group: availableIcebergGroups){
+                Map<MyIceberg, Integer> penguinsFromIcebergs = penguinsFromEachIceberg(game, new LinkedList<>(group), enemyIceberg);
+                if (penguinsFromIcebergs != null)
+                    waysToAttack.add(penguinsFromIcebergs);
             }
             optionToAttackEnemy.put(enemyIceberg, waysToAttack);
         }
