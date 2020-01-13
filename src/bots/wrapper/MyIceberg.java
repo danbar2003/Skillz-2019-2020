@@ -1,5 +1,7 @@
 package bots.wrapper;
 
+import bots.Constant;
+import bots.Utils;
 import penguin_game.Iceberg;
 import penguin_game.PenguinGroup;
 import penguin_game.Player;
@@ -32,7 +34,7 @@ public class MyIceberg extends MyGameObject {
         return (iceberg.penguinAmount - savedPenguins);
     }
 
-    public void sendPenguins(MyIceberg target, int penguins){
+    public void sendPenguins(int penguins, MyIceberg target){
         if (getFreePenguins() >= penguins){
             iceberg.sendPenguins(target.iceberg, penguins);
         }
@@ -46,9 +48,9 @@ public class MyIceberg extends MyGameObject {
      * @param iceberg - iceberg sending the penguins
      * @return -penguin amount coming
      */
-    public int getPenguinsComingFromIceberg(MyGame game, MyIceberg iceberg) {
+    public int getPenguinsComingFromIceberg(MyIceberg iceberg) {
         int penguinAmountFromIceberg = 0;
-        for (PenguinGroup penguinGroup : iceberg.getFriendlyPenguinGroupsToIceberg(game)) {
+        for (PenguinGroup penguinGroup : iceberg.getFriendlyPenguinGroupsToIceberg()) {
             if (penguinGroup.source == iceberg.iceberg && penguinGroup.destination == this.iceberg) {
                 penguinAmountFromIceberg += penguinGroup.penguinAmount;
             }
@@ -60,10 +62,10 @@ public class MyIceberg extends MyGameObject {
      * @param game - game info
      * @return list of friendly penguin groups to icebergs
      */
-    private List<PenguinGroup> getFriendlyPenguinGroupsToIceberg(MyGame game) {
+    private List<PenguinGroup> getFriendlyPenguinGroupsToIceberg() {
         List<PenguinGroup> friendlyPenguinGroups = new LinkedList<>();
-        for (PenguinGroup penguinGroup : game.game.getAllPenguinGroups()) {
-            if (penguinGroup.owner == this.gameObject.owner)
+        for (PenguinGroup penguinGroup : Constant.PenguinGroups.allPenguinGroup) {
+            if (penguinGroup.owner.equals(this.gameObject.owner))
                 friendlyPenguinGroups.add(penguinGroup);
         }
         return friendlyPenguinGroups;
@@ -73,9 +75,9 @@ public class MyIceberg extends MyGameObject {
      * @param game - game info
      * @return -
      */
-    private List<PenguinGroup> getEnemyPenguinGroupsToIceberg(MyGame game) {
+    private List<PenguinGroup> getEnemyPenguinGroupsToIceberg() {
         List<PenguinGroup> enemyPenguinGroups = new LinkedList<>();
-        for (PenguinGroup penguinGroup : game.game.getAllPenguinGroups()) {
+        for (PenguinGroup penguinGroup : Constant.PenguinGroups.allPenguinGroup) {
             if (penguinGroup.owner != this.gameObject.owner)
                 enemyPenguinGroups.add(penguinGroup);
         }
@@ -88,7 +90,7 @@ public class MyIceberg extends MyGameObject {
      */
     public List<PenguinGroup> allComingPenguinGroups(MyGame game) {
         List<PenguinGroup> comingPenguinGroups = new LinkedList<>();
-        for (PenguinGroup penguinGroup : game.game.getAllPenguinGroups())
+        for (PenguinGroup penguinGroup : Constant.PenguinGroups.allPenguinGroup)
             if (penguinGroup.destination == this.iceberg)
                 comingPenguinGroups.add(penguinGroup);
         return comingPenguinGroups;
@@ -99,7 +101,7 @@ public class MyIceberg extends MyGameObject {
      * @return -
      */
     public List<PenguinGroup> getHelpingPenguinGroupsToIceberg(MyGame game) {
-        List<PenguinGroup> friendlyPenguinGroups = getFriendlyPenguinGroupsToIceberg(game);
+        List<PenguinGroup> friendlyPenguinGroups = getFriendlyPenguinGroupsToIceberg();
         for (PenguinGroup penguinGroup : friendlyPenguinGroups) {
             if (penguinGroup.destination == this.iceberg)
                 friendlyPenguinGroups.add(penguinGroup);

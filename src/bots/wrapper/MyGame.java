@@ -1,35 +1,28 @@
 package bots.wrapper;
 
+import bots.Constant;
 import bots.Utils;
 import penguin_game.Game;
-import penguin_game.Iceberg;
-import penguin_game.PenguinGroup;
 
+import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 public class MyGame {
-    public final Game game;
 
-    public MyGame(Game game) {
-        this.game = game;
+    public static Game game;
+
+    public static void updateGame(Game game) {
+        MyGame.game = game;
+        Constant.Icebergs.myIcebergs = new LinkedList<MyIceberg>(Utils.convertToMyIcebergType(game.getMyIcebergs()));
+        Constant.Icebergs.enemyIcebergs = new LinkedList<MyIceberg>(Utils.convertToMyIcebergType(game.getEnemyIcebergs()));
+        Constant.Icebergs.neutralIcebergs = new LinkedList<MyIceberg>(Utils.convertToMyIcebergType(game.getNeutralIcebergs()));
+        Constant.Icebergs.allIcebergs = new LinkedList<MyIceberg>(Utils.convertToMyIcebergType(game.getAllIcebergs()));
+
+        Constant.Game.maxTurns = game.maxTurns;
+        Constant.Game.turn = game.turn;
+
+        Constant.PenguinGroups.allPenguinGroup = new LinkedList<>(Arrays.asList(game.getAllPenguinGroups()));
+        Constant.PenguinGroups.myPenguinGroups = new LinkedList<>(Arrays.asList(game.getMyPenguinGroups()));
+        Constant.PenguinGroups.enemyPenguinGroups = new LinkedList<>(Arrays.asList(game.getEnemyPenguinGroups()));
     }
-
-    //MyIcebergs
-    public List<MyIceberg> getMyIcebergs() {
-        return Utils.convertToMyIcebergType(game.getMyIcebergs());
-    }
-
-    public List<MyIceberg> getEnemyIcebergs() {
-        return Utils.convertToMyIcebergType(game.getEnemyIcebergs());
-    }
-
-    public List<MyIceberg> getNeutralIcebergs(){
-        return Utils.convertToMyIcebergType(game.getNeutralIcebergs());
-    }
-
-    public List<MyIceberg> getAllIcebergs() {
-        return Utils.convertToMyIcebergType(game.getAllIcebergs());
-    }
-
 }
