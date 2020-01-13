@@ -34,12 +34,11 @@ public class MyIceberg extends MyGameObject {
         return (iceberg.penguinAmount - savedPenguins);
     }
 
-    public void sendPenguins(int penguins, MyIceberg target){
-        if (getFreePenguins() >= penguins){
+    public void sendPenguins(MyIceberg target, int penguins) {
+        if (getFreePenguins() >= penguins && target != null)
             iceberg.sendPenguins(target.iceberg, penguins);
-        }
-        else{
-            System.out.println("sendPenguins: \n freePenguins: "+getFreePenguins() + "tried to send: "+penguins);
+        else {
+            System.out.println("sendPenguins: \n freePenguins: " + getFreePenguins() + "tried to send: " + penguins);
         }
     }
 
@@ -120,7 +119,7 @@ public class MyIceberg extends MyGameObject {
      * @param target attacked Iceberg
      * @return - minimum penguin amount this iceberg should send in order to capture target iceberg
      */
-    public int minPenguinAmountToWin( MyIceberg target) {
+    public int minPenguinAmountToWin(MyIceberg target) {
         int penguinAmount = target.iceberg.penguinAmount +
                 target.iceberg.penguinsPerTurn * iceberg.getTurnsTillArrival(target.iceberg);
         List<PenguinGroup> helpers = target.getHelpingPenguinGroupsToIceberg();
