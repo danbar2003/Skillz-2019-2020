@@ -34,7 +34,7 @@ public class MyIceberg extends MyGameObject {
         return (iceberg.penguinAmount - savedPenguins);
     }
 
-    public void sendPenguins(int penguins, MyIceberg target){
+    public void sendPenguins(MyIceberg target, int penguins){
         if (getFreePenguins() >= penguins){
             iceberg.sendPenguins(target.iceberg, penguins);
         }
