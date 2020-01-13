@@ -44,7 +44,6 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     * @param game - game info
      * @param iceberg - iceberg sending the penguins
      * @return -penguin amount coming
      */
