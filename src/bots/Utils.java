@@ -16,17 +16,17 @@ public class Utils {
         return myIcebergs;
     }
 
-    public static List<bots.wrapper.MyIceberg> myThreatenedIcebergs(MyGame game) {
+    public static List<MyIceberg> myThreatenedIcebergs() {
         List<bots.wrapper.MyIceberg> threatenedIcebergs = new LinkedList<>();
-        for (bots.wrapper.MyIceberg iceberg : game.getMyIcebergs()) {
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
             if (iceberg.amountToDefend(game) <= 0)
                 threatenedIcebergs.add(iceberg);
         }
         return threatenedIcebergs;
     }
 
-    public static void setupIcebergPenguins(MyGame game) {
-        for (bots.wrapper.MyIceberg iceberg : game.getMyIcebergs()) {
+    public static void setupIcebergPenguins() {
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
             iceberg.savePenguins(iceberg.amountToDefend(game));
         }
     }
@@ -50,10 +50,10 @@ public class Utils {
         return sets;
     }
 
-    public static Set<Set<MyIceberg>> allMyIcebergGroups(MyGame game){
+    public static Set<Set<MyIceberg>> allMyIcebergGroups(){
         //TODO - implement max number in group (should be 3 for now).
-        Set<MyIceberg> availableIcebergs = new HashSet<>(game.getMyIcebergs());
-        availableIcebergs.removeAll(myThreatenedIcebergs(game));
+        Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
+        availableIcebergs.removeAll(myThreatenedIcebergs());
         return powerSet(availableIcebergs);
     }
     /**
@@ -66,7 +66,7 @@ public class Utils {
      * @return - map of icebergs who contribute to the attack as keys and
      * penguin amount that each iceberg is contributing as value
      */
-    public static Map<bots.wrapper.MyIceberg, Integer> penguinsFromEachIceberg(MyGame game, List<bots.wrapper.MyIceberg> attackers, bots.wrapper.MyIceberg target) {
+    public static Map<MyIceberg, Integer> penguinsFromEachIceberg(List<bots.wrapper.MyIceberg> attackers, bots.wrapper.MyIceberg target) {
         Map<bots.wrapper.MyIceberg, Integer> penguinsFromIcebergs = new HashMap<>();
         int neededPenguins = target.farthest(attackers).iceberg.getTurnsTillArrival(target.iceberg)
                 * target.iceberg.penguinsPerTurn + target.iceberg.penguinAmount + 1;

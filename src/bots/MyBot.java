@@ -19,8 +19,8 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
-        MyGame myGame = new MyGame(game);
-        handleIcebergs(myGame);
+        MyGame.updateGame(game);
+        handleIcebergs();
     }
     
     private void handleIcebergs(MyGame game) {
