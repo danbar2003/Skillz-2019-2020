@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface Mission {
 
-    boolean act(MyGame game, MyIceberg iceberg);
+    boolean act(MyIceberg iceberg);
 }
