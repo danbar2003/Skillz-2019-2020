@@ -1,17 +1,20 @@
 package bots.missions;
 
-import bots.wrapper.MyGame;
-import bots.wrapper.MyIceberg;
+import bots.wrapper.*;
+import penguin_game.*;
+
+import java.util.*;
 
 public class AttackIceberg implements Mission {
 
     private MyIceberg target;
     private int penguinAmount;
 
-    public AttackIceberg(MyIceberg target , int penguinAmount){
+    public AttackIceberg(MyIceberg target, int penguinAmount) {
         this.target = target;
         this.penguinAmount = penguinAmount;
     }
+
     /**
      * @param iceberg -
      * @return returns if the iceberg actually acted

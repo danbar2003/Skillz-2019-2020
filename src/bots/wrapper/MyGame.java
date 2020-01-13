@@ -1,7 +1,6 @@
 package bots.wrapper;
 
-import bots.Constant;
-import bots.Utils;
+import bots.*;
 import penguin_game.Game;
 
 import java.util.Arrays;
@@ -13,17 +12,17 @@ public class MyGame {
 
     public static void updateGame(Game game) {
         MyGame.game = game;
-        Constant.Icebergs.myIcebergs = new LinkedList<MyIceberg>(Utils.convertToMyIcebergType(game.getMyIcebergs()));
-        Constant.Icebergs.enemyIcebergs = new LinkedList<MyIceberg>(Utils.convertToMyIcebergType(game.getEnemyIcebergs()));
-        Constant.Icebergs.neutralIcebergs = new LinkedList<MyIceberg>(Utils.convertToMyIcebergType(game.getNeutralIcebergs()));
-        Constant.Icebergs.allIcebergs = new LinkedList<MyIceberg>(Utils.convertToMyIcebergType(game.getAllIcebergs()));
+        Constant.Icebergs.myIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getMyIcebergs()));
+        Constant.Icebergs.enemyIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getEnemyIcebergs()));
+        Constant.Icebergs.neutralIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getNeutralIcebergs()));
+        Constant.Icebergs.allIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getAllIcebergs()));
 
         Constant.Game.maxTurns = game.maxTurns;
         Constant.Game.turn = game.turn;
 
-        Constant.PenguinGroups.allPenguinGroup = new LinkedList<>(Arrays.asList(game.getAllPenguinGroups()));
-        Constant.PenguinGroups.myPenguinGroups = new LinkedList<>(Arrays.asList(game.getMyPenguinGroups()));
-        Constant.PenguinGroups.enemyPenguinGroups = new LinkedList<>(Arrays.asList(game.getEnemyPenguinGroups()));
+        Constant.PenguinGroups.allPenguinGroup = new LinkedList<>(Utils.convertToMyPenguinGroupType(game.getAllPenguinGroups()));
+        Constant.PenguinGroups.myPenguinGroups = new LinkedList<>(Utils.convertToMyPenguinGroupType(game.getMyPenguinGroups()));
+        Constant.PenguinGroups.enemyPenguinGroups = new LinkedList<>(Utils.convertToMyPenguinGroupType(game.getEnemyPenguinGroups()));
 
         Constant.Players.mySelf = game.getMyself();
         Constant.Players.enemyPlayer = game.getEnemy();
