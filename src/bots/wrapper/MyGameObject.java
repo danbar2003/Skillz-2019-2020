@@ -12,7 +12,7 @@ public abstract class MyGameObject extends GameObject{
         this.gameObject = gameObject;
     }
 
-    public <T extends MapObject> T closestTo(List<T> arr) {
+    public <T extends GameObject> T closestTo(List<T> arr) {
         if (arr.size() > 0) {
             T obj = arr.get(0);
             int minDistance = this.gameObject.__distance(obj);
@@ -27,7 +27,7 @@ public abstract class MyGameObject extends GameObject{
         return null;
     }
 
-    public <T extends MapObject> T farthest(List<T> arr) {
+    public <T extends GameObject> T farthest(List<T> arr) {
         if (arr.size() > 0) {
             T obj = arr.get(0);
             int maxDistance = this.gameObject.__distance(obj);
