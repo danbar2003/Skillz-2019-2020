@@ -24,5 +24,10 @@ public class MyGame {
         Constant.PenguinGroups.allPenguinGroup = new LinkedList<>(Arrays.asList(game.getAllPenguinGroups()));
         Constant.PenguinGroups.myPenguinGroups = new LinkedList<>(Arrays.asList(game.getMyPenguinGroups()));
         Constant.PenguinGroups.enemyPenguinGroups = new LinkedList<>(Arrays.asList(game.getEnemyPenguinGroups()));
+
+        Constant.Players.mySelf = game.getMyself();
+        Constant.Players.enemyPlayer = game.getEnemy();
+        Constant.Players.neutral = game.getNeutral();
+        Constant.Players.allPlayers = game.getAllPlayers();
     }
 }
