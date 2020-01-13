@@ -1,7 +1,8 @@
 package bots;
 
-import bots.wrapper.MyIceberg;
-import penguin_game.Iceberg;
+import bots.wrapper.*;
+import penguin_game.*;
+import java.util.*;
 
 import java.util.*;
 
@@ -13,6 +14,14 @@ public class Utils {
             myIcebergs.add(new MyIceberg(iceberg));
         }
         return myIcebergs;
+    }
+
+    public static List<MyPenguinGroup> convertToMyPenguinGroupType(PenguinGroup[] arr) {
+        LinkedList<MyPenguinGroup> myPenguinGroups = new LinkedList<>();
+        for (PenguinGroup penguinGroup : arr) {
+            myPenguinGroups.add(new MyPenguinGroup(penguinGroup));
+        }
+        return myPenguinGroups;
     }
 
     public static List<MyIceberg> myThreatenedIcebergs() {
