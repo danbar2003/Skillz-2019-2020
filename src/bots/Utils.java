@@ -2,6 +2,8 @@ package bots;
 
 import bots.actions.Action;
 import bots.actions.AttackIceberg;
+import bots.actions.SupportThreatenedIceberg;
+import bots.actions.UpgradeIceberg;
 import bots.wrapper.*;
 import penguin_game.*;
 import java.util.*;
@@ -118,8 +120,12 @@ public class Utils {
 
     public static Set<Action> possibleActions(){
         Set<Action> allActions = new HashSet<>();
-        for (MyIceberg enemyIceberg : Constant.Icebergs.enemyIcebergs)
-            allActions.add(new AttackIceberg(enemyIceberg));
-        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs)
+        for (MyIceberg iceberg : Constant.Icebergs.notMyIcebergs)
+            allActions.add(new AttackIceberg(iceberg));
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
+            allActions.add(new SupportThreatenedIceberg(iceberg));
+            allActions.add(new UpgradeIceberg(iceberg));
+        }
+        return allActions;
     }
 }
