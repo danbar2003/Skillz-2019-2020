@@ -107,8 +107,9 @@ public class Utils {
         for (MyIceberg enemyIceberg: Constant.Icebergs.enemyIcebergs){
             Set<Map<MyIceberg, Integer>> waysToAttack = new HashSet<>();
             for(Set<MyIceberg> group: allMyIcebergGroups()){
-                List<MyIceberg> specificGroup = new LinkedList<>(group);
-                waysToAttack.add(penguinsFromEachIceberg(specificGroup, enemyIceberg));
+                Map<MyIceberg, Integer> option =  penguinsFromEachIceberg(new LinkedList<>(group), enemyIceberg);
+                if (option != null)
+                    waysToAttack.add(option);
             }
             optionToAttackEnemy.put(enemyIceberg, waysToAttack);
         }
