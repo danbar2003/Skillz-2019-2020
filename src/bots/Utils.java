@@ -1,9 +1,9 @@
 package bots;
 
+import bots.actions.Action;
+import bots.actions.AttackIceberg;
 import bots.wrapper.*;
 import penguin_game.*;
-import java.util.*;
-
 import java.util.*;
 
 public class Utils {
@@ -114,5 +114,12 @@ public class Utils {
             optionToAttackEnemy.put(enemyIceberg, waysToAttack);
         }
         return optionToAttackEnemy;
+    }
+
+    public static Set<Action> possibleActions(){
+        Set<Action> allActions = new HashSet<>();
+        for (MyIceberg enemyIceberg : Constant.Icebergs.enemyIcebergs)
+            allActions.add(new AttackIceberg(enemyIceberg));
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs)
     }
 }
