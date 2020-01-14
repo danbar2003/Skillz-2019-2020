@@ -1,11 +1,10 @@
 package bots;
 
-import bots.missions.*;
+import bots.missions.Mission;
 import bots.wrapper.*;
 import penguin_game.*;
+import java.util.*;
 
-import java.util.List;
-import java.util.Map;
 
 /**
  * This is an example for a bot.
