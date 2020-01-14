@@ -11,6 +11,7 @@ public class Constant {
         public static List<MyIceberg> enemyIcebergs;
         public static List<MyIceberg> neutralIcebergs;
         public static List<MyIceberg> allIcebergs;
+        public static List<MyIceberg> notMyIcebergs;
     }
 
     public static class PenguinGroups{
