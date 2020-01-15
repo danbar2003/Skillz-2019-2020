@@ -1,6 +1,5 @@
 package bots;
 
-import bots.missions.Mission;
 import bots.wrapper.*;
 import penguin_game.*;
 import java.util.*;
@@ -25,12 +24,6 @@ public class MyBot implements SkillzBot {
     
     private void handleIcebergs() {
         Utils.setupIcebergPenguins(); //update saved penguins for each iceberg
-        /*
-        Dictionary of iceberg and mission.
-        */
-        Map<MyIceberg, Mission> icebergsMissions = MissionManager.createMissionsForIcebergs();
-        //iterating through every iceberg and executing his mission.
-        for (MyIceberg iceberg : icebergsMissions.keySet())
-            icebergsMissions.get(iceberg).act(iceberg);
+
     }
 }

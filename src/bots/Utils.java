@@ -1,9 +1,6 @@
 package bots;
 
-import bots.actions.Action;
-import bots.actions.AttackIceberg;
-import bots.actions.SupportThreatenedIceberg;
-import bots.actions.UpgradeIceberg;
+
 import bots.wrapper.*;
 import penguin_game.*;
 import java.util.*;
@@ -34,6 +31,18 @@ public class Utils {
         }
         return threatenedIcebergs;
     }
+
+   public static List<MyIceberg> getNotMyIcebergs(){
+        List<MyIceberg> notMyIcebergs = Constant.Icebergs.allIcebergs;
+        notMyIcebergs.removeAll(Constant.Icebergs.myIcebergs);
+        return notMyIcebergs;
+   }
+
+   public static List<MyIceberg> getMyAvailableIcebergs(){
+        List<MyIceberg> myAvailableIcebergs = Constant.Icebergs.myIcebergs;
+        myAvailableIcebergs.removeAll(myThreatenedIcebergs());
+        return myAvailableIcebergs;
+   }
 
     public static void setupIcebergPenguins() {
         for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
@@ -118,20 +127,4 @@ public class Utils {
         return optionToAttackEnemy;
     }
 
-    public static Map<Action, Integer> possibleActions(){
-        Map<Action, Integer> allActions = new HashMap<>();
-        for (MyIceberg iceberg : Constant.Icebergs.allIcebergs){
-            Action action;
-            if (iceberg.iceberg.owner.equals(Constant.Players.mySelf)){
-                action = new SupportThreatenedIceberg(iceberg);
-                allActions.put(action, action.benefit());
-                action = new UpgradeIceberg(iceberg);
-            }
-            else{
-                action = new AttackIceberg(iceberg);
-            }
-            allActions.put(action, action.benefit());
-        }
-        return allActions;
-    }
 }
