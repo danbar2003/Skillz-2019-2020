@@ -34,6 +34,6 @@ public class Constant {
     }
 
     public static class IcebergGroups{
-        public static Set<Set<MyIceberg>> allMyIcebergGroups = Utils.allMyIcebergGroups();
+        public static Set<Set<MyIceberg>> allMyIcebergGroups;
     }
 }
