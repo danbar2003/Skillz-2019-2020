@@ -1,10 +1,8 @@
 package bots;
 
 
-import bots.missions.AttackEnemyIceberg;
 import bots.missions.Mission;
 import bots.wrapper.*;
-import penguin_game.Iceberg;
 
 import java.util.*;
 
@@ -29,5 +27,4 @@ public class MissionManager {
         //TODO - how to choose which group will execute each mission (we need to create it together)
         return null;
     }
-
 }
