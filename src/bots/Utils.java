@@ -1,8 +1,14 @@
 package bots;
 
 
+import bots.missions.AttackEnemyIceberg;
+import bots.missions.Mission;
+import bots.missions.SupportIceberg;
+import bots.missions.UpgradeIceberg;
 import bots.wrapper.*;
 import penguin_game.*;
+
+import javax.swing.*;
 import java.util.*;
 
 public class Utils {
@@ -75,7 +81,7 @@ public class Utils {
         return powerSet(availableIcebergs);
     }
     /**
-     * attckers - friendly (ours)
+     * attackers - friendly (ours)
      * target - enemy iceberg
      *
      * @param attackers - contributing icebergs to attack
@@ -127,4 +133,17 @@ public class Utils {
         return optionToAttackEnemy;
     }
 
+    public static Set<Mission> allPossibleActions(){
+        Set<Mission> missions = new HashSet<>();
+        for (MyIceberg iceberg : Constant.Icebergs.allIcebergs){
+            if (iceberg.iceberg.owner.equals(Constant.Players.mySelf)){
+                missions.add(new UpgradeIceberg(iceberg));
+                missions.add(new SupportIceberg(iceberg));
+            }
+            else{
+                missions.add(new AttackEnemyIceberg(iceberg));
+            }
+        }
+        return missions;
+    }
 }
