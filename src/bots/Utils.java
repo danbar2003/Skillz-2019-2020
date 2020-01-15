@@ -118,13 +118,19 @@ public class Utils {
         return optionToAttackEnemy;
     }
 
-    public static Set<Action> possibleActions(){
-        Set<Action> allActions = new HashSet<>();
-        for (MyIceberg iceberg : Constant.Icebergs.notMyIcebergs)
-            allActions.add(new AttackIceberg(iceberg));
-        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
-            allActions.add(new SupportThreatenedIceberg(iceberg));
-            allActions.add(new UpgradeIceberg(iceberg));
+    public static Map<Action, Integer> possibleActions(){
+        Map<Action, Integer> allActions = new HashMap<>();
+        for (MyIceberg iceberg : Constant.Icebergs.allIcebergs){
+            Action action;
+            if (iceberg.iceberg.owner.equals(Constant.Players.mySelf)){
+                action = new SupportThreatenedIceberg(iceberg);
+                allActions.put(action, action.benefit());
+                action = new UpgradeIceberg(iceberg);
+            }
+            else{
+                action = new AttackIceberg(iceberg);
+            }
+            allActions.put(action, action.benefit());
         }
         return allActions;
     }
