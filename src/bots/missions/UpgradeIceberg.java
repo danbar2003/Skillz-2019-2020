@@ -1,23 +1,17 @@
 package bots.missions;
 
-import penguin_game.Game;
-import penguin_game.Iceberg;
+import bots.wrapper.MyIceberg;
 
-public class UpgradeIceberg implements Mission{
+public class UpgradeIceberg implements Mission {
 
-    /**
-     * @param game
-     * @param iceberg
-     * @return
-     */
-    @Override
-    public boolean act(Game game, Iceberg iceberg) {
-        if (iceberg.canUpgrade()){
-            iceberg.upgrade();
-            return true;
-        }
-        System.out.println("UpgradeIceberg : could not upgrade iceberg at location:"+iceberg.__location);
-        return false;
+    private MyIceberg iceberg;
+    private State state;
+
+    public UpgradeIceberg(MyIceberg iceberg){
+        this.iceberg = iceberg;
     }
 
+    public int value(){
+        return 1;
+    }
 }

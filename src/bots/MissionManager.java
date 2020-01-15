@@ -1,31 +1,33 @@
 package bots;
 
-import bots.missions.*;
-import penguin_game.*;
+
+import bots.missions.AttackEnemyIceberg;
+import bots.missions.Mission;
+import bots.wrapper.*;
+import penguin_game.Iceberg;
 
 import java.util.*;
+
 
 public class MissionManager {
 
     /**
-     * This function creates for each iceberg a List of missions in the execute order/priority.
-     *
-     * @param game
-     * @return Map of executing Icebergs (Keys) and Lists of Missions to execute (Value).
+     * this function decides what missions we want to execute without telling it how.
+     * @return missions we want to execute.
      */
-    public static Map<Iceberg, List<Mission>> createMissionsForIcebergs(Game game) {
-        //Map of executing icebergs(Keys) and lists of missions(values) for each one of them to execute.
-        Map<Iceberg, List<Mission>> icebergMissionMap = new HashMap<>();
-        //waiting for utils Group Mission func...
-        Map<Mission, List<Iceberg>> icebergsForEachMission;
-        for (Iceberg iceberg : game.getMyIcebergs()) {
-            List<Mission> icebergMissions = new LinkedList<>();
-            //what missions should the iceberg have.
-
-
-
-            icebergMissionMap.put(iceberg, icebergMissions);
-        }
-        return icebergMissionMap;
+    public static Set<Mission> missionsToExecute(){
+        //TODO create this function (we need to create it together)
+        Set<Mission> missionsToExec = new HashSet<>();
+        return missionsToExec;
     }
+
+    /**
+     * this function decides how to execute each mission (which group of icebergs).
+     * @return - for each mission (key) a set of icebergs.
+     */
+    public static Map<Mission, Set<MyIceberg>> howToExecute() {
+        //TODO - how to choose which group will execute each mission (we need to create it together)
+        return null;
+    }
+
 }
