@@ -32,4 +32,8 @@ public class Constant {
         public static Player mySelf;
         public static Player neutral;
     }
+
+    public static class IcebergGroups{
+        public static Set<Set<MyIceberg>> allMyIcebergGroups = Utils.allMyIcebergGroups();
+    }
 }

@@ -30,5 +30,7 @@ public class MyGame {
         Constant.Players.enemyPlayer = game.getEnemy();
         Constant.Players.neutral = game.getNeutral();
         Constant.Players.allPlayers = game.getAllPlayers();
+
+        Constant.IcebergGroups.allMyIcebergGroups = Utils.allMyIcebergGroups();
     }
 }

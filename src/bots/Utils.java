@@ -123,7 +123,7 @@ public class Utils {
         Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
         for (MyIceberg enemyIceberg: Constant.Icebergs.enemyIcebergs){
             Set<Map<MyIceberg, Integer>> waysToAttack = new HashSet<>();
-            for(Set<MyIceberg> group: allMyIcebergGroups()){
+            for(Set<MyIceberg> group: Constant.IcebergGroups.allMyIcebergGroups){
                 Map<MyIceberg, Integer> option =  penguinsFromEachIceberg(new LinkedList<>(group), enemyIceberg);
                 if (option != null)
                     waysToAttack.add(option);
@@ -133,17 +133,12 @@ public class Utils {
         return optionToAttackEnemy;
     }
 
-    public static Set<Mission> allPossibleActions(){
-        Set<Mission> missions = new HashSet<>();
-        for (MyIceberg iceberg : Constant.Icebergs.allIcebergs){
-            if (iceberg.iceberg.owner.equals(Constant.Players.mySelf)){
-                missions.add(new UpgradeIceberg(iceberg));
-                missions.add(new SupportIceberg(iceberg));
-            }
-            else{
-                missions.add(new AttackEnemyIceberg(iceberg));
-            }
-        }
-        return missions;
+    /**
+     * @return all possible missions we can execute.
+     */
+    public static Set<Mission> getPossibleMissions(){
+        //TODO - create this function
+        return null;
     }
+
 }

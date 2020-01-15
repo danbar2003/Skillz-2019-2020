@@ -11,7 +11,7 @@ public class MyIceberg extends MyGameObject {
 
     public Iceberg iceberg;
     private int savedPenguins;
-    private boolean haveMission;
+    private boolean hasMission;
 
     public MyIceberg(Iceberg iceberg) {
         super(iceberg);
