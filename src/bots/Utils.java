@@ -1,9 +1,14 @@
 package bots;
 
+
+import bots.missions.AttackEnemyIceberg;
+import bots.missions.Mission;
+import bots.missions.SupportIceberg;
+import bots.missions.UpgradeIceberg;
 import bots.wrapper.*;
 import penguin_game.*;
-import java.util.*;
 
+import javax.swing.*;
 import java.util.*;
 
 public class Utils {
@@ -32,6 +37,18 @@ public class Utils {
         }
         return threatenedIcebergs;
     }
+
+   public static List<MyIceberg> getNotMyIcebergs(){
+        List<MyIceberg> notMyIcebergs = Constant.Icebergs.allIcebergs;
+        notMyIcebergs.removeAll(Constant.Icebergs.myIcebergs);
+        return notMyIcebergs;
+   }
+
+   public static List<MyIceberg> getMyAvailableIcebergs(){
+        List<MyIceberg> myAvailableIcebergs = Constant.Icebergs.myIcebergs;
+        myAvailableIcebergs.removeAll(myThreatenedIcebergs());
+        return myAvailableIcebergs;
+   }
 
     public static void setupIcebergPenguins() {
         for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
@@ -64,7 +81,7 @@ public class Utils {
         return powerSet(availableIcebergs);
     }
     /**
-     * attckers - friendly (ours)
+     * attackers - friendly (ours)
      * target - enemy iceberg
      *
      * @param attackers - contributing icebergs to attack
@@ -106,12 +123,22 @@ public class Utils {
         Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
         for (MyIceberg enemyIceberg: Constant.Icebergs.enemyIcebergs){
             Set<Map<MyIceberg, Integer>> waysToAttack = new HashSet<>();
-            for(Set<MyIceberg> group: allMyIcebergGroups()){
-                List<MyIceberg> specificGroup = new LinkedList<>(group);
-                waysToAttack.add(penguinsFromEachIceberg(specificGroup, enemyIceberg));
+            for(Set<MyIceberg> group: Constant.IcebergGroups.allMyIcebergGroups){
+                Map<MyIceberg, Integer> option =  penguinsFromEachIceberg(new LinkedList<>(group), enemyIceberg);
+                if (option != null)
+                    waysToAttack.add(option);
             }
             optionToAttackEnemy.put(enemyIceberg, waysToAttack);
         }
         return optionToAttackEnemy;
     }
+
+    /**
+     * @return all possible missions we can execute.
+     */
+    public static Set<Mission> getPossibleMissions(){
+        //TODO - create this function
+        return null;
+    }
+
 }

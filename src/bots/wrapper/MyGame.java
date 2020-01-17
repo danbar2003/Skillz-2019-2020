@@ -16,6 +16,8 @@ public class MyGame {
         Constant.Icebergs.enemyIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getEnemyIcebergs()));
         Constant.Icebergs.neutralIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getNeutralIcebergs()));
         Constant.Icebergs.allIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getAllIcebergs()));
+        Constant.Icebergs.notMyIcebergs = Utils.getNotMyIcebergs();
+        Constant.Icebergs.myAvailableIcebergs = Utils.getMyAvailableIcebergs();
 
         Constant.Game.maxTurns = game.maxTurns;
         Constant.Game.turn = game.turn;
@@ -28,5 +30,7 @@ public class MyGame {
         Constant.Players.enemyPlayer = game.getEnemy();
         Constant.Players.neutral = game.getNeutral();
         Constant.Players.allPlayers = game.getAllPlayers();
+
+        Constant.IcebergGroups.allMyIcebergGroups = Utils.allMyIcebergGroups();
     }
 }

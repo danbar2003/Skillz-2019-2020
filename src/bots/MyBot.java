@@ -24,5 +24,6 @@ public class MyBot implements SkillzBot {
     
     private void handleIcebergs() {
         Utils.setupIcebergPenguins(); //update saved penguins for each iceberg
+
     }
 }
