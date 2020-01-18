@@ -11,7 +11,7 @@ public class UpgradeIceberg implements Mission {
         this.iceberg = iceberg;
     }
 
-    public int value(){
+    public int benefit(){
         return 1;
     }
 }

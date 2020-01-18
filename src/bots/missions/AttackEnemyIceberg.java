@@ -11,7 +11,11 @@ public class AttackEnemyIceberg implements Mission{
         this.target = target;
     }
 
-    public int value(){
-        return 2 * target.iceberg.level;
+    /**
+     *
+     * @return (penguins - penguinsUsed) * turnsLeft
+     */
+    public int benefit(){
+        return 0;
     }
 }

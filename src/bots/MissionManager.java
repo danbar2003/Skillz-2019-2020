@@ -1,6 +1,6 @@
 package bots;
 
-public class MissionManager {
 
+public class MissionManager {
 
 }
