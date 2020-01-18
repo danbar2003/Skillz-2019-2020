@@ -69,4 +69,10 @@ public class Utils {
         }
         return sets;
     }
+
+    public static Set<Set<MyIceberg>> allMyIcebergGroups(){
+        Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
+        availableIcebergs.removeAll(Utils.myThreatenedIcebergs());
+        return Utils.powerSet(availableIcebergs);
+    }
 }

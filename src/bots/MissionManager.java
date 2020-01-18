@@ -7,11 +7,7 @@ import java.util.*;
 
 public class MissionManager {
 
-    public static Set<Set<MyIceberg>> allMyIcebergGroups(){
-        Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
-        availableIcebergs.removeAll(Utils.myThreatenedIcebergs());
-        return Utils.powerSet(availableIcebergs);
-    }
+
 
     /**
      * attackers - friendly (ours)
