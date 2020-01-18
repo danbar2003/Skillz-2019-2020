@@ -11,7 +11,7 @@ public class SupportIceberg implements Mission {
         this.supportedIceberg = supportedIceberg;
     }
 
-    public int value(){
-        return 2 * supportedIceberg.iceberg.level;
+    public int benefit(){
+        return 0;
     }
 }
