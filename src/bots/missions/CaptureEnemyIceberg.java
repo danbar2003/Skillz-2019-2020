@@ -1,19 +1,20 @@
 package bots.missions;
 
+import bots.Constant;
 import bots.wrapper.MyIceberg;
 
-public class AttackEnemyIceberg implements Mission{
+public class CaptureEnemyIceberg implements Mission{
 
     private MyIceberg target;
     private State state;
 
-    public AttackEnemyIceberg(MyIceberg target){
+    public CaptureEnemyIceberg(MyIceberg target){
         this.target = target;
     }
 
     /**
      *
-     * @return (penguins - penguinsUsed) * turnsLeft
+     * @return
      */
     public int benefit(){
         return 0;

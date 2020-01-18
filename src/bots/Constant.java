@@ -24,6 +24,7 @@ public class Constant {
     public static class Game{
         public static int turn;
         public static int maxTurns;
+        public static int turnsLeft;
     }
 
     public static class Players{

@@ -3,7 +3,6 @@ package bots.wrapper;
 import bots.*;
 import penguin_game.Game;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class MyGame {
@@ -21,6 +20,7 @@ public class MyGame {
 
         Constant.Game.maxTurns = game.maxTurns;
         Constant.Game.turn = game.turn;
+        Constant.Game.turnsLeft = Constant.Game.maxTurns - Constant.Game.turn;
 
         Constant.PenguinGroups.allPenguinGroup = new LinkedList<>(Utils.convertToMyPenguinGroupType(game.getAllPenguinGroups()));
         Constant.PenguinGroups.myPenguinGroups = new LinkedList<>(Utils.convertToMyPenguinGroupType(game.getMyPenguinGroups()));
