@@ -1,6 +1,7 @@
 package bots;
 
 import bots.wrapper.*;
+import penguin_game.*;
 import java.util.*;
 
 public class Constant {
@@ -26,7 +27,15 @@ public class Constant {
         public static int turnsLeft;
     }
 
+    public static class Players{
+        public static Player[] allPlayers;
+        public static Player enemyPlayer;
+        public static Player mySelf;
+        public static Player neutral;
+    }
+
     public static class IcebergGroups {
         public static Set<Set<MyIceberg>> allMyIcebergGroups;
     }
+
 }
