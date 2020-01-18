@@ -3,12 +3,12 @@ package bots.missions;
 import bots.Constant;
 import bots.wrapper.MyIceberg;
 
-public class CaptureEnemyIceberg implements Mission{
+public class CaptureIceberg implements Mission{
 
     private MyIceberg target;
     private State state;
 
-    public CaptureEnemyIceberg(MyIceberg target){
+    public CaptureIceberg(MyIceberg target){
         this.target = target;
     }
 
