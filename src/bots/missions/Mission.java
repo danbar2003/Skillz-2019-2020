@@ -8,5 +8,5 @@ public interface Mission {
         STOP
     }
 
-    int value();
+    int benefit();
 }
