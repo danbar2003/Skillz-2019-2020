@@ -1,5 +1,6 @@
 package bots.missions;
 
+import bots.Constant;
 import bots.wrapper.MyIceberg;
 
 public class UpgradeIceberg implements Mission {
@@ -12,6 +13,6 @@ public class UpgradeIceberg implements Mission {
     }
 
     public int benefit(){
-        return 1;
+        return iceberg.iceberg.penguinsPerTurn * Constant.Game.turnsLeft;
     }
 }
