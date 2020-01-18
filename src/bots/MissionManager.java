@@ -7,8 +7,6 @@ import java.util.*;
 
 public class MissionManager {
 
-
-
     /**
      * attackers - friendly (ours)
      * target - enemy iceberg
