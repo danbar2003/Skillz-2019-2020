@@ -13,6 +13,6 @@ public class UpgradeIceberg implements Mission {
     }
 
     public int benefit(){
-        return iceberg.iceberg.penguinsPerTurn * Constant.Game.turnsLeft;
+        return 0;
     }
 }
