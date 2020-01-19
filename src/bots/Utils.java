@@ -50,12 +50,13 @@ public class Utils {
         return sets;
     }
 
-    public static Set<Set<MyIceberg>> allMyIcebergGroups(MyGame game){
+    public static Set<Set<MyIceberg>> allMyIcebergGroups(MyGame game) {
         //TODO - implement max number in group (should be 3 for now).
         Set<MyIceberg> availableIcebergs = new HashSet<>(game.getMyIcebergs());
         availableIcebergs.removeAll(myThreatenedIcebergs(game));
         return powerSet(availableIcebergs);
     }
+
     /**
      * attckers - friendly (ours)
      * target - enemy iceberg
@@ -99,9 +100,9 @@ public class Utils {
      */
     public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game) {
         Map<bots.wrapper.MyIceberg, Set<Map<bots.wrapper.MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
-        for (bots.wrapper.MyIceberg enemyIceberg: game.getEnemyIcebergs()){
+        for (bots.wrapper.MyIceberg enemyIceberg : game.getEnemyIcebergs()) {
             Set<Map<bots.wrapper.MyIceberg, Integer>> waysToAttack = new HashSet<>();
-            for(Set<bots.wrapper.MyIceberg> group: allMyIcebergGroups(game)){
+            for (Set<bots.wrapper.MyIceberg> group : allMyIcebergGroups(game)) {
                 List<bots.wrapper.MyIceberg> specificGroup = new LinkedList<>(group);
                 waysToAttack.add(penguinsFromEachIceberg(game, specificGroup, enemyIceberg));
             }
@@ -109,4 +110,21 @@ public class Utils {
         }
         return optionToAttackEnemy;
     }
+
+
+    public static Set<Goal> allBasicGoals(MyGame game) {
+        Set<Goal> goals = new HashSet<>();
+        for (MyIceberg iceberg : game.getAllIcebergs()) {
+            if(!iceberg.owner.equals(game.game.getMyself()))
+                goals.add(new Goal("attack" + iceberg.iceberg.level));
+            if(iceberg.owner.equals(game.game.getMyself()))
+                goals.add(new Goal("support" + iceberg.iceberg.level));
+
+        }
+
+    return goals;
+    }
 }
+
+
+
