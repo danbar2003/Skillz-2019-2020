@@ -20,6 +20,10 @@ public class CaptureIceberg implements Mission{
         return 0;
     }
 
+    public MyIceberg getTarget(){
+        return this.target;
+    }
+
     public void setState(State state){
         this.state = state;
     }

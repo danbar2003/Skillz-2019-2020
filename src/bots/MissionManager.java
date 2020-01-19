@@ -5,6 +5,9 @@ import bots.missions.CaptureIceberg;
 import bots.missions.Mission;
 import bots.missions.SupportIceberg;
 import bots.missions.UpgradeIceberg;
+import bots.tasks.Attack;
+import bots.tasks.Support;
+import bots.tasks.Taskable;
 import bots.tasks.Upgrade;
 import bots.wrapper.MyIceberg;
 
@@ -71,17 +74,7 @@ public class MissionManager {
         return optionToAttackEnemy;
     }
 
-    public static Set<Map<Set<Mission>, Integer>> benefitOfMissions(Set<Set<Mission>> missionGroups ){
-        Set<Map<Set<Mission>, Integer>> benefitOfMission = new HashSet<>();
-        
-
-
-
-        return benefitOfMission;
-    }
-
-    public static Set<Set<Mission>> allMissions() {
-        Set<Set<Mission>> missionsGroups = new HashSet<>();
+    private static Set<Set<Mission>> allMissions() {
         Set<Mission> missions = new HashSet<>();
 
         for (MyIceberg iceberg : Constant.Icebergs.allIcebergs) {
@@ -92,9 +85,59 @@ public class MissionManager {
                 missions.add(new UpgradeIceberg(iceberg));
             }
         }
-        missionsGroups = Utils.powerSet(missions);
 
-        return missionsGroups;
+        return Utils.powerSet(missions);
     }
+
+    private static Set<Map<Set<Mission>, Integer>> benefitOfMissions() {
+        Set<Map<Set<Mission>, Integer>> benefitOfMission = new HashSet<>();
+        Map<Set<Mission>, Integer> missionsBenefit = new HashMap<>();
+        int benefit;
+        for (Set<Mission> missions : allMissions()) {
+            benefit = 0;
+            for (Mission mission : missions)
+                benefit += mission.benefit();
+            missionsBenefit.put(missions, benefit);
+            benefitOfMission.add(missionsBenefit);
+        }
+        return benefitOfMission;
+    }
+
+    private static Map<Set<Mission>, Set<Set<Taskable>>> allTasksForMission() {
+        Map<Set<Mission>, Set<Set<Taskable>>> tasksPerMission = new HashMap<>();
+        Set<Taskable> tasks = new HashSet<>();
+        for (Set<Mission> missionGroup : allMissions()) {
+            for (Mission mission : missionGroup) {
+                if (mission instanceof CaptureIceberg) {
+                    for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
+                        tasks.add(new Attack(iceberg, mission.getTarget(), iceberg.minPenguinAmountToWin(mission.getTarget())));
+                    }
+                    tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
+                    tasks.clear();
+                }
+                if (mission instanceof SupportIceberg) {
+                    for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
+                        tasks.add(new Support(iceberg, mission.getTarget(), 0));
+                    }
+                    tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
+                    tasks.clear();
+                }
+                if (mission instanceof UpgradeIceberg) {
+                    tasks.add(new Upgrade(mission.getTarget()));
+                    tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
+                    tasks.clear();
+                }
+            }
+        }
+
+    return tasksPerMission;
+    }
+
 }
+
+
+
+
+
+
 
