@@ -1,15 +1,14 @@
 package bots.missions;
 
-import bots.Constant;
 import bots.wrapper.MyIceberg;
 
-public class UpgradeIceberg implements Mission {
+public class SupportIceberg implements Mission {
 
-    private MyIceberg iceberg;
+    private MyIceberg supportedIceberg;
     private State state;
 
-    public UpgradeIceberg(MyIceberg iceberg){
-        this.iceberg = iceberg;
+    public SupportIceberg(MyIceberg supportedIceberg){
+        this.supportedIceberg = supportedIceberg;
     }
 
     public int benefit(){

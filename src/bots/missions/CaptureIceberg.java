@@ -3,15 +3,19 @@ package bots.missions;
 import bots.Constant;
 import bots.wrapper.MyIceberg;
 
-public class UpgradeIceberg implements Mission {
+public class CaptureIceberg implements Mission{
 
-    private MyIceberg iceberg;
+    private MyIceberg target;
     private State state;
 
-    public UpgradeIceberg(MyIceberg iceberg){
-        this.iceberg = iceberg;
+    public CaptureIceberg(MyIceberg target){
+        this.target = target;
     }
 
+    /**
+     *
+     * @return
+     */
     public int benefit(){
         return 0;
     }

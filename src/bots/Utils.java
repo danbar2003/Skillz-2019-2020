@@ -1,37 +1,57 @@
 package bots;
 
-import bots.wrapper.MyGame;
-import bots.wrapper.MyIceberg;
-import penguin_game.Iceberg;
+
+import bots.wrapper.*;
+import penguin_game.*;
 
 import java.util.*;
 
 public class Utils {
 
-    public static List<bots.wrapper.MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
-        LinkedList<bots.wrapper.MyIceberg> myIcebergs = new LinkedList<>();
+    public static List<MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
+        LinkedList<MyIceberg> myIcebergs = new LinkedList<>();
         for (Iceberg iceberg : arr) {
-            myIcebergs.add(new bots.wrapper.MyIceberg(iceberg));
+            myIcebergs.add(new MyIceberg(iceberg));
         }
         return myIcebergs;
     }
 
-    public static List<bots.wrapper.MyIceberg> myThreatenedIcebergs(MyGame game) {
-        List<bots.wrapper.MyIceberg> threatenedIcebergs = new LinkedList<>();
-        for (bots.wrapper.MyIceberg iceberg : game.getMyIcebergs()) {
-            if (iceberg.amountToDefend(game) <= 0)
+    public static List<MyPenguinGroup> convertToMyPenguinGroupType(PenguinGroup[] arr) {
+        LinkedList<MyPenguinGroup> myPenguinGroups = new LinkedList<>();
+        for (PenguinGroup penguinGroup : arr) {
+            myPenguinGroups.add(new MyPenguinGroup(penguinGroup));
+        }
+        return myPenguinGroups;
+    }
+
+    public static List<MyIceberg> myThreatenedIcebergs() {
+        List<MyIceberg> threatenedIcebergs = new LinkedList<>();
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
+            if (iceberg.amountToDefend() <= 0)
                 threatenedIcebergs.add(iceberg);
         }
         return threatenedIcebergs;
     }
 
-    public static void setupIcebergPenguins(MyGame game) {
-        for (bots.wrapper.MyIceberg iceberg : game.getMyIcebergs()) {
-            iceberg.savePenguins(iceberg.amountToDefend(game));
+   public static List<MyIceberg> getNotMyIcebergs(){
+        List<MyIceberg> notMyIcebergs = Constant.Icebergs.allIcebergs;
+        notMyIcebergs.removeAll(Constant.Icebergs.myIcebergs);
+        return notMyIcebergs;
+   }
+
+   public static List<MyIceberg> getMyAvailableIcebergs(){
+        List<MyIceberg> myAvailableIcebergs = Constant.Icebergs.myIcebergs;
+        myAvailableIcebergs.removeAll(myThreatenedIcebergs());
+        return myAvailableIcebergs;
+   }
+
+    public static void setupIcebergPenguins() {
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
+            iceberg.savePenguins(iceberg.amountToDefend());
         }
     }
 
-    private static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
+    public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
         Set<Set<T>> sets = new HashSet<>();
         if (originalSet.isEmpty()) {
             sets.add(new HashSet<>());
@@ -49,82 +69,4 @@ public class Utils {
         }
         return sets;
     }
-
-    public static Set<Set<MyIceberg>> allMyIcebergGroups(MyGame game) {
-        //TODO - implement max number in group (should be 3 for now).
-        Set<MyIceberg> availableIcebergs = new HashSet<>(game.getMyIcebergs());
-        availableIcebergs.removeAll(myThreatenedIcebergs(game));
-        return powerSet(availableIcebergs);
-    }
-
-    /**
-     * attckers - friendly (ours)
-     * target - enemy iceberg
-     *
-     * @param game      - game info
-     * @param attackers - contributing icebergs to attack
-     * @param target    - enemy iceberg
-     * @return - map of icebergs who contribute to the attack as keys and
-     * penguin amount that each iceberg is contributing as value
-     */
-    public static Map<bots.wrapper.MyIceberg, Integer> penguinsFromEachIceberg(MyGame game, List<bots.wrapper.MyIceberg> attackers, bots.wrapper.MyIceberg target) {
-        Map<bots.wrapper.MyIceberg, Integer> penguinsFromIcebergs = new HashMap<>();
-        int neededPenguins = target.farthest(attackers).iceberg.getTurnsTillArrival(target.iceberg)
-                * target.iceberg.penguinsPerTurn + target.iceberg.penguinAmount + 1;
-
-        double availablePenguins = 0;
-        for (bots.wrapper.MyIceberg iceberg : attackers) {
-            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(game, target) <= 0)
-                return null;
-            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(game, target);
-        }
-
-        if (availablePenguins > neededPenguins) {
-            for (bots.wrapper.MyIceberg iceberg : attackers) {
-                int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(game, target);
-                penguinsFromIcebergs.put(iceberg, (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins));
-            }
-            return penguinsFromIcebergs;
-        }
-        return null;
-    }
-
-    /**
-     * @param game - game info
-     * @return - all options to attack each enemy iceberg
-     * key - target (enemy iceberg)
-     * value - list of options to attack the iceberg
-     * value(Map):
-     * key - attacking Iceberg
-     * value - penguins amount
-     */
-    public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack(MyGame game) {
-        Map<bots.wrapper.MyIceberg, Set<Map<bots.wrapper.MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
-        for (bots.wrapper.MyIceberg enemyIceberg : game.getEnemyIcebergs()) {
-            Set<Map<bots.wrapper.MyIceberg, Integer>> waysToAttack = new HashSet<>();
-            for (Set<bots.wrapper.MyIceberg> group : allMyIcebergGroups(game)) {
-                List<bots.wrapper.MyIceberg> specificGroup = new LinkedList<>(group);
-                waysToAttack.add(penguinsFromEachIceberg(game, specificGroup, enemyIceberg));
-            }
-            optionToAttackEnemy.put(enemyIceberg, waysToAttack);
-        }
-        return optionToAttackEnemy;
-    }
-
-
-    public static Set<Goal> allBasicGoals(MyGame game) {
-        Set<Goal> goals = new HashSet<>();
-        for (MyIceberg iceberg : game.getAllIcebergs()) {
-            if(!iceberg.owner.equals(game.game.getMyself()))
-                goals.add(new Goal("attack" + iceberg.iceberg.level));
-            if(iceberg.owner.equals(game.game.getMyself()))
-                goals.add(new Goal("support" + iceberg.iceberg.level));
-
-        }
-
-    return goals;
-    }
 }
-
-
-

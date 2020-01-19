@@ -4,36 +4,22 @@ import penguin_game.*;
 
 import java.util.List;
 
-public abstract class MyGameObject extends GameObject{
+public abstract class MyGameObject extends MyMapObject{
 
     public final GameObject gameObject;
 
     public MyGameObject(GameObject gameObject) {
+        super(gameObject);
         this.gameObject = gameObject;
     }
 
-    public <T extends MapObject> T closestTo(List<T> arr) {
+    public <T extends MyGameObject> T farthest(List<T> arr) {
         if (arr.size() > 0) {
             T obj = arr.get(0);
-            int minDistance = this.gameObject.__distance(obj);
+            int maxDistance = this.gameObject.__distance(obj.gameObject);
             for (T temp : arr) {
-                if (this.gameObject.__distance(temp) < minDistance) {
-                    minDistance = this.gameObject.__distance(temp);
-                    obj = temp;
-                }
-            }
-            return obj;
-        }
-        return null;
-    }
-
-    public <T extends MapObject> T farthest(List<T> arr) {
-        if (arr.size() > 0) {
-            T obj = arr.get(0);
-            int maxDistance = this.gameObject.__distance(obj);
-            for (T temp : arr) {
-                if (this.gameObject.__distance(temp) > maxDistance) {
-                    maxDistance = this.gameObject.__distance(temp);
+                if (this.gameObject.__distance(temp.gameObject) > maxDistance) {
+                    maxDistance = this.gameObject.__distance(temp.gameObject);
                     obj = temp;
                 }
             }

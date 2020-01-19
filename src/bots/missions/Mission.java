@@ -1,10 +1,14 @@
 package bots.missions;
 
-import bots.wrapper.*;
-
-import java.util.List;
-
 public interface Mission {
 
-    boolean act(MyGame game, MyIceberg iceberg);
+    enum State{
+        ACTIVE,
+        FINISHED,
+        STOP
+    }
+
+    void setState(State state);
+
+    int benefit();
 }
