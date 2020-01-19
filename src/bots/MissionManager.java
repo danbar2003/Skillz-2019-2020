@@ -1,13 +1,18 @@
 package bots;
 
 
+import bots.missions.CaptureIceberg;
+import bots.missions.Mission;
+import bots.missions.SupportIceberg;
+import bots.missions.UpgradeIceberg;
+import bots.tasks.Upgrade;
 import bots.wrapper.MyIceberg;
 
 import java.util.*;
 
 public class MissionManager {
 
-    public static Set<Set<MyIceberg>> allMyIcebergGroups(){
+    public static Set<Set<MyIceberg>> allMyIcebergGroups() {
         Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
         availableIcebergs.removeAll(Utils.myThreatenedIcebergs());
         return Utils.powerSet(availableIcebergs);
@@ -54,16 +59,42 @@ public class MissionManager {
      */
     public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack() {
         Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
-        for (MyIceberg enemyIceberg: Constant.Icebergs.enemyIcebergs){
+        for (MyIceberg enemyIceberg : Constant.Icebergs.enemyIcebergs) {
             Set<Map<MyIceberg, Integer>> waysToAttack = new HashSet<>();
-            for(Set<MyIceberg> group: Constant.IcebergGroups.allMyIcebergGroups){
-                Map<MyIceberg, Integer> option =  penguinsFromEachIceberg(new LinkedList<>(group), enemyIceberg);
+            for (Set<MyIceberg> group : Constant.IcebergGroups.allMyIcebergGroups) {
+                Map<MyIceberg, Integer> option = penguinsFromEachIceberg(new LinkedList<>(group), enemyIceberg);
                 if (option != null)
                     waysToAttack.add(option);
             }
             optionToAttackEnemy.put(enemyIceberg, waysToAttack);
         }
         return optionToAttackEnemy;
+    }
+
+    public static Set<Map<Set<Mission>, Integer>> benefitOfMissions(Set<Set<Mission>> missionGroups ){
+        Set<Map<Set<Mission>, Integer>> benefitOfMission = new HashSet<>();
+        
+
+
+
+        return benefitOfMission;
+    }
+
+    public static Set<Set<Mission>> allMissions() {
+        Set<Set<Mission>> missionsGroups = new HashSet<>();
+        Set<Mission> missions = new HashSet<>();
+
+        for (MyIceberg iceberg : Constant.Icebergs.allIcebergs) {
+            if (!iceberg.iceberg.owner.equals(Constant.Players.mySelf))
+                missions.add(new CaptureIceberg(iceberg));
+            else {
+                missions.add(new SupportIceberg(iceberg));
+                missions.add(new UpgradeIceberg(iceberg));
+            }
+        }
+        missionsGroups = Utils.powerSet(missions);
+
+        return missionsGroups;
     }
 }
 

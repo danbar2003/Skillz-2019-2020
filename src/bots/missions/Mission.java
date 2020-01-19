@@ -8,5 +8,7 @@ public interface Mission {
         STOP
     }
 
+    void setState(State state);
+
     int benefit();
 }

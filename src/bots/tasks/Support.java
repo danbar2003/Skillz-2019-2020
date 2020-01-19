@@ -7,15 +7,15 @@ public class Support implements Taskable {
     private MyIceberg supportedIceberg;
     private int penguins;
 
-    public Support(MyIceberg supportingIceberg, MyIceberg supportedIceberg, int penguins){
-        this.penguins=penguins;
-        this.supportedIceberg=supportedIceberg;
-        this.supportingIceberg=supportingIceberg;
+    public Support(MyIceberg supportingIceberg, MyIceberg supportedIceberg, int penguins) {
+        this.penguins = penguins;
+        this.supportedIceberg = supportedIceberg;
+        this.supportingIceberg = supportingIceberg;
     }
 
     @Override
     public void act() {
-        this.supportingIceberg.sendPenguins(this.supportedIceberg,this.penguins);
+        this.supportingIceberg.sendPenguins(this.supportedIceberg, this.penguins);
     }
 
     @Override
