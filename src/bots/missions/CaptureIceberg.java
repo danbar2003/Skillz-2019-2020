@@ -19,4 +19,12 @@ public class CaptureIceberg implements Mission{
     public int benefit(){
         return 0;
     }
+
+    public MyIceberg getTarget(){
+        return this.target;
+    }
+
+    public void setState(State state){
+        this.state = state;
+    }
 }

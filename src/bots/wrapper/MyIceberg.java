@@ -20,6 +20,14 @@ public class MyIceberg extends MyGameObject {
 
     }
 
+    public boolean isHasTask() {
+        return hasTask;
+    }
+
+    public void setHasTask(boolean hasTask) {
+        this.hasTask = hasTask;
+    }
+
     public void savePenguins(int penguinAmount) {
         if (penguinAmount >= 0)
             this.savedPenguins = penguinAmount;
@@ -185,4 +193,5 @@ public class MyIceberg extends MyGameObject {
             return 0;
         return iceberg.penguinAmount - penguinAmount + 1;
     }
+
 }

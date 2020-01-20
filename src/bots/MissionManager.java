@@ -1,11 +1,25 @@
 package bots;
 
 
+import bots.missions.CaptureIceberg;
+import bots.missions.Mission;
+import bots.missions.SupportIceberg;
+import bots.missions.UpgradeIceberg;
+import bots.tasks.Attack;
+import bots.tasks.Support;
+import bots.tasks.Taskable;
+import bots.tasks.Upgrade;
 import bots.wrapper.MyIceberg;
 
 import java.util.*;
 
 public class MissionManager {
+
+    public static Set<Set<MyIceberg>> allMyIcebergGroups() {
+        Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
+        availableIcebergs.removeAll(Utils.myThreatenedIcebergs());
+        return Utils.powerSet(availableIcebergs);
+    }
 
     /**
      * attackers - friendly (ours)
@@ -48,10 +62,10 @@ public class MissionManager {
      */
     public static Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionsToAttack() {
         Map<MyIceberg, Set<Map<MyIceberg, Integer>>> optionToAttackEnemy = new HashMap<>();
-        for (MyIceberg enemyIceberg: Constant.Icebergs.enemyIcebergs){
+        for (MyIceberg enemyIceberg : Constant.Icebergs.enemyIcebergs) {
             Set<Map<MyIceberg, Integer>> waysToAttack = new HashSet<>();
-            for(Set<MyIceberg> group: Constant.IcebergGroups.allMyIcebergGroups){
-                Map<MyIceberg, Integer> option =  penguinsFromEachIceberg(new LinkedList<>(group), enemyIceberg);
+            for (Set<MyIceberg> group : Constant.IcebergGroups.allMyIcebergGroups) {
+                Map<MyIceberg, Integer> option = penguinsFromEachIceberg(new LinkedList<>(group), enemyIceberg);
                 if (option != null)
                     waysToAttack.add(option);
             }
@@ -59,5 +73,71 @@ public class MissionManager {
         }
         return optionToAttackEnemy;
     }
+
+    private static Set<Set<Mission>> allMissions() {
+        Set<Mission> missions = new HashSet<>();
+
+        for (MyIceberg iceberg : Constant.Icebergs.allIcebergs) {
+            if (!iceberg.iceberg.owner.equals(Constant.Players.mySelf))
+                missions.add(new CaptureIceberg(iceberg));
+            else {
+                missions.add(new SupportIceberg(iceberg));
+                missions.add(new UpgradeIceberg(iceberg));
+            }
+        }
+
+        return Utils.powerSet(missions);
+    }
+
+    private static Set<Map<Set<Mission>, Integer>> benefitOfMissions() {
+        Set<Map<Set<Mission>, Integer>> benefitOfMission = new HashSet<>();
+        Map<Set<Mission>, Integer> missionsBenefit = new HashMap<>();
+        int benefit;
+        for (Set<Mission> missions : allMissions()) {
+            benefit = 0;
+            for (Mission mission : missions)
+                benefit += mission.benefit();
+            missionsBenefit.put(missions, benefit);
+            benefitOfMission.add(missionsBenefit);
+        }
+        return benefitOfMission;
+    }
+
+    private static Map<Set<Mission>, Set<Set<Taskable>>> allTasksForMission() {
+        Map<Set<Mission>, Set<Set<Taskable>>> tasksPerMission = new HashMap<>();
+        Set<Taskable> tasks = new HashSet<>();
+        for (Set<Mission> missionGroup : allMissions()) {
+            for (Mission mission : missionGroup) {
+                if (mission instanceof CaptureIceberg) {
+                    for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
+                        tasks.add(new Attack(iceberg, mission.getTarget(), iceberg.minPenguinAmountToWin(mission.getTarget())));
+                    }
+                    tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
+                    tasks.clear();
+                }
+                if (mission instanceof SupportIceberg) {
+                    for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
+                        tasks.add(new Support(iceberg, mission.getTarget(), 0));
+                    }
+                    tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
+                    tasks.clear();
+                }
+                if (mission instanceof UpgradeIceberg) {
+                    tasks.add(new Upgrade(mission.getTarget()));
+                    tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
+                    tasks.clear();
+                }
+            }
+        }
+
+    return tasksPerMission;
+    }
+
 }
+
+
+
+
+
+
 

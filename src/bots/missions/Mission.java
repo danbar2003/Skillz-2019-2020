@@ -1,5 +1,7 @@
 package bots.missions;
 
+import bots.wrapper.MyIceberg;
+
 public interface Mission {
 
     enum State{
@@ -7,6 +9,10 @@ public interface Mission {
         FINISHED,
         STOP
     }
+
+    void setState(State state);
+
+    MyIceberg getTarget();
 
     int benefit();
 }
