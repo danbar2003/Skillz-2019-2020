@@ -9,7 +9,7 @@ import java.util.*;
 
 public class MyIceberg extends MyGameObject {
 
-    public Iceberg iceberg;
+    private Iceberg iceberg;
     private int savedPenguins;
     private boolean hasTask;
 
