@@ -5,20 +5,33 @@ import bots.missions.CaptureIceberg;
 import bots.missions.Mission;
 import bots.missions.SupportIceberg;
 import bots.missions.UpgradeIceberg;
-import bots.tasks.Attack;
-import bots.tasks.Support;
 import bots.tasks.Taskable;
-import bots.tasks.Upgrade;
 import bots.wrapper.MyIceberg;
 
 import java.util.*;
 
 public class MissionManager {
 
-    public static Set<Set<MyIceberg>> allMyIcebergGroups() {
-        Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
-        availableIcebergs.removeAll(Utils.myThreatenedIcebergs());
-        return Utils.powerSet(availableIcebergs);
+    public static Map<MyIceberg, Integer> penguinsFromEachSupporter(List<MyIceberg> supporters, MyIceberg target){
+        Map<MyIceberg, Integer> penguinsFromIcebergs = new HashMap<>();
+        int neededPenguins = target.farthest(supporters).iceberg.getTurnsTillArrival(target.iceberg)
+                * target.iceberg.penguinsPerTurn + target.iceberg.penguinAmount + 1;
+
+        double availablePenguins = 0;
+        for (MyIceberg iceberg : supporters) {
+            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(target) <= 0)
+                return null;
+            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(target);
+        }
+
+        if (availablePenguins > neededPenguins) {
+            for (MyIceberg iceberg : supporters) {
+                int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(target);
+                penguinsFromIcebergs.put(iceberg, (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins));
+            }
+            return penguinsFromIcebergs;
+        }
+        return null;
     }
 
     /**
@@ -30,7 +43,7 @@ public class MissionManager {
      * @return - map of icebergs who contribute to the attack as keys and
      * penguin amount that each iceberg is contributing as value
      */
-    public static Map<MyIceberg, Integer> penguinsFromEachIceberg(List<MyIceberg> attackers, MyIceberg target) {
+    public static Map<MyIceberg, Integer> penguinsFromEachAttacker(List<MyIceberg> attackers, MyIceberg target) {
         Map<MyIceberg, Integer> penguinsFromIcebergs = new HashMap<>();
         int neededPenguins = target.farthest(attackers).iceberg.getTurnsTillArrival(target.iceberg)
                 * target.iceberg.penguinsPerTurn + target.iceberg.penguinAmount + 1;
@@ -65,7 +78,7 @@ public class MissionManager {
         for (MyIceberg enemyIceberg : Constant.Icebergs.enemyIcebergs) {
             Set<Map<MyIceberg, Integer>> waysToAttack = new HashSet<>();
             for (Set<MyIceberg> group : Constant.IcebergGroups.allMyIcebergGroups) {
-                Map<MyIceberg, Integer> option = penguinsFromEachIceberg(new LinkedList<>(group), enemyIceberg);
+                Map<MyIceberg, Integer> option = penguinsFromEachAttacker(new LinkedList<>(group), enemyIceberg);
                 if (option != null)
                     waysToAttack.add(option);
             }
@@ -74,7 +87,23 @@ public class MissionManager {
         return optionToAttackEnemy;
     }
 
-    private static Set<Set<Mission>> allMissions() {
+    private static int totalBenefit(Set<Mission> missionGroup){
+        int benefit = 0;
+        for (Mission mission : missionGroup){
+            benefit += mission.benefit();
+        }
+        return benefit;
+    }
+
+    private static int totalLoss(Set<Taskable> taskGroup){
+        int loss = 0;
+        for (Taskable task : taskGroup){
+            loss += task.loss();
+        }
+        return loss;
+    }
+
+    private static Set<Mission> allMissions(){
         Set<Mission> missions = new HashSet<>();
 
         for (MyIceberg iceberg : Constant.Icebergs.allIcebergs) {
@@ -85,59 +114,30 @@ public class MissionManager {
                 missions.add(new UpgradeIceberg(iceberg));
             }
         }
-
-        return Utils.powerSet(missions);
+        return missions;
     }
 
-    private static Set<Map<Set<Mission>, Integer>> benefitOfMissions() {
-        Set<Map<Set<Mission>, Integer>> benefitOfMission = new HashSet<>();
-        Map<Set<Mission>, Integer> missionsBenefit = new HashMap<>();
-        int benefit;
-        for (Set<Mission> missions : allMissions()) {
-            benefit = 0;
-            for (Mission mission : missions)
-                benefit += mission.benefit();
-            missionsBenefit.put(missions, benefit);
-            benefitOfMission.add(missionsBenefit);
-        }
-        return benefitOfMission;
+    private static Set<Set<Mission>> allMissionGroups() {
+        return Utils.powerSet(allMissions());
     }
 
-    private static Map<Set<Mission>, Set<Set<Taskable>>> allTasksForMission() {
-        Map<Set<Mission>, Set<Set<Taskable>>> tasksPerMission = new HashMap<>();
+    private static Set<Taskable> howToExecuteMission(Set<MyIceberg> icebergGroup, Mission mission){
         Set<Taskable> tasks = new HashSet<>();
-        for (Set<Mission> missionGroup : allMissions()) {
-            for (Mission mission : missionGroup) {
-                if (mission instanceof CaptureIceberg) {
-                    for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
-                        tasks.add(new Attack(iceberg, mission.getTarget(), iceberg.minPenguinAmountToWin(mission.getTarget())));
-                    }
-                    tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
-                    tasks.clear();
-                }
-                if (mission instanceof SupportIceberg) {
-                    for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
-                        tasks.add(new Support(iceberg, mission.getTarget(), 0));
-                    }
-                    tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
-                    tasks.clear();
-                }
-                if (mission instanceof UpgradeIceberg) {
-                    tasks.add(new Upgrade(mission.getTarget()));
-                    tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
-                    tasks.clear();
-                }
+        if (mission instanceof CaptureIceberg){
+
+        }
+    }
+
+    private static Map<Set<Mission>, Set<Set<Taskable>>> waysToExecuteMissionGroups(){
+        Map<Set<Mission>, Set<Set<Taskable>>> waysToExecMissionGroups = new HashMap<>();
+
+        for (Set<Mission> missionGroup : allMissionGroups()){
+            Set<Set<Taskable>> waysToExecute = new HashSet<>();
+            for (Set<MyIceberg> icebergGroup : Constant.IcebergGroups.allMyIcebergGroups){
+                Set<Taskable> executeWay = new HashSet<>();
+
+
             }
         }
-
-    return tasksPerMission;
     }
-
 }
-
-
-
-
-
-
-
