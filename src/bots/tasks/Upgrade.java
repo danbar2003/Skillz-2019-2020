@@ -1,7 +1,6 @@
 package bots.tasks;
 
 import bots.wrapper.MyIceberg;
-import penguin_game.Iceberg;
 
 public class Upgrade implements Taskable {
     private MyIceberg upgradingIceberg;

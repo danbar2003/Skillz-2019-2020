@@ -14,4 +14,12 @@ public class SupportIceberg implements Mission {
     public int benefit(){
         return 0;
     }
+
+    public MyIceberg getTarget(){
+        return this.supportedIceberg;
+    }
+
+    public void setState(State state){
+        this.state = state;
+    }
 }
