@@ -8,6 +8,12 @@ import java.util.*;
 
 public class Utils {
 
+    public static Set<Set<MyIceberg>> allMyIcebergGroups() {
+        Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
+        availableIcebergs.removeAll(Utils.myThreatenedIcebergs());
+        return Utils.powerSet(availableIcebergs);
+    }
+
     public static List<MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
         LinkedList<MyIceberg> myIcebergs = new LinkedList<>();
         for (Iceberg iceberg : arr) {

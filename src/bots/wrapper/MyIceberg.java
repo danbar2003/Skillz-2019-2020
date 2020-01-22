@@ -5,7 +5,6 @@ import bots.*;
 import penguin_game.*;
 import java.util.*;
 
-import java.util.*;
 
 public class MyIceberg extends MyGameObject {
 
@@ -18,6 +17,14 @@ public class MyIceberg extends MyGameObject {
         this.iceberg = iceberg;
         this.savedPenguins = 0;
 
+    }
+
+    public boolean isHasTask() {
+        return hasTask;
+    }
+
+    public void setHasTask(boolean hasTask) {
+        this.hasTask = hasTask;
     }
 
     public void savePenguins(int penguinAmount) {

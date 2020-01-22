@@ -10,6 +10,8 @@ import java.util.*;
  */
 public class MyBot implements SkillzBot {
 
+
+    static boolean debug = false;
     /**
      * Makes the bot run a single turn.
      *
@@ -24,6 +26,5 @@ public class MyBot implements SkillzBot {
     
     private void handleIcebergs() {
         Utils.setupIcebergPenguins(); //update saved penguins for each iceberg
-
     }
 }
