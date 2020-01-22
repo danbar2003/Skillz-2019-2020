@@ -10,6 +10,8 @@ import java.util.*;
  */
 public class MyBot implements SkillzBot {
 
+
+    static boolean debug = false;
     /**
      * Makes the bot run a single turn.
      *
