@@ -14,6 +14,27 @@ import bots.wrapper.MyIceberg;
 import java.util.*;
 
 public class MissionManager {
+
+    private static Set<Mission> activeMissions;
+
+    public static Set<Set<Taskable>> waysToExecute(Mission mission){
+        Set<Set<Taskable>> waysToExec = new HashSet<>();
+
+        if (mission instanceof CaptureIceberg)
+            for (Set<MyIceberg> icebergs : Constant.IcebergGroups.allMyIcebergGroups)
+                waysToExec.add(howToCapture(new LinkedList<>(icebergs), (CaptureIceberg) mission));
+        if (mission instanceof SupportIceberg)
+            for (Set<MyIceberg> icebergs : Constant.IcebergGroups.allMyIcebergGroups)
+                waysToExec.add(howToSupport(new LinkedList<>(icebergs), (SupportIceberg) mission));
+        if (mission instanceof UpgradeIceberg) {
+            Set<Taskable> upgradeTask = new HashSet<>();
+            upgradeTask.add(new Upgrade(mission.getTarget()));
+            waysToExec.add(upgradeTask);
+        }
+
+        return waysToExec;
+    }
+
     private static int totalBenefit(Set<Mission> missionGroup){
         int benefit = 0;
         for (Mission mission : missionGroup){
@@ -32,31 +53,14 @@ public class MissionManager {
 
     /**
      *
-     * @param attackers - contributing icebergs to support
+     * @param supporters - contributing icebergs to support
      * @param supportIceberg - mission
-     * @return map of icebergs who contribute to the attack as keys and
-     * penguin amount that each iceberg is contributing value
+     * @return Set of tasks (task for each supporter)
      */
-    private static Set<Taskable> penguinsFromEachSupporter(List<MyIceberg> attackers, SupportIceberg supportIceberg) {
+    private static Set<Taskable> howToSupport(List<MyIceberg> supporters, SupportIceberg supportIceberg) {
         Set<Taskable> tasks = new HashSet<>();
-        int neededPenguins = supportIceberg.getTarget().farthest(attackers).iceberg.getTurnsTillArrival(supportIceberg.getTarget().iceberg)
-                * supportIceberg.getTarget().iceberg.penguinsPerTurn + supportIceberg.getTarget().iceberg.penguinAmount + 1;
-
-        double availablePenguins = 0;
-        for (MyIceberg iceberg : attackers) {
-            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget()) <= 0)
-                return null;
-            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget());
-        }
-
-        if (availablePenguins > neededPenguins) {
-            for (MyIceberg iceberg : attackers) {
-                int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget());
-                tasks.add(new Attack(iceberg, supportIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins) ));
-            }
-            return tasks;
-        }
-        return null;
+        //TODO - how to support... how much each iceberg should send.
+        return tasks;
     }
 
     /**
@@ -65,10 +69,9 @@ public class MissionManager {
      *
      * @param attackers - contributing icebergs to attack
      * @param captureIceberg - mission
-     * @return - map of icebergs who contribute to the attack as keys and
-     * penguin amount that each iceberg is contributing as value
+     * @return - Set of tasks
      */
-    private static Set<Taskable> penguinsFromEachAttacker(List<MyIceberg> attackers, CaptureIceberg captureIceberg) {
+    private static Set<Taskable> howToCapture(List<MyIceberg> attackers, CaptureIceberg captureIceberg) {
         Set<Taskable> tasks = new HashSet<>();
         int neededPenguins = captureIceberg.getTarget().farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg)
                 * captureIceberg.getTarget().iceberg.penguinsPerTurn + captureIceberg.getTarget().iceberg.penguinAmount + 1;
@@ -105,6 +108,7 @@ public class MissionManager {
     }
 
     private static Set<Set<Mission>> allMissionGroups() {
+        //TODO we need to add a filter
         return Utils.powerSet(allMissions());
     }
 }

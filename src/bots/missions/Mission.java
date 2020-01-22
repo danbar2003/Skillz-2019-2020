@@ -1,6 +1,9 @@
 package bots.missions;
 
+import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
+
+import java.util.Set;
 
 public interface Mission {
 
@@ -13,6 +16,12 @@ public interface Mission {
     void setState(State state);
 
     MyIceberg getTarget();
+
+    Set<Set<Taskable>> getWaysToExecute();
+
+    void calcWaysToExecute();
+
+    String getType();
 
     int benefit();
 }
