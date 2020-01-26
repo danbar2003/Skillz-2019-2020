@@ -120,4 +120,14 @@ public class MissionManager {
         //TODO we need to add a filter
         return Utils.powerSet(Constant.Groups.allMissions);
     }
+
+    /**
+     * In this function we which missionGroup will be executed.
+     * @return map of mission as key and tasks as value for each mission.
+     */
+    public static Map<Mission, Set<Taskable>> howToExecute(){
+        Map<Mission, Set<Taskable>> howToExecute = new HashMap<>();
+        //TODO - create this function.
+        return howToExecute;
+    }
 }
