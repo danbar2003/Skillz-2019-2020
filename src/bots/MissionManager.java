@@ -40,7 +40,7 @@ public class MissionManager {
         return waysToExec;
     }
 
-    private static int totalBenefit(Set<Mission> missionGroup){
+    public static int totalBenefit(Set<Mission> missionGroup){
         int benefit = 0;
         for (Mission mission : missionGroup){
             benefit += mission.benefit();
@@ -48,7 +48,7 @@ public class MissionManager {
         return benefit;
     }
 
-    private static int totalLoss(Set<Taskable> taskGroup){
+    public static int totalLoss(Collection<Taskable> taskGroup){
         int loss = 0;
         for (Taskable task : taskGroup){
             loss += task.loss();
@@ -121,13 +121,8 @@ public class MissionManager {
         return Utils.powerSet(Constant.Groups.allMissions);
     }
 
-    /**
-     * In this function we which missionGroup will be executed.
-     * @return map of mission as key and tasks as value for each mission.
-     */
-    public static Map<Mission, Set<Taskable>> howToExecute(){
-        Map<Mission, Set<Taskable>> howToExecute = new HashMap<>();
-        //TODO - create this function.
-        return howToExecute;
+    public static Set<Taskable> createTasksForIcebergs(){
+        //TODO - create (final function)
+        return null;
     }
 }

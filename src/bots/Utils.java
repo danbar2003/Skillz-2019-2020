@@ -1,6 +1,7 @@
 package bots;
 
 
+import bots.missions.Mission;
 import bots.wrapper.*;
 import penguin_game.*;
 
@@ -55,6 +56,11 @@ public class Utils {
         for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
             iceberg.savePenguins(iceberg.amountToDefend());
         }
+    }
+
+    public static void missionCalculation(){
+        for (Mission mission : Constant.Groups.allMissions)
+            mission.calcWaysToExecute();
     }
 
     public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
