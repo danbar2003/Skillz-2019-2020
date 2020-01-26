@@ -18,9 +18,7 @@ public class CaptureIceberg implements Mission{
     }
 
     @Override
-    public int benefit(){
-        return 0;
-    }
+    public int benefit(){ return 0; }
 
     @Override
     public Set<Set<Taskable>> getWaysToExecute() {
