@@ -4,7 +4,10 @@ import bots.Constant;
 import bots.MissionManager;
 import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
+import haxe.root.Array;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 public class CaptureIceberg implements Mission{
