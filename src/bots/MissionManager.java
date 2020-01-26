@@ -17,14 +17,19 @@ public class MissionManager {
 
     private static Set<Mission> activeMissions;
 
+    /**
+     *
+     * @param mission - missions
+     * @return - options to execute the mission (each option is by different iceberg group).
+     */
     public static Set<Set<Taskable>> waysToExecute(Mission mission){
         Set<Set<Taskable>> waysToExec = new HashSet<>();
 
         if (mission instanceof CaptureIceberg)
-            for (Set<MyIceberg> icebergs : Constant.IcebergGroups.allMyIcebergGroups)
+            for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
                 waysToExec.add(howToCapture(new LinkedList<>(icebergs), (CaptureIceberg) mission));
         if (mission instanceof SupportIceberg)
-            for (Set<MyIceberg> icebergs : Constant.IcebergGroups.allMyIcebergGroups)
+            for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
                 waysToExec.add(howToSupport(new LinkedList<>(icebergs), (SupportIceberg) mission));
         if (mission instanceof UpgradeIceberg) {
             Set<Taskable> upgradeTask = new HashSet<>();
@@ -93,7 +98,11 @@ public class MissionManager {
         return null;
     }
 
-    private static Set<Mission> allMissions(){
+    /**
+     *
+     * @return all single missions.
+     */
+    public static Set<Mission> allMissions(){
         Set<Mission> missions = new HashSet<>();
 
         for (MyIceberg iceberg : Constant.Icebergs.allIcebergs) {
@@ -107,8 +116,18 @@ public class MissionManager {
         return missions;
     }
 
-    private static Set<Set<Mission>> allMissionGroups() {
+    public static Set<Set<Mission>> allMissionGroups() {
         //TODO we need to add a filter
-        return Utils.powerSet(allMissions());
+        return Utils.powerSet(Constant.Groups.allMissions);
+    }
+
+    /**
+     * In this function we which missionGroup will be executed.
+     * @return map of mission as key and tasks as value for each mission.
+     */
+    public static Map<Mission, Set<Taskable>> howToExecute(){
+        Map<Mission, Set<Taskable>> howToExecute = new HashMap<>();
+        //TODO - create this function.
+        return howToExecute;
     }
 }

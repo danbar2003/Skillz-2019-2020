@@ -11,6 +11,7 @@ public class MyGame {
 
     public static void updateGame(Game game) {
         MyGame.game = game;
+
         Constant.Icebergs.myIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getMyIcebergs()));
         Constant.Icebergs.enemyIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getEnemyIcebergs()));
         Constant.Icebergs.neutralIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getNeutralIcebergs()));
@@ -31,6 +32,8 @@ public class MyGame {
         Constant.Players.neutral = game.getNeutral();
         Constant.Players.allPlayers = game.getAllPlayers();
 
-        Constant.IcebergGroups.allMyIcebergGroups = Utils.allMyIcebergGroups();
+        Constant.Groups.allMyIcebergGroups = Utils.allMyIcebergGroups();
+        Constant.Groups.allMissions = MissionManager.allMissions();
+        Constant.Groups.allMissionGroups = MissionManager.allMissionGroups();
     }
 }
