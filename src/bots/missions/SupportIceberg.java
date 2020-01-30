@@ -1,6 +1,7 @@
 package bots.missions;
 
 import bots.MissionManager;
+import bots.tasks.TaskGroup;
 import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
 
@@ -9,7 +10,7 @@ import java.util.Set;
 public class SupportIceberg implements Mission {
 
     private MyIceberg supportedIceberg;
-    private Set<Set<Taskable>> waysToExecute;
+    private Set<TaskGroup> waysToExecute;
     private State state;
 
     public SupportIceberg(MyIceberg supportedIceberg){
@@ -27,7 +28,7 @@ public class SupportIceberg implements Mission {
     }
 
     @Override
-    public Set<Set<Taskable>> getWaysToExecute() {
+    public Set<TaskGroup> getWaysToExecute() {
         return null;
     }
 

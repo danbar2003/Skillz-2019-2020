@@ -10,6 +10,11 @@ public class Upgrade implements Taskable {
     }
 
     @Override
+    public MyIceberg getActor() {
+        return upgradingIceberg;
+    }
+
+    @Override
     public void act() {
         if (this.upgradingIceberg.iceberg.canUpgrade()) {
             this.upgradingIceberg.iceberg.upgrade();

@@ -15,6 +15,11 @@ public class Attack implements Taskable {
     }
 
     @Override
+    public MyIceberg getActor() {
+        return attackingIceberg;
+    }
+
+    @Override
     public void act() {
         this.attackingIceberg.sendPenguins(this.targetIceberg, penguinAmount);
     }

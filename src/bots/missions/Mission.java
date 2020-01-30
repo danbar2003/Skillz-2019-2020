@@ -1,5 +1,6 @@
 package bots.missions;
 
+import bots.tasks.TaskGroup;
 import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
 
@@ -17,7 +18,7 @@ public interface Mission {
 
     MyIceberg getTarget();
 
-    Set<Set<Taskable>> getWaysToExecute();
+    Set<TaskGroup> getWaysToExecute();
 
     void calcWaysToExecute();
 

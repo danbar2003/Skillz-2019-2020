@@ -2,6 +2,7 @@ package bots.missions;
 
 import bots.Constant;
 import bots.MissionManager;
+import bots.tasks.TaskGroup;
 import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
 
@@ -10,7 +11,7 @@ import java.util.Set;
 public class UpgradeIceberg implements Mission {
 
     private MyIceberg iceberg; // upgrading iceberg
-    private Set<Set<Taskable>> waysToExecute;
+    private Set<TaskGroup> waysToExecute;
     private State state;
 
     public UpgradeIceberg(MyIceberg iceberg){
@@ -28,7 +29,7 @@ public class UpgradeIceberg implements Mission {
     }
 
     @Override
-    public Set<Set<Taskable>> getWaysToExecute() {
+    public Set<TaskGroup> getWaysToExecute() {
         return waysToExecute;
     }
 

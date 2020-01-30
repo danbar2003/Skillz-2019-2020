@@ -5,10 +5,7 @@ import bots.missions.CaptureIceberg;
 import bots.missions.Mission;
 import bots.missions.SupportIceberg;
 import bots.missions.UpgradeIceberg;
-import bots.tasks.Attack;
-import bots.tasks.Support;
-import bots.tasks.Taskable;
-import bots.tasks.Upgrade;
+import bots.tasks.*;
 import bots.wrapper.MyIceberg;
 
 import java.util.*;
@@ -22,9 +19,8 @@ public class MissionManager {
      * @param mission - missions
      * @return - options to execute the mission (each option is by different iceberg group).
      */
-    public static Set<Set<Taskable>> waysToExecute(Mission mission){
-        Set<Set<Taskable>> waysToExec = new HashSet<>();
-
+    public static Set<TaskGroup> waysToExecute(Mission mission){
+        Set<TaskGroup> waysToExec = new HashSet<>();
         if (mission instanceof CaptureIceberg)
             for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
                 waysToExec.add(howToCapture(new LinkedList<>(icebergs), (CaptureIceberg) mission));
@@ -32,11 +28,8 @@ public class MissionManager {
             for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
                 waysToExec.add(howToSupport(new LinkedList<>(icebergs), (SupportIceberg) mission));
         if (mission instanceof UpgradeIceberg) {
-            Set<Taskable> upgradeTask = new HashSet<>();
-            upgradeTask.add(new Upgrade(mission.getTarget()));
-            waysToExec.add(upgradeTask);
+            waysToExec.add(new TaskGroup(new Upgrade(mission.getTarget())));
         }
-
         return waysToExec;
     }
 
@@ -62,8 +55,8 @@ public class MissionManager {
      * @param supportIceberg - mission
      * @return Set of tasks (task for each supporter)
      */
-    private static Set<Taskable> howToSupport(List<MyIceberg> supporters, SupportIceberg supportIceberg) {
-        Set<Taskable> tasks = new HashSet<>();
+    private static TaskGroup howToSupport(List<MyIceberg> supporters, SupportIceberg supportIceberg) {
+        TaskGroup tasks = new TaskGroup();
         //TODO - how to support... how much each iceberg should send.
         return tasks;
     }
@@ -76,8 +69,8 @@ public class MissionManager {
      * @param captureIceberg - mission
      * @return - Set of tasks
      */
-    private static Set<Taskable> howToCapture(List<MyIceberg> attackers, CaptureIceberg captureIceberg) {
-        Set<Taskable> tasks = new HashSet<>();
+    private static TaskGroup howToCapture(List<MyIceberg> attackers, CaptureIceberg captureIceberg) {
+         TaskGroup tasks = new TaskGroup();
         int neededPenguins = captureIceberg.getTarget().farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg)
                 * captureIceberg.getTarget().iceberg.penguinsPerTurn + captureIceberg.getTarget().iceberg.penguinAmount + 1;
 
@@ -118,7 +111,7 @@ public class MissionManager {
 
     public static Set<Set<Mission>> allMissionGroups() {
         //TODO we need to add a filter
-        return Utils.powerSet(Constant.Groups.allMissions);
+        return Utils.powerSet(Constant.Groups.allMissions, 3);
     }
 
     public static Set<Taskable> createTasksForIcebergs(){

@@ -2,6 +2,7 @@ package bots.missions;
 
 import bots.Constant;
 import bots.MissionManager;
+import bots.tasks.TaskGroup;
 import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
 import haxe.root.Array;
@@ -13,7 +14,7 @@ import java.util.Set;
 public class CaptureIceberg implements Mission{
 
     private MyIceberg target;
-    private Set<Set<Taskable>> waysToExecute;
+    private Set<TaskGroup> waysToExecute;
     private State state;
 
     public CaptureIceberg(MyIceberg target){
@@ -24,7 +25,7 @@ public class CaptureIceberg implements Mission{
     public int benefit(){ return 0; }
 
     @Override
-    public Set<Set<Taskable>> getWaysToExecute() {
+    public Set<TaskGroup> getWaysToExecute() {
         return waysToExecute;
     }
 
