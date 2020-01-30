@@ -1,14 +1,19 @@
 package bots;
 
 
-import bots.wrapper.MyIceberg;
-import bots.wrapper.MyPenguinGroup;
-import penguin_game.Iceberg;
-import penguin_game.PenguinGroup;
+import bots.missions.Mission;
+import bots.wrapper.*;
+import penguin_game.*;
 
 import java.util.*;
 
 public class Utils {
+
+    public static Set<Set<MyIceberg>> allMyIcebergGroups() {
+        Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
+        availableIcebergs.removeAll(Utils.myThreatenedIcebergs());
+        return Utils.powerSet(availableIcebergs, availableIcebergs.size());
+    }
 
     public static List<MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
         LinkedList<MyIceberg> myIcebergs = new LinkedList<>();
@@ -35,22 +40,27 @@ public class Utils {
         return threatenedIcebergs;
     }
 
-    public static List<MyIceberg> getNotMyIcebergs() {
+   public static List<MyIceberg> getNotMyIcebergs(){
         List<MyIceberg> notMyIcebergs = Constant.Icebergs.allIcebergs;
         notMyIcebergs.removeAll(Constant.Icebergs.myIcebergs);
         return notMyIcebergs;
-    }
+   }
 
-    public static List<MyIceberg> getMyAvailableIcebergs() {
+   public static List<MyIceberg> getMyAvailableIcebergs(){
         List<MyIceberg> myAvailableIcebergs = Constant.Icebergs.myIcebergs;
         myAvailableIcebergs.removeAll(myThreatenedIcebergs());
         return myAvailableIcebergs;
-    }
+   }
 
     public static void setupIcebergPenguins() {
         for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
             iceberg.savePenguins(iceberg.amountToDefend());
         }
+    }
+
+    public static void missionCalculation(){
+        for (Mission mission : Constant.Groups.allMissions)
+            mission.calcWaysToExecute();
     }
 
     public static <T> Set<Set<T>> powerSet(Set<T> originalSet, int size) {
@@ -63,7 +73,7 @@ public class Utils {
         T head = list.get(0);
         Set<T> rest = new HashSet<>(list.subList(1, list.size()));
         for (Set<T> set : powerSet(rest, size)) {
-            if (set.size() <= size - 1) {
+            if(set.size() <= size-1 ){
                 Set<T> newSet = new HashSet<>();
                 newSet.add(head);
                 newSet.addAll(set);
@@ -72,6 +82,7 @@ public class Utils {
             }
 
         }
+
         return sets;
     }
 }

@@ -1,5 +1,6 @@
 package bots;
 
+import bots.missions.Mission;
 import bots.wrapper.*;
 import penguin_game.*;
 import java.util.*;
@@ -34,8 +35,10 @@ public class Constant {
         public static Player neutral;
     }
 
-    public static class IcebergGroups {
+    public static class Groups {
         public static Set<Set<MyIceberg>> allMyIcebergGroups;
+        public static Set<Mission> allMissions;
+        public static Set<Set<Mission>> allMissionGroups;
     }
 
 }

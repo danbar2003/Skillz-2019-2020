@@ -3,6 +3,7 @@ package bots.tasks;
 import bots.wrapper.MyIceberg;
 
 public class Support implements Taskable {
+
     private MyIceberg supportingIceberg;
     private MyIceberg supportedIceberg;
     private int penguins;
@@ -11,6 +12,11 @@ public class Support implements Taskable {
         this.penguins = penguins;
         this.supportedIceberg = supportedIceberg;
         this.supportingIceberg = supportingIceberg;
+    }
+
+    @Override
+    public MyIceberg getActor() {
+        return supportingIceberg;
     }
 
     @Override
