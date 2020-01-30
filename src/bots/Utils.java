@@ -1,8 +1,10 @@
 package bots;
 
 
-import bots.wrapper.*;
-import penguin_game.*;
+import bots.wrapper.MyIceberg;
+import bots.wrapper.MyPenguinGroup;
+import penguin_game.Iceberg;
+import penguin_game.PenguinGroup;
 
 import java.util.*;
 
@@ -33,17 +35,17 @@ public class Utils {
         return threatenedIcebergs;
     }
 
-   public static List<MyIceberg> getNotMyIcebergs(){
+    public static List<MyIceberg> getNotMyIcebergs() {
         List<MyIceberg> notMyIcebergs = Constant.Icebergs.allIcebergs;
         notMyIcebergs.removeAll(Constant.Icebergs.myIcebergs);
         return notMyIcebergs;
-   }
+    }
 
-   public static List<MyIceberg> getMyAvailableIcebergs(){
+    public static List<MyIceberg> getMyAvailableIcebergs() {
         List<MyIceberg> myAvailableIcebergs = Constant.Icebergs.myIcebergs;
         myAvailableIcebergs.removeAll(myThreatenedIcebergs());
         return myAvailableIcebergs;
-   }
+    }
 
     public static void setupIcebergPenguins() {
         for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
@@ -51,7 +53,7 @@ public class Utils {
         }
     }
 
-    public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
+    public static <T> Set<Set<T>> powerSet(Set<T> originalSet, int size) {
         Set<Set<T>> sets = new HashSet<>();
         if (originalSet.isEmpty()) {
             sets.add(new HashSet<>());
@@ -60,12 +62,15 @@ public class Utils {
         List<T> list = new ArrayList<>(originalSet);
         T head = list.get(0);
         Set<T> rest = new HashSet<>(list.subList(1, list.size()));
-        for (Set<T> set : powerSet(rest)) {
-            Set<T> newSet = new HashSet<>();
-            newSet.add(head);
-            newSet.addAll(set);
-            sets.add(newSet);
-            sets.add(set);
+        for (Set<T> set : powerSet(rest, size)) {
+            if (set.size() <= size - 1) {
+                Set<T> newSet = new HashSet<>();
+                newSet.add(head);
+                newSet.addAll(set);
+                sets.add(newSet);
+                sets.add(set);
+            }
+
         }
         return sets;
     }
