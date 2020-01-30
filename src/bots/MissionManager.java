@@ -109,9 +109,13 @@ public class MissionManager {
         return missions;
     }
 
-    public static Set<Set<Mission>> allMissionGroups() {
-        //TODO we need to add a filter
-        return Utils.powerSet(Constant.Groups.allMissions, 3);
+    public static Set<Set<Mission>> allMissionGroups(int size) {
+        return Utils.powerSet(Constant.Groups.allMissions, size);
+    }
+
+    public static TaskGroup howToExecuteMissionGroup(Set<Mission> missions){
+        TaskGroup taskGroup = new TaskGroup();
+        return taskGroup;
     }
 
     public static Set<Taskable> createTasksForIcebergs(){

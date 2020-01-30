@@ -34,6 +34,6 @@ public class MyGame {
 
         Constant.Groups.allMyIcebergGroups = Utils.allMyIcebergGroups();
         Constant.Groups.allMissions = MissionManager.allMissions();
-        Constant.Groups.allMissionGroups = MissionManager.allMissionGroups();
+        Constant.Groups.allMissionGroups = MissionManager.allMissionGroups(3);
     }
 }
