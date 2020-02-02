@@ -21,7 +21,6 @@ public class Constant {
         public static List<MyPenguinGroup> enemyPenguinGroups;
         public static List<MyPenguinGroup> allPenguinGroup;
     }
-
     public static class Game {
         public static int turn;
         public static int maxTurns;
@@ -40,5 +39,4 @@ public class Constant {
         public static Set<Mission> allMissions;
         public static Set<Set<Mission>> allMissionGroups;
     }
-
 }

@@ -12,7 +12,7 @@ import java.util.*;
 
 public class MissionManager {
 
-    private static Set<Mission> activeMissions;
+    private static Set<Mission> activeMissions; //All single missions that takes place atm.
 
     /**
      *
@@ -39,14 +39,6 @@ public class MissionManager {
             benefit += mission.benefit();
         }
         return benefit;
-    }
-
-    public static int totalLoss(Collection<Taskable> taskGroup){
-        int loss = 0;
-        for (Taskable task : taskGroup){
-            loss += task.loss();
-        }
-        return loss;
     }
 
     /**
@@ -109,17 +101,29 @@ public class MissionManager {
         return missions;
     }
 
+    /**
+     * @param size - maxim size of groups
+     * @return all mission groups with size <= param.size
+     */
     public static Set<Set<Mission>> allMissionGroups(int size) {
         return Utils.powerSet(Constant.Groups.allMissions, size);
     }
 
+    /**
+     * this function decides how to execute each mission in a missionGroup.
+     * @param missions - missionGroup
+     * @return - tasks for each mission (all tasks in the same list)
+     */
     public static TaskGroup howToExecuteMissionGroup(Set<Mission> missions){
-        TaskGroup taskGroup = new TaskGroup();
-        return taskGroup;
+        return null;
     }
-
+    
+    /**
+     * This function decide which missionGroup to execute. (totalBenefit - totalLoss)
+     * @return set of tasks that will execute the chosen missionGroup.
+     */
     public static Set<Taskable> createTasksForIcebergs(){
-        //TODO - create (final function)
+        //last function
         return null;
     }
 }
