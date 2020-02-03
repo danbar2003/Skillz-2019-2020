@@ -8,6 +8,8 @@ import bots.missions.UpgradeIceberg;
 import bots.tasks.*;
 import bots.wrapper.MyIceberg;
 
+import java.lang.reflect.Array;
+import java.math.BigInteger;
 import java.util.*;
 
 public class MissionManager {
@@ -15,11 +17,10 @@ public class MissionManager {
     private static Set<Mission> activeMissions; //All single missions that takes place atm.
 
     /**
-     *
      * @param mission - missions
      * @return - options to execute the mission (each option is by different iceberg group).
      */
-    public static Set<TaskGroup> waysToExecute(Mission mission){
+    public static Set<TaskGroup> waysToExecute(Mission mission) {
         Set<TaskGroup> waysToExec = new HashSet<>();
         if (mission instanceof CaptureIceberg)
             for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
@@ -33,17 +34,16 @@ public class MissionManager {
         return waysToExec;
     }
 
-    public static int totalBenefit(Set<Mission> missionGroup){
+    public static int totalBenefit(Set<Mission> missionGroup) {
         int benefit = 0;
-        for (Mission mission : missionGroup){
+        for (Mission mission : missionGroup) {
             benefit += mission.benefit();
         }
         return benefit;
     }
 
     /**
-     *
-     * @param supporters - contributing icebergs to support
+     * @param supporters     - contributing icebergs to support
      * @param supportIceberg - mission
      * @return Set of tasks (task for each supporter)
      */
@@ -57,12 +57,12 @@ public class MissionManager {
      * attackers - friendly (ours)
      * target - enemy iceberg
      *
-     * @param attackers - contributing icebergs to attack
+     * @param attackers      - contributing icebergs to attack
      * @param captureIceberg - mission
      * @return - Set of tasks
      */
     private static TaskGroup howToCapture(List<MyIceberg> attackers, CaptureIceberg captureIceberg) {
-         TaskGroup tasks = new TaskGroup();
+        TaskGroup tasks = new TaskGroup();
         int neededPenguins = captureIceberg.getTarget().farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg)
                 * captureIceberg.getTarget().iceberg.penguinsPerTurn + captureIceberg.getTarget().iceberg.penguinAmount + 1;
 
@@ -76,7 +76,7 @@ public class MissionManager {
         if (availablePenguins > neededPenguins) {
             for (MyIceberg iceberg : attackers) {
                 int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
-                tasks.add(new Attack(iceberg, captureIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins) ));
+                tasks.add(new Attack(iceberg, captureIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins)));
             }
             return tasks;
         }
@@ -84,10 +84,9 @@ public class MissionManager {
     }
 
     /**
-     *
      * @return all single missions.
      */
-    public static Set<Mission> allMissions(){
+    public static Set<Mission> allMissions() {
         Set<Mission> missions = new HashSet<>();
 
         for (MyIceberg iceberg : Constant.Icebergs.allIcebergs) {
@@ -111,19 +110,21 @@ public class MissionManager {
 
     /**
      * this function decides how to execute each mission in a missionGroup.
+     *
      * @param missions - missionGroup
      * @return - tasks for each mission (all tasks in the same list)
      */
-    public static TaskGroup howToExecuteMissionGroup(Set<Mission> missions){
-        return null;
+    public static TaskGroup howToExecuteMissionGroup(Set<Mission> missions) {
+        TaskGroup tasks = new TaskGroup();
+        return tasks;
     }
-    
+
     /**
      * This function decide which missionGroup to execute. (totalBenefit - totalLoss)
+     *
      * @return set of tasks that will execute the chosen missionGroup.
      */
-    public static Set<Taskable> createTasksForIcebergs(){
-        //last function
+    public static Set<Taskable> createTasksForIcebergs() {
         return null;
     }
 }
