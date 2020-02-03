@@ -35,6 +35,13 @@ public class TaskGroup {
         tasks.add(task);
     }
 
+    public boolean hasShared(TaskGroup taskGroup){
+        for (Taskable task : taskGroup.getTasks())
+            if (this.tasks.contains(task))
+                return true;
+        return false;
+    }
+
     public List<MyIceberg> usedIcebergs(){
         List<MyIceberg> usedIcebergs = new LinkedList<>();
         for (Taskable task : tasks){
