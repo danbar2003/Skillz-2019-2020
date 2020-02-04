@@ -6,12 +6,13 @@ import bots.tasks.TaskGroup;
 import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
 
+import java.util.List;
 import java.util.Set;
 
 public class UpgradeIceberg implements Mission {
 
     private MyIceberg iceberg; // upgrading iceberg
-    private Set<TaskGroup> waysToExecute;
+    private List<TaskGroup> waysToExecute;
     private State state;
 
     public UpgradeIceberg(MyIceberg iceberg){
@@ -29,7 +30,7 @@ public class UpgradeIceberg implements Mission {
     }
 
     @Override
-    public Set<TaskGroup> getWaysToExecute() {
+    public List<TaskGroup> getWaysToExecute() {
         return waysToExecute;
     }
 
