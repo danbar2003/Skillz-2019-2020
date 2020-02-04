@@ -13,11 +13,6 @@ public class AdvancedNode<T> {
         this.nextNodes = new LinkedList<>();
     }
 
-    public AdvancedNode(){
-        this.value = null;
-        this.nextNodes = new LinkedList<>();
-    }
-
     public T getValue() {
         return value;
     }
@@ -30,7 +25,7 @@ public class AdvancedNode<T> {
         return nextNodes;
     }
 
-    public void setNextNodes(List<AdvancedNode<T>> nextNodes) {
-        this.nextNodes = nextNodes;
+    public void add(AdvancedNode<T> advancedNode){
+        this.nextNodes.add(advancedNode);
     }
 }
