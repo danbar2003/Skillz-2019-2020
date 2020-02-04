@@ -8,8 +8,6 @@ import bots.missions.UpgradeIceberg;
 import bots.tasks.*;
 import bots.wrapper.MyIceberg;
 
-import java.lang.reflect.Array;
-import java.math.BigInteger;
 import java.util.*;
 
 public class MissionManager {
@@ -20,8 +18,8 @@ public class MissionManager {
      * @param mission - missions
      * @return - options to execute the mission (each option is by different iceberg group).
      */
-    public static Set<TaskGroup> waysToExecute(Mission mission) {
-        Set<TaskGroup> waysToExec = new HashSet<>();
+    public static List<TaskGroup> waysToExecute(Mission mission) {
+        List<TaskGroup> waysToExec = new LinkedList<>();
         if (mission instanceof CaptureIceberg)
             for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
                 waysToExec.add(howToCapture(new LinkedList<>(icebergs), (CaptureIceberg) mission));
@@ -114,9 +112,16 @@ public class MissionManager {
      * @param missions - missionGroup
      * @return - tasks for each mission (all tasks in the same list)
      */
-    public static TaskGroup howToExecuteMissionGroup(Set<Mission> missions) {
-        TaskGroup tasks = new TaskGroup();
-        return tasks;
+    public static TaskGroup howToExecuteMissionGroup(List<Mission> missions) {
+        List<List<AdvancedNode<TaskGroup>>> taskGroupMatrix = new LinkedList<>();
+        for (Mission mission : missions) {
+            List<AdvancedNode<TaskGroup>> layer = new LinkedList<>();
+            for (TaskGroup taskGroup : mission.getWaysToExecute())
+                layer.add(new AdvancedNode<TaskGroup>(taskGroup));
+            taskGroupMatrix.add(layer);
+        }
+        //TODO - continue
+        return null;
     }
 
     /**

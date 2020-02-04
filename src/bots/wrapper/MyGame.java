@@ -32,8 +32,8 @@ public class MyGame {
         Constant.Players.neutral = game.getNeutral();
         Constant.Players.allPlayers = game.getAllPlayers();
 
-        Constant.Groups.allMyIcebergGroups = Utils.allMyIcebergGroups();
+        Constant.Groups.allMyIcebergGroups = Utils.powerSet(Constant.Icebergs.myIcebergs, 4);
         Constant.Groups.allMissions = MissionManager.allMissions();
-        Constant.Groups.allMissionGroups = MissionManager.allMissionGroups(3);
+        Constant.Groups.allMissionGroups = MissionManager.allMissionGroups(2);
     }
 }

@@ -2,18 +2,14 @@ package bots;
 
 
 import bots.missions.Mission;
+import bots.tasks.AdvancedNode;
+import bots.tasks.TaskGroup;
 import bots.wrapper.*;
 import penguin_game.*;
 
 import java.util.*;
 
 public class Utils {
-
-    public static Set<Set<MyIceberg>> allMyIcebergGroups() {
-        Set<MyIceberg> availableIcebergs = new HashSet<>(Constant.Icebergs.myIcebergs);
-        availableIcebergs.removeAll(Utils.myThreatenedIcebergs());
-        return Utils.powerSet(availableIcebergs, availableIcebergs.size());
-    }
 
     public static List<MyIceberg> convertToMyIcebergType(Iceberg[] arr) {
         LinkedList<MyIceberg> myIcebergs = new LinkedList<>();
@@ -52,7 +48,7 @@ public class Utils {
         return myAvailableIcebergs;
    }
 
-    public static void setupIcebergPenguins() {
+   public static void setupIcebergPenguins() {
         for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
             iceberg.savePenguins(iceberg.amountToDefend());
         }
@@ -63,7 +59,7 @@ public class Utils {
             mission.calcWaysToExecute();
     }
 
-    public static <T> Set<Set<T>> powerSet(Set<T> originalSet, int size) {
+    public static <T> Set<Set<T>> powerSet(Collection<T> originalSet, int size) {
         Set<Set<T>> sets = new HashSet<>();
         if (originalSet.isEmpty()) {
             sets.add(new HashSet<>());
