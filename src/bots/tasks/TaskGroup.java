@@ -31,10 +31,12 @@ public class TaskGroup {
         return tasks;
     }
 
-
-
     public void add(Taskable task){
         tasks.add(task);
+    }
+
+    public void addAll(TaskGroup taskGroup){
+        tasks.addAll(taskGroup.tasks);
     }
 
     public boolean hasShared(TaskGroup taskGroup){

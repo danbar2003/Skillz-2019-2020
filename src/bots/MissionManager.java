@@ -113,7 +113,6 @@ public class MissionManager {
      * @return - tasks for each mission (all tasks in the same list)
      */
     public static TaskGroup howToExecuteMissionGroup(List<Mission> missions) {
-
         return null;
     }
 
