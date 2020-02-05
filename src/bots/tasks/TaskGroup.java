@@ -35,6 +35,10 @@ public class TaskGroup {
         tasks.add(task);
     }
 
+    public void addAll(TaskGroup taskGroup){
+        tasks.addAll(taskGroup.tasks);
+    }
+
     public boolean hasShared(TaskGroup taskGroup){
         for (Taskable task : taskGroup.getTasks())
             if (this.tasks.contains(task))

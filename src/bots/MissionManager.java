@@ -113,16 +113,9 @@ public class MissionManager {
      * @return - tasks for each mission (all tasks in the same list)
      */
     public static TaskGroup howToExecuteMissionGroup(List<Mission> missions) {
-        List<List<AdvancedNode<TaskGroup>>> taskGroupMatrix = new LinkedList<>();
-        for (Mission mission : missions) {
-            List<AdvancedNode<TaskGroup>> layer = new LinkedList<>();
-            for (TaskGroup taskGroup : mission.getWaysToExecute())
-                layer.add(new AdvancedNode<TaskGroup>(taskGroup));
-            taskGroupMatrix.add(layer);
-        }
-        
         return null;
     }
+
 
     /**
      * This function decide which missionGroup to execute. (totalBenefit - totalLoss)
