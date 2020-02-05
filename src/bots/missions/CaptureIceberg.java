@@ -9,12 +9,13 @@ import haxe.root.Array;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CaptureIceberg implements Mission{
 
     private MyIceberg target;
-    private Set<TaskGroup> waysToExecute;
+    private List<TaskGroup> waysToExecute;
     private State state;
 
     public CaptureIceberg(MyIceberg target){
@@ -25,7 +26,7 @@ public class CaptureIceberg implements Mission{
     public int benefit(){ return 0; }
 
     @Override
-    public Set<TaskGroup> getWaysToExecute() {
+    public List<TaskGroup> getWaysToExecute() {
         return waysToExecute;
     }
 
