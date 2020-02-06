@@ -106,16 +106,60 @@ public class MissionManager {
         return Utils.powerSet(Constant.Groups.allMissions, size);
     }
 
+    private static TaskGroup createTaskGroup(List<List<TaskGroup>> taskGroupMatrix, int comb) {
+        TaskGroup taskGroup = new TaskGroup();
+        int a = 1;
+        for (int layer = taskGroupMatrix.size() - 1; layer > 0; layer--){
+            if (!taskGroup.hasShared(taskGroupMatrix.get(layer).get(comb & a)))
+                taskGroup.addAll(taskGroupMatrix.get(layer).get(comb & a));
+            else
+                return null;
+            a<<=1;
+        }
+        return taskGroup;
+    }
+
+    private static Set<Mission> getHolder(List<Set<Mission>> missionGroups){
+        for (Set<Mission> missionsGroup : missionGroups)
+            if (howToExecuteMissionGroup(missionsGroup) != null)
+                return missionsGroup;
+        return null;
+    }
+
     /**
      * this function decides how to execute each mission in a missionGroup.
      *
      * @param missions - missionGroup
      * @return - tasks for each mission (all tasks in the same list)
      */
-    public static TaskGroup howToExecuteMissionGroup(List<Mission> missions) {
-        return null;
-    }
+    public static TaskGroup howToExecuteMissionGroup(Set<Mission> missions) {
+        //Init taskGroupMatrix
+        List<List<TaskGroup>> taskGroupMatrix = new LinkedList<>();
+        for (Mission mission : missions) {
+            List<TaskGroup> layer = new LinkedList<>(mission.getWaysToExecute());
+            taskGroupMatrix.add(layer);
+        }
 
+        //Get all available taskGroup that can execute missionGroup.
+        int combination = 0;
+        List<TaskGroup> availableTaskGroup = new LinkedList<>();
+        while (combination < Math.pow(2, missions.size())) {
+            TaskGroup taskGroup = createTaskGroup(taskGroupMatrix, combination);
+            combination++;
+
+            if (taskGroup != null)
+                availableTaskGroup.add(taskGroup);
+        }
+
+        if (availableTaskGroup.size() == 0)
+            return null; //cant execute this mission group
+        TaskGroup holder = availableTaskGroup.get(0);
+        for (TaskGroup taskGroup : availableTaskGroup){
+            if (taskGroup.getTotalLoss() < holder.getTotalLoss())
+                holder = taskGroup;
+        }
+        return holder;
+    }
 
     /**
      * This function decide which missionGroup to execute. (totalBenefit - totalLoss)
@@ -123,6 +167,20 @@ public class MissionManager {
      * @return set of tasks that will execute the chosen missionGroup.
      */
     public static Set<Taskable> createTasksForIcebergs() {
-        return null;
+        List<Set<Mission>> missionGroups = new LinkedList<>(Constant.Groups.allMissionGroups);
+
+        Set<Mission> holder = getHolder(missionGroups);
+        if (holder == null)
+            return new HashSet<Taskable>();
+        for (Set<Mission> missionGroup : missionGroups){
+            //possible mission group
+            if (howToExecuteMissionGroup(missionGroup) != null)
+                //if profit is higher
+                if (totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss() >
+                        totalBenefit(holder) - howToExecuteMissionGroup(holder).getTotalLoss())
+                    holder = missionGroup;
+        }
+        MissionManager.activeMissions.addAll(holder);
+        return howToExecuteMissionGroup(holder).getTasks();
     }
 }
