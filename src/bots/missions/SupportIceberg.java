@@ -40,7 +40,7 @@ public class SupportIceberg implements Mission {
 
     @Override
     public String getType() {
-        return "SupportIceberg";
+        return "SupportIceberg" + supportedIceberg.toString();
     }
 
     @Override
