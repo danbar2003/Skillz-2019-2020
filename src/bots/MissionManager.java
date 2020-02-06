@@ -12,7 +12,7 @@ import java.util.*;
 
 public class MissionManager {
 
-    private static Set<Mission> activeMissions; //All single missions that takes place atm.
+    private static Set<Mission> activeMissions = new HashSet<>(); //All single missions that takes place atm.
 
     /**
      * @param mission - missions
@@ -95,7 +95,15 @@ public class MissionManager {
                 missions.add(new UpgradeIceberg(iceberg));
             }
         }
+        missions.removeIf(MissionManager::isActive);
         return missions;
+    }
+
+    private static boolean isActive(Mission mission){
+        for (Mission activeMission : activeMissions)
+            if (activeMission.getType().equals(mission.getType()))
+                return true;
+        return true;
     }
 
     /**
@@ -181,6 +189,8 @@ public class MissionManager {
                     holder = missionGroup;
         }
         MissionManager.activeMissions.addAll(holder);
+        for (Mission mission : holder)
+            mission.setState(Mission.State.ACTIVE);
         return howToExecuteMissionGroup(holder).getTasks();
     }
 }
