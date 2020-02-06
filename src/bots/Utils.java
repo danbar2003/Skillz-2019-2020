@@ -117,6 +117,8 @@ public class Utils {
         Set<Set<T>> allGroups = new HashSet<>();
         List<T> originalSet = new LinkedList<>();
         originalSet.addAll(original);
+        if(length > original.size())
+            length = original.size();
         for (int i = 1; i <= length ; i++) {
             allGroups.addAll(almostPowerSet(originalSet, i));
         }
