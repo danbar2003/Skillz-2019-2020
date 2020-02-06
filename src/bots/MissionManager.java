@@ -134,6 +134,39 @@ public class MissionManager {
         return null;
     }
 
+    public static List<TaskGroup> allCombinations(List<List<TaskGroup>> matrix) {
+        int combination = 0;
+
+        int maxCombinations = matrix.get(0).size();
+        for (int layer = 1; layer < matrix.size(); layer++)
+            maxCombinations *= matrix.get(layer).size();
+
+        List<TaskGroup> combinationList = new LinkedList<>();
+        while (combination < maxCombinations) {
+            combinationList.add(createCombination(matrix, combination));
+            combination++;
+        }
+        combinationList.removeIf(Objects::isNull);
+        return combinationList;
+    }
+
+    public static TaskGroup createCombination(List<List<TaskGroup>> matrix, int comb) {
+        TaskGroup combination = new TaskGroup();
+        int[] index = new int[matrix.size()];
+        for (int layer = matrix.size() - 1; layer >= 0; layer--) {
+            index[layer] = comb % matrix.get(layer).size();
+            comb /= matrix.get(layer).size();
+        }
+
+        for (int layer = 0; layer < matrix.size(); layer++){
+            if (combination.hasShared(matrix.get(layer).get(index[layer])))
+                combination.addAll(matrix.get(layer).get(index[layer]));
+            else
+                return null;
+        }
+        return combination;
+    }
+
     /**
      * this function decides how to execute each mission in a missionGroup.
      *
@@ -149,23 +182,14 @@ public class MissionManager {
         }
 
         //Get all available taskGroup that can execute missionGroup.
-        int combination = 0;
-        List<TaskGroup> availableTaskGroup = new LinkedList<>();
-        while (combination < Math.pow(2, missions.size())) {
-            TaskGroup taskGroup = createTaskGroup(taskGroupMatrix, combination);
-            combination++;
-
-            if (taskGroup != null)
-                availableTaskGroup.add(taskGroup);
-        }
+        List<TaskGroup> availableTaskGroup = allCombinations(taskGroupMatrix);
 
         if (availableTaskGroup.size() == 0)
-            return null; //cant execute this mission group
+            return null;
         TaskGroup holder = availableTaskGroup.get(0);
-        for (TaskGroup taskGroup : availableTaskGroup){
-            if (taskGroup.getTotalLoss() < holder.getTotalLoss())
+        for (TaskGroup taskGroup : availableTaskGroup)
+            if (holder.getTotalLoss() < taskGroup.getTotalLoss())
                 holder = taskGroup;
-        }
         return holder;
     }
 
@@ -183,14 +207,10 @@ public class MissionManager {
         for (Set<Mission> missionGroup : missionGroups){
             //possible mission group
             if (howToExecuteMissionGroup(missionGroup) != null)
-                //if profit is higher
                 if (totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss() >
                         totalBenefit(holder) - howToExecuteMissionGroup(holder).getTotalLoss())
                     holder = missionGroup;
         }
-        MissionManager.activeMissions.addAll(holder);
-        for (Mission mission : holder)
-            mission.setState(Mission.State.ACTIVE);
         return howToExecuteMissionGroup(holder).getTasks();
     }
 }

@@ -3,6 +3,7 @@ package bots.wrapper;
 import bots.*;
 import penguin_game.Game;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 public class MyGame {
@@ -32,7 +33,7 @@ public class MyGame {
         Constant.Players.neutral = game.getNeutral();
         Constant.Players.allPlayers = game.getAllPlayers();
 
-        Constant.Groups.allMyIcebergGroups = Utils.powerSet(Constant.Icebergs.myIcebergs, 4);
+        Constant.Groups.allMyIcebergGroups = Utils.powerSet(new HashSet<>(Constant.Icebergs.myIcebergs), 4);
         Constant.Groups.allMissions = MissionManager.allMissions();
         Constant.Groups.allMissionGroups = MissionManager.allMissionGroups(2);
     }
