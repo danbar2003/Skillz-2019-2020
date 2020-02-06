@@ -19,7 +19,7 @@ public class MyIceberg extends MyGameObject {
 
     }
 
-    public boolean isHasTask() {
+    public boolean hasTask() {
         return hasTask;
     }
 
