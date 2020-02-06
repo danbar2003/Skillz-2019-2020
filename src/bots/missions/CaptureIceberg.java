@@ -32,7 +32,7 @@ public class CaptureIceberg implements Mission{
 
     @Override
     public String getType() {
-        return "CaptureIceberg";
+        return "CaptureIceberg" + target.toString();
     }
 
     @Override

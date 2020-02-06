@@ -41,7 +41,7 @@ public class UpgradeIceberg implements Mission {
 
     @Override
     public String getType() {
-        return "UpgradeIceberg";
+        return "UpgradeIceberg" + iceberg.toString();
     }
 
     @Override

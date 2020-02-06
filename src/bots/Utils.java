@@ -36,25 +36,25 @@ public class Utils {
         return threatenedIcebergs;
     }
 
-   public static List<MyIceberg> getNotMyIcebergs(){
+    public static List<MyIceberg> getNotMyIcebergs() {
         List<MyIceberg> notMyIcebergs = Constant.Icebergs.allIcebergs;
         notMyIcebergs.removeAll(Constant.Icebergs.myIcebergs);
         return notMyIcebergs;
-   }
+    }
 
-   public static List<MyIceberg> getMyAvailableIcebergs(){
+    public static List<MyIceberg> getMyAvailableIcebergs() {
         List<MyIceberg> myAvailableIcebergs = Constant.Icebergs.myIcebergs;
         myAvailableIcebergs.removeAll(myThreatenedIcebergs());
         return myAvailableIcebergs;
-   }
+    }
 
-   public static void setupIcebergPenguins() {
+    public static void setupIcebergPenguins() {
         for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
             iceberg.savePenguins(iceberg.amountToDefend());
         }
     }
 
-    public static void missionCalculation(){
+    public static void missionCalculation() {
         for (Mission mission : Constant.Groups.allMissions)
             mission.calcWaysToExecute();
     }
@@ -65,7 +65,7 @@ public class Utils {
         for (int k = 0; k < m; k++)
             currentSet[k] = a[k];
         for (int i = m - 1; i >= 0; --i) {
-            if (a[i] < n - m + i ) {
+            if (a[i] < n - m + i) {
                 a[i]++;
                 for (int j = i + 1; j < m; ++j)
                     a[j] = a[j - 1] + 1;
@@ -78,6 +78,7 @@ public class Utils {
         return currentSet;
 
     }
+
     static int numOfComb(int n, int m) {
         int k = n - m;
         if (m > k)
@@ -93,7 +94,7 @@ public class Utils {
         return akk1 / akk2;
     }
 
-    public static <T> Set<Set<T>> almostPowerSet(List<T> original, int length){
+    public static <T> Set<Set<T>> almostPowerSet(List<T> original, int length) {
         int[] a = new int[original.size()];
         for (int i = 0; i < original.size(); i++)
             a[i] = i;
@@ -113,16 +114,15 @@ public class Utils {
         return allGroups;
     }
 
-    public static <T> Set<Set<T>> powerSet(Set<T> original, int length){
+    public static <T> Set<Set<T>> powerSet(Set<T> original, int length) {
         Set<Set<T>> allGroups = new HashSet<>();
         List<T> originalSet = new LinkedList<>();
         originalSet.addAll(original);
-        if(length > original.size())
+        if (length > original.size())
             length = original.size();
-        for (int i = 1; i <= length ; i++) {
+        for (int i = 1; i <= length; i++) {
             allGroups.addAll(almostPowerSet(originalSet, i));
         }
         return allGroups;
     }
-
 }
