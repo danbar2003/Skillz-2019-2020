@@ -2,6 +2,9 @@ package bots.missions;
 
 
 import bots.MissionManager;
+import bots.Utils;
+import bots.tasks.TaskGroup;
+import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
 import bots.tasks.TaskGroup;
 
@@ -18,7 +21,9 @@ public class CaptureIceberg implements Mission {
     }
 
     @Override
-    public int benefit(){ return 0; }
+    public int benefit(){
+        return Constant.Game.turnsLeft * target.iceberg.penguinsPerTurn;
+    }
 
     @Override
     public List<TaskGroup> getWaysToExecute() {
