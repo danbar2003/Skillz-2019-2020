@@ -5,10 +5,7 @@ import bots.missions.CaptureIceberg;
 import bots.missions.Mission;
 import bots.missions.SupportIceberg;
 import bots.missions.UpgradeIceberg;
-import bots.tasks.Attack;
-import bots.tasks.Support;
 import bots.tasks.Taskable;
-import bots.tasks.Upgrade;
 import bots.wrapper.MyIceberg;
 
 import java.util.*;
@@ -108,7 +105,7 @@ public class MissionManager {
         Set<Taskable> tasks = new HashSet<>();
         for (Set<Mission> missionGroup : allMissions()) {
             for (Mission mission : missionGroup) {
-                if (mission instanceof CaptureIceberg) {
+             /*   if (mission instanceof CaptureIceberg) {
                     for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
                         tasks.add(new Attack(iceberg, mission.getTarget(), iceberg.minPenguinAmountToWin(mission.getTarget())));
                     }
@@ -127,10 +124,13 @@ public class MissionManager {
                     tasksPerMission.put(missionGroup, Utils.powerSet(tasks));
                     tasks.clear();
                 }
+          */
+
+
             }
         }
 
-    return tasksPerMission;
+        return tasksPerMission;
     }
 
 }
