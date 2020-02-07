@@ -4,7 +4,7 @@ import penguin_game.*;
 
 import java.util.List;
 
-public abstract class MyGameObject extends MyMapObject{
+public abstract class MyGameObject extends MyMapObject {
 
     public final GameObject gameObject;
 
