@@ -1,5 +1,6 @@
 package bots.missions;
 
+import bots.Constant;
 import bots.MissionManager;
 import bots.tasks.TaskGroup;
 import bots.tasks.Taskable;
@@ -20,7 +21,7 @@ public class SupportIceberg implements Mission {
 
     @Override
     public int benefit(){
-        return 0;
+        return Constant.Game.turnsLeft * supportedIceberg.iceberg.penguinsPerTurn;
     }
 
     @Override
