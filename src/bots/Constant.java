@@ -1,7 +1,8 @@
 package bots;
 
 import bots.missions.Mission;
-import bots.wrapper.*;
+import bots.wrapper.MyIceberg;
+import bots.wrapper.MyPenguinGroup;
 import penguin_game.*;
 import java.util.*;
 
@@ -13,7 +14,6 @@ public class Constant {
         public static List<MyIceberg> neutralIcebergs;
         public static List<MyIceberg> allIcebergs;
         public static List<MyIceberg> notMyIcebergs;
-        public static List<MyIceberg> myAvailableIcebergs;
     }
 
     public static class PenguinGroups {

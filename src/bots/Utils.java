@@ -2,9 +2,8 @@ package bots;
 
 
 import bots.missions.Mission;
-import bots.tasks.AdvancedNode;
-import bots.tasks.TaskGroup;
-import bots.wrapper.*;
+import bots.wrapper.MyIceberg;
+import bots.wrapper.MyPenguinGroup;
 import penguin_game.*;
 
 import java.util.*;
@@ -27,25 +26,10 @@ public class Utils {
         return myPenguinGroups;
     }
 
-    public static List<MyIceberg> myThreatenedIcebergs() {
-        List<MyIceberg> threatenedIcebergs = new LinkedList<>();
-        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
-            if (iceberg.amountToDefend() <= 0)
-                threatenedIcebergs.add(iceberg);
-        }
-        return threatenedIcebergs;
-    }
-
     public static List<MyIceberg> getNotMyIcebergs() {
         List<MyIceberg> notMyIcebergs = Constant.Icebergs.allIcebergs;
         notMyIcebergs.removeAll(Constant.Icebergs.myIcebergs);
         return notMyIcebergs;
-    }
-
-    public static List<MyIceberg> getMyAvailableIcebergs() {
-        List<MyIceberg> myAvailableIcebergs = Constant.Icebergs.myIcebergs;
-        myAvailableIcebergs.removeAll(myThreatenedIcebergs());
-        return myAvailableIcebergs;
     }
 
     public static void setupIcebergPenguins() {

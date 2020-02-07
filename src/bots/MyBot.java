@@ -1,10 +1,8 @@
 package bots;
 
-import bots.missions.Mission;
 import bots.tasks.Taskable;
-import bots.wrapper.*;
+import bots.wrapper.MyGame;
 import penguin_game.*;
-import java.util.*;
 
 
 /**
@@ -22,6 +20,7 @@ public class MyBot implements SkillzBot {
      */
     @Override
     public void doTurn(Game game) {
+
 
         MyGame.updateGame(game);
         Utils.missionCalculation();
