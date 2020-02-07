@@ -1,5 +1,7 @@
 package bots;
 
+import bots.missions.Mission;
+import bots.tasks.Taskable;
 import bots.wrapper.*;
 import penguin_game.*;
 import java.util.*;
@@ -10,6 +12,9 @@ import java.util.*;
  */
 public class MyBot implements SkillzBot {
 
+
+    static boolean debug = false;
+
     /**
      * Makes the bot run a single turn.
      *
@@ -19,10 +24,13 @@ public class MyBot implements SkillzBot {
     public void doTurn(Game game) {
 
         MyGame.updateGame(game);
+        Utils.missionCalculation();
         handleIcebergs();
     }
     
     private void handleIcebergs() {
         Utils.setupIcebergPenguins(); //update saved penguins for each iceberg
+        for (Taskable task : MissionManager.createTasksForIcebergs())
+            task.act();
     }
 }
