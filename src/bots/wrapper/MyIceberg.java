@@ -1,7 +1,7 @@
 package bots.wrapper;
 
 
-import bots.*;
+import bots.Constant;
 import penguin_game.*;
 import java.util.*;
 

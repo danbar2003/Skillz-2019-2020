@@ -1,5 +1,6 @@
 package bots.tasks;
 
+
 import bots.wrapper.MyIceberg;
 
 import java.util.*;
@@ -9,6 +10,7 @@ public class TaskGroup {
     private Set<Taskable> tasks;
 
     public TaskGroup(Taskable... tasks){
+        this.tasks = new HashSet<>();
         this.tasks.addAll(Arrays.asList(tasks));
     }
 

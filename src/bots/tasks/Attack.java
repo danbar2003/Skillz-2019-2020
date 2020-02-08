@@ -1,7 +1,7 @@
 package bots.tasks;
 
-import bots.wrapper.MyIceberg;
 
+import bots.wrapper.MyIceberg;
 
 public class Attack implements Taskable {
     private MyIceberg attackingIceberg;
