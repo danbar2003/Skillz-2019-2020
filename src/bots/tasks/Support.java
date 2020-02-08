@@ -6,7 +6,7 @@ import bots.wrapper.MyIceberg;
 public class Support implements Taskable {
 
     private MyIceberg supportingIceberg;
-    private MyIceberg supportedIceberg;
+    public MyIceberg supportedIceberg;
     private int penguins;
 
     public Support(MyIceberg supportingIceberg, MyIceberg supportedIceberg, int penguins) {
@@ -18,6 +18,11 @@ public class Support implements Taskable {
     @Override
     public MyIceberg getActor() {
         return supportingIceberg;
+    }
+
+    @Override
+    public MyIceberg getTarget() {
+        return supportedIceberg;
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.*;
 
 public class MissionManager {
 
-    private static Set<Mission> activeMissions = new HashSet<>(); //All single missions that takes place atm.
+    public static Map<Mission, Integer> activeMissions = new HashMap<>(); //All single missions that takes place atm.
 
     /**
      * @param mission - missions
@@ -107,7 +107,9 @@ public class MissionManager {
     }
 
     private static boolean isActive(Mission mission) {
-        for (Mission activeMission : activeMissions)
+        if (mission instanceof UpgradeIceberg)
+            return false;
+        for (Mission activeMission : activeMissions.keySet())
             if (activeMission.getType().equals(mission.getType()))
                 return true;
         return false;
@@ -198,7 +200,20 @@ public class MissionManager {
             if (totalBenefit(holder) - howToExecuteMissionGroup(holder).getTotalLoss() <
                     totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss())
                 holder = missionGroup;
-        activeMissions.addAll(holder);
+        activateMissions(holder, howToExecuteMissionGroup(holder));
         return howToExecuteMissionGroup(holder).getTasks();
+    }
+
+    private static void activateMissions(Set<Mission> missionGroup, TaskGroup taskGroup){ //SupportIceberg, CaptureIceberg1, CaptureIceberg2   |        1 2 3 4
+        Map<Mission, TaskGroup> missionTasks = new HashMap<>();
+        for (Mission mission : missionGroup)
+            missionTasks.put(mission, new TaskGroup());
+        for (Taskable task : taskGroup.getTasks())
+            for (Mission mission : missionTasks.keySet())
+                if (task.getTarget().equals(mission.getTarget()))
+                    missionTasks.get(mission).add(task);
+        for (Mission mission : missionGroup){
+            activeMissions.put(mission, mission.getTarget().farthest(missionTasks.get(mission).usedIcebergs()).iceberg.getTurnsTillArrival(mission.getTarget().iceberg));
+        }
     }
 }
