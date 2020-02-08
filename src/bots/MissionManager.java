@@ -33,8 +33,6 @@ public class MissionManager {
             waysToExec.add(new TaskGroup(new Upgrade(mission.getTarget())));
         }
         waysToExec.removeIf(Objects::isNull);
-        System.out.println("Mission: " + mission.getType());
-        System.out.println(waysToExec);
         return waysToExec;
     }
 
@@ -104,6 +102,7 @@ public class MissionManager {
                     missions.add(new UpgradeIceberg(iceberg));
             }
         }
+        missions.removeIf(MissionManager::isActive);
         return missions;
     }
 
@@ -111,7 +110,7 @@ public class MissionManager {
         for (Mission activeMission : activeMissions)
             if (activeMission.getType().equals(mission.getType()))
                 return true;
-        return true;
+        return false;
     }
 
     /**
@@ -120,19 +119,6 @@ public class MissionManager {
      */
     public static Set<Set<Mission>> allMissionGroups(int size) {
         return Utils.powerSet(Constant.Groups.allMissions, size);
-    }
-
-    private static TaskGroup createTaskGroup(List<List<TaskGroup>> taskGroupMatrix, int comb) {
-        TaskGroup taskGroup = new TaskGroup();
-        int a = 1;
-        for (int layer = taskGroupMatrix.size() - 1; layer > 0; layer--) {
-            if (!taskGroup.hasShared(taskGroupMatrix.get(layer).get(comb & a)))
-                taskGroup.addAll(taskGroupMatrix.get(layer).get(comb & a));
-            else
-                return null;
-            a <<= 1;
-        }
-        return taskGroup;
     }
 
     public static List<TaskGroup> allCombinations(List<List<TaskGroup>> matrix) {
@@ -168,6 +154,13 @@ public class MissionManager {
         return combination;
     }
 
+    public static Set<Mission> firstExecutableMissions(){
+        for (Set<Mission> missionGroup : Constant.Groups.allMissionGroups){
+            if (howToExecuteMissionGroup(missionGroup).getTasks().size() != 0)
+                return missionGroup;
+        }
+        return new HashSet<Mission>();
+    }
     /**
      * this function decides how to execute each mission in a missionGroup.
      *
@@ -198,11 +191,14 @@ public class MissionManager {
      */
     public static Set<Taskable> createTasksForIcebergs() {
         List<Set<Mission>> allMissionGroups = new LinkedList<>(Constant.Groups.allMissionGroups);
-        Set<Mission> holder = allMissionGroups.get(0);
+        Set<Mission> holder = firstExecutableMissions();
+        if (holder.size() == 0)
+            return new HashSet<>();
         for (Set<Mission> missionGroup : allMissionGroups)
             if (totalBenefit(holder) - howToExecuteMissionGroup(holder).getTotalLoss() <
                     totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss())
                 holder = missionGroup;
+        activeMissions.addAll(holder);
         return howToExecuteMissionGroup(holder).getTasks();
     }
 }
