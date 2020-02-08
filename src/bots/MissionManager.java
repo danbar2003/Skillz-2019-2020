@@ -116,7 +116,6 @@ public class MissionManager {
         return null;
     }
 
-
     /**
      * This function decide which missionGroup to execute. (totalBenefit - totalLoss)
      *
