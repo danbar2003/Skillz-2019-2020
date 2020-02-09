@@ -7,6 +7,8 @@ public interface Taskable {
 
     MyIceberg getActor();
 
+    MyIceberg getTarget();
+
     void act();
 
     int loss();

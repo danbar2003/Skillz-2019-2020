@@ -109,4 +109,12 @@ public class Utils {
         }
         return allGroups;
     }
+
+    public static void updateActiveMissions() {
+        for (Mission mission : MissionManager.activeMissions.keySet()) {
+            if (MissionManager.activeMissions.get(mission) == 0)
+                MissionManager.activeMissions.remove(mission);
+            MissionManager.activeMissions.put(mission, MissionManager.activeMissions.get(mission) - 1);
+        }
+    }
 }

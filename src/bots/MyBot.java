@@ -21,8 +21,8 @@ public class MyBot implements SkillzBot {
     @Override
     public void doTurn(Game game) {
 
-
         MyGame.updateGame(game);
+        Utils.updateActiveMissions();
         Utils.missionCalculation();
         handleIcebergs();
     }
