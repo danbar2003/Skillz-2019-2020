@@ -21,11 +21,6 @@ public class Support implements Taskable {
     }
 
     @Override
-    public MyIceberg getTarget() {
-        return supportedIceberg;
-    }
-
-    @Override
     public void act() {
         this.supportingIceberg.sendPenguins(this.supportedIceberg, this.penguins);
     }
@@ -33,5 +28,10 @@ public class Support implements Taskable {
     @Override
     public int loss() {
         return 0;
+    }
+
+    @Override
+    public MyIceberg getTarget(){
+        return supportedIceberg;
     }
 }

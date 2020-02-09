@@ -20,11 +20,6 @@ public class Attack implements Taskable {
     }
 
     @Override
-    public MyIceberg getTarget() {
-        return targetIceberg;
-    }
-
-    @Override
     public void act() {
         this.attackingIceberg.sendPenguins(this.targetIceberg, penguinAmount);
     }
@@ -32,5 +27,10 @@ public class Attack implements Taskable {
     @Override
     public int loss() {
         return 0;
+    }
+
+    @Override
+    public MyIceberg getTarget(){
+        return targetIceberg;
     }
 }

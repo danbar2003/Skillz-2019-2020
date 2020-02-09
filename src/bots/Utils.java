@@ -112,8 +112,10 @@ public class Utils {
 
     public static void updateActiveMissions() {
         for (Mission mission : MissionManager.activeMissions.keySet()) {
-            if (MissionManager.activeMissions.get(mission) == 0)
+            if (MissionManager.activeMissions.get(mission) == 0) {
                 MissionManager.activeMissions.remove(mission);
+                continue;
+            }
             MissionManager.activeMissions.put(mission, MissionManager.activeMissions.get(mission) - 1);
         }
     }

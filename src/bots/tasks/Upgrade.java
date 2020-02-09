@@ -17,11 +17,6 @@ public class Upgrade implements Taskable {
     }
 
     @Override
-    public MyIceberg getTarget(){
-        return upgradingIceberg;
-    }
-
-    @Override
     public void act() {
         if (this.upgradingIceberg.iceberg.canUpgrade()) {
             this.upgradingIceberg.iceberg.upgrade();
@@ -32,5 +27,10 @@ public class Upgrade implements Taskable {
     @Override
     public int loss() {
         return 0;
+    }
+
+    @Override
+    public MyIceberg getTarget(){
+        return upgradingIceberg;
     }
 }
