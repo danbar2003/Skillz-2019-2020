@@ -19,7 +19,7 @@ public class SupportIceberg implements Mission {
 
     @Override
     public int benefit(){
-        return Constant.Game.turnsLeft * supportedIceberg.iceberg.penguinsPerTurn;
+        return Constant.Game.turn-1 * supportedIceberg.iceberg.penguinsPerTurn;
     }
 
     @Override
@@ -45,5 +45,10 @@ public class SupportIceberg implements Mission {
     @Override
     public void setState(State state){
         this.state = state;
+    }
+
+    @Override
+    public String toString(){
+        return "Support| Supported: " + supportedIceberg;
     }
 }

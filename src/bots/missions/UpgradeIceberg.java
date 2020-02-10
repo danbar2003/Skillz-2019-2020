@@ -20,7 +20,7 @@ public class UpgradeIceberg implements Mission {
 
     @Override
     public int benefit(){
-        return Constant.Game.turnsLeft * (iceberg.iceberg.penguinsPerTurn+1) ;
+        return Constant.Game.turnsLeft * (iceberg.iceberg.penguinsPerTurn + 1);
     }
 
     @Override

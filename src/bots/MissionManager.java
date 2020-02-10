@@ -52,7 +52,7 @@ public class MissionManager {
         TaskGroup tasks = new TaskGroup();
         //TODO - how to support... how much each iceberg should send.
         for (MyIceberg iceberg : supporters)
-            tasks.add(new Support(iceberg, supportIceberg.getTarget(), 0));
+            tasks.add(new Support(iceberg, supportIceberg.getTarget(), 100));
         return tasks;
     }
 
