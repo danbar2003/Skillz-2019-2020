@@ -7,6 +7,7 @@ import bots.missions.SupportIceberg;
 import bots.missions.UpgradeIceberg;
 import bots.tasks.*;
 import bots.wrapper.MyIceberg;
+import bots.wrapper.MyPenguinGroup;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -98,8 +99,10 @@ public class MissionManager {
             if (!iceberg.iceberg.owner.equals(Constant.Players.mySelf))
                 missions.add(new CaptureIceberg(iceberg));
             else {
-                if (Constant.Icebergs.myIcebergs.size() > 1)
-                    missions.add(new SupportIceberg(iceberg));
+                if (Constant.Icebergs.myIcebergs.size() !=0 )
+                    for(MyIceberg threatenedIceberg: Constant.Icebergs.threatenedIcebergs)
+                        if (iceberg.equals(threatenedIceberg))
+                            missions.add(new SupportIceberg(iceberg));
                 if (iceberg.iceberg.canUpgrade())
                     missions.add(new UpgradeIceberg(iceberg));
             }

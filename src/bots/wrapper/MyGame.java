@@ -24,6 +24,7 @@ public class MyGame {
         Constant.Icebergs.neutralIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getNeutralIcebergs()));
         Constant.Icebergs.allIcebergs = new LinkedList<>(Utils.convertToMyIcebergType(game.getAllIcebergs()));
         Constant.Icebergs.notMyIcebergs = Utils.getNotMyIcebergs();
+        Constant.Icebergs.threatenedIcebergs = Utils.threatenedIcebergs();
 
         Constant.Game.maxTurns = game.maxTurns;
         Constant.Game.turn = game.turn;

@@ -124,4 +124,13 @@ public class Utils {
             MissionManager.activeMissions.put(mission, MissionManager.activeMissions.get(mission) - 1);
         }
     }
+
+    public static List<MyIceberg> threatenedIcebergs(){
+        List<MyIceberg> threatened = new LinkedList<>();
+        for (MyIceberg iceberg: Constant.Icebergs.myIcebergs)
+            for(MyPenguinGroup penguinGroup: Constant.PenguinGroups.enemyPenguinGroups)
+                if (penguinGroup.penguinGroup.destination.equals(iceberg.iceberg) && !threatened.contains(iceberg))
+                    threatened.add(iceberg);
+        return threatened;
+    }
 }
