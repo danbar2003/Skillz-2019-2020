@@ -6,7 +6,7 @@ import bots.tasks.TaskGroup;
 
 import java.util.List;
 
-public interface    Mission {
+public interface Mission {
 
     enum State{
         ACTIVE,

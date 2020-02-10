@@ -5,17 +5,15 @@ import bots.missions.CaptureIceberg;
 import bots.missions.Mission;
 import bots.missions.SupportIceberg;
 import bots.missions.UpgradeIceberg;
-import bots.tasks.Attack;
-import bots.tasks.TaskGroup;
-import bots.tasks.Taskable;
-import bots.tasks.Upgrade;
+import bots.tasks.*;
 import bots.wrapper.MyIceberg;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MissionManager {
 
-    private static Set<Mission> activeMissions = new HashSet<>(); //All single missions that takes place atm.
+    public static Map<Mission, Integer> activeMissions = new ConcurrentHashMap<>(); //All single missions that takes place atm.
 
     /**
      * @param mission - missions
@@ -28,13 +26,12 @@ public class MissionManager {
                 waysToExec.add(howToCapture(new LinkedList<>(icebergs), (CaptureIceberg) mission));
         if (mission instanceof SupportIceberg)
             for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
-                waysToExec.add(howToSupport(new LinkedList<>(icebergs), (SupportIceberg) mission));
+                if (!icebergs.contains(mission.getTarget()))
+                    waysToExec.add(howToSupport(new LinkedList<>(icebergs), (SupportIceberg) mission));
         if (mission instanceof UpgradeIceberg) {
             waysToExec.add(new TaskGroup(new Upgrade(mission.getTarget())));
         }
         waysToExec.removeIf(Objects::isNull);
-        System.out.println("Mission: " + mission.getType());
-        System.out.println(waysToExec);
         return waysToExec;
     }
 
@@ -54,6 +51,8 @@ public class MissionManager {
     private static TaskGroup howToSupport(List<MyIceberg> supporters, SupportIceberg supportIceberg) {
         TaskGroup tasks = new TaskGroup();
         //TODO - how to support... how much each iceberg should send.
+        for (MyIceberg iceberg : supporters)
+            tasks.add(new Support(iceberg, supportIceberg.getTarget(), 0));
         return tasks;
     }
 
@@ -69,7 +68,7 @@ public class MissionManager {
         TaskGroup tasks = new TaskGroup();
         int neededPenguins = captureIceberg.getTarget().iceberg.penguinAmount + 1;
         if (captureIceberg.getTarget().iceberg.owner.equals(Constant.Players.enemyPlayer))
-            neededPenguins = +captureIceberg.getTarget().iceberg.penguinsPerTurn *
+            neededPenguins += captureIceberg.getTarget().iceberg.penguinsPerTurn *
                     captureIceberg.getTarget().farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg);
 
 
@@ -99,19 +98,23 @@ public class MissionManager {
             if (!iceberg.iceberg.owner.equals(Constant.Players.mySelf))
                 missions.add(new CaptureIceberg(iceberg));
             else {
-                missions.add(new SupportIceberg(iceberg));
-                if (iceberg.iceberg.canUpgrade() && iceberg.iceberg.level != iceberg.iceberg.upgradeLevelLimit)
+                if (Constant.Icebergs.myIcebergs.size() != 0)
+                    missions.add(new SupportIceberg(iceberg));
+                if (iceberg.iceberg.canUpgrade())
                     missions.add(new UpgradeIceberg(iceberg));
             }
         }
+        missions.removeIf(MissionManager::isActive);
         return missions;
     }
 
     private static boolean isActive(Mission mission) {
-        for (Mission activeMission : activeMissions)
+        if (mission instanceof UpgradeIceberg)
+            return false;
+        for (Mission activeMission : activeMissions.keySet())
             if (activeMission.getType().equals(mission.getType()))
                 return true;
-        return true;
+        return false;
     }
 
     /**
@@ -120,19 +123,6 @@ public class MissionManager {
      */
     public static Set<Set<Mission>> allMissionGroups(int size) {
         return Utils.powerSet(Constant.Groups.allMissions, size);
-    }
-
-    private static TaskGroup createTaskGroup(List<List<TaskGroup>> taskGroupMatrix, int comb) {
-        TaskGroup taskGroup = new TaskGroup();
-        int a = 1;
-        for (int layer = taskGroupMatrix.size() - 1; layer > 0; layer--) {
-            if (!taskGroup.hasShared(taskGroupMatrix.get(layer).get(comb & a)))
-                taskGroup.addAll(taskGroupMatrix.get(layer).get(comb & a));
-            else
-                return null;
-            a <<= 1;
-        }
-        return taskGroup;
     }
 
     public static List<TaskGroup> allCombinations(List<List<TaskGroup>> matrix) {
@@ -168,6 +158,14 @@ public class MissionManager {
         return combination;
     }
 
+    public static Set<Mission> firstExecutableMissions() {
+        for (Set<Mission> missionGroup : Constant.Groups.allMissionGroups) {
+            if (howToExecuteMissionGroup(missionGroup).getTasks().size() != 0)
+                return missionGroup;
+        }
+        return new HashSet<Mission>();
+    }
+
     /**
      * this function decides how to execute each mission in a missionGroup.
      *
@@ -198,11 +196,34 @@ public class MissionManager {
      */
     public static Set<Taskable> createTasksForIcebergs() {
         List<Set<Mission>> allMissionGroups = new LinkedList<>(Constant.Groups.allMissionGroups);
-        Set<Mission> holder = allMissionGroups.get(0);
+        Set<Mission> holder = firstExecutableMissions();
+        if (holder.size() == 0)
+            return new HashSet<>();
         for (Set<Mission> missionGroup : allMissionGroups)
             if (totalBenefit(holder) - howToExecuteMissionGroup(holder).getTotalLoss() <
-                    totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss())
+                    totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss() && howToExecuteMissionGroup(missionGroup).getTasks().size() != 0)
                 holder = missionGroup;
+        activateMissionGroup(holder, howToExecuteMissionGroup(holder));
         return howToExecuteMissionGroup(holder).getTasks();
+    }
+
+    public static void activateMissionGroup(Set<Mission> missionGroup, TaskGroup taskGroup) {
+        Map<Mission, TaskGroup> missionTaskGroupMap = new HashMap<>();
+        for (Mission mission : missionGroup)
+            missionTaskGroupMap.put(mission, new TaskGroup());
+        for (Taskable task : taskGroup.getTasks())
+            for (Mission mission : missionGroup)
+                if (task.getTarget().equals(mission.getTarget())) {
+                    missionTaskGroupMap.get(mission).add(task);
+                    break;
+                }
+        for (Mission mission : missionGroup)
+            if (!(mission instanceof UpgradeIceberg)) {
+                System.out.println("mission: " + mission);
+                for (Taskable task : missionTaskGroupMap.get(mission).getTasks())
+                    System.out.println("iceberg: " + task.getActor() + ", penguins " + task.penguins());
+                activeMissions.put(mission, mission.getTarget().
+                        farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg.getTurnsTillArrival(mission.getTarget().iceberg));
+            }
     }
 }
