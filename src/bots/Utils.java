@@ -125,12 +125,15 @@ public class Utils {
         }
     }
 
-    public static List<MyIceberg> threatenedIcebergs(){
+    public static List<MyIceberg> threatenedIcebergs() {
         List<MyIceberg> threatened = new LinkedList<>();
-        for (MyIceberg iceberg: Constant.Icebergs.myIcebergs)
-            for(MyPenguinGroup penguinGroup: Constant.PenguinGroups.enemyPenguinGroups)
-                if (penguinGroup.penguinGroup.destination.equals(iceberg.iceberg) && !threatened.contains(iceberg))
-                    threatened.add(iceberg);
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs)
+            if (!threatened.contains(iceberg))
+                for (MyPenguinGroup penguinGroup : Constant.PenguinGroups.enemyPenguinGroups)
+                    if (penguinGroup.penguinGroup.destination.equals(iceberg.iceberg)) {
+                        threatened.add(iceberg);
+                        break;
+                    }
         return threatened;
     }
 }
