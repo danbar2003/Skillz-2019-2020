@@ -1,16 +1,17 @@
 package bots.missions;
 
+
 import bots.Constant;
 import bots.MissionManager;
-import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
+import bots.tasks.TaskGroup;
 
-import java.util.Set;
+import java.util.List;
 
 public class UpgradeIceberg implements Mission {
 
     private MyIceberg iceberg; // upgrading iceberg
-    private Set<Set<Taskable>> waysToExecute;
+    private List<TaskGroup> waysToExecute;
     private State state;
 
     public UpgradeIceberg(MyIceberg iceberg){
@@ -19,7 +20,7 @@ public class UpgradeIceberg implements Mission {
 
     @Override
     public int benefit(){
-        return 0;
+        return Constant.Game.turnsLeft * (iceberg.iceberg.penguinsPerTurn+1) ;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class UpgradeIceberg implements Mission {
     }
 
     @Override
-    public Set<Set<Taskable>> getWaysToExecute() {
+    public List<TaskGroup> getWaysToExecute() {
         return waysToExecute;
     }
 
@@ -39,7 +40,7 @@ public class UpgradeIceberg implements Mission {
 
     @Override
     public String getType() {
-        return "UpgradeIceberg";
+        return "UpgradeIceberg" + iceberg.iceberg.toString();
     }
 
     @Override

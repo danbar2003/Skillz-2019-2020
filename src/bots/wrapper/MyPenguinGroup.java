@@ -2,7 +2,7 @@ package bots.wrapper;
 
 import penguin_game.PenguinGroup;
 
-public class MyPenguinGroup extends MyGameObject{
+public class MyPenguinGroup extends MyGameObject {
 
     public final PenguinGroup penguinGroup;
 

@@ -1,9 +1,10 @@
 package bots.missions;
 
-import bots.tasks.Taskable;
+    
 import bots.wrapper.MyIceberg;
+import bots.tasks.TaskGroup;
 
-import java.util.Set;
+import java.util.List;
 
 public interface Mission {
 
@@ -17,7 +18,7 @@ public interface Mission {
 
     MyIceberg getTarget();
 
-    Set<Set<Taskable>> getWaysToExecute();
+    List<TaskGroup> getWaysToExecute();
 
     void calcWaysToExecute();
 

@@ -1,9 +1,9 @@
-package bots.tasks;
-
-import bots.wrapper.MyIceberg;
+    package bots.tasks;
 
 
-public class Attack implements Taskable {
+    import bots.wrapper.MyIceberg;
+
+    public class Attack implements Taskable {
     private MyIceberg attackingIceberg;
     private MyIceberg targetIceberg;
     private int penguinAmount;
@@ -15,6 +15,11 @@ public class Attack implements Taskable {
     }
 
     @Override
+    public MyIceberg getActor() {
+        return attackingIceberg;
+    }
+
+    @Override
     public void act() {
         this.attackingIceberg.sendPenguins(this.targetIceberg, penguinAmount);
     }
@@ -22,5 +27,15 @@ public class Attack implements Taskable {
     @Override
     public int loss() {
         return 0;
+    }
+
+    @Override
+    public MyIceberg getTarget(){
+        return targetIceberg;
+    }
+
+    @Override
+    public int penguins() {
+        return penguinAmount;
     }
 }

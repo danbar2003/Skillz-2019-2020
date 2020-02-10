@@ -1,14 +1,17 @@
 package bots.wrapper;
 
 
-import bots.*;
-import penguin_game.*;
-import java.util.*;
+import bots.Constant;
+import penguin_game.Iceberg;
+import penguin_game.Player;
+
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class MyIceberg extends MyGameObject {
 
-    public final Iceberg iceberg;
+    public Iceberg iceberg;
     private int savedPenguins;
     private boolean hasTask;
 
@@ -19,7 +22,7 @@ public class MyIceberg extends MyGameObject {
 
     }
 
-    public boolean isHasTask() {
+    public boolean hasTask() {
         return hasTask;
     }
 

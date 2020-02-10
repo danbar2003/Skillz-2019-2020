@@ -1,19 +1,17 @@
 package bots.missions;
 
+
 import bots.Constant;
 import bots.MissionManager;
-import bots.tasks.Taskable;
 import bots.wrapper.MyIceberg;
-import haxe.root.Array;
+import bots.tasks.TaskGroup;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-public class CaptureIceberg implements Mission{
+public class CaptureIceberg implements Mission {
 
     private MyIceberg target;
-    private Set<Set<Taskable>> waysToExecute;
+    private List<TaskGroup> waysToExecute;
     private State state;
 
     public CaptureIceberg(MyIceberg target){
@@ -21,16 +19,18 @@ public class CaptureIceberg implements Mission{
     }
 
     @Override
-    public int benefit(){ return 0; }
+    public int benefit(){
+        return Constant.Game.turnsLeft * target.iceberg.penguinsPerTurn;
+    }
 
     @Override
-    public Set<Set<Taskable>> getWaysToExecute() {
+    public List<TaskGroup> getWaysToExecute() {
         return waysToExecute;
     }
 
     @Override
     public String getType() {
-        return "CaptureIceberg";
+        return "CaptureIceberg" + target.iceberg.toString();
     }
 
     @Override

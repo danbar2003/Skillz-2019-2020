@@ -1,16 +1,23 @@
 package bots.tasks;
 
+
 import bots.wrapper.MyIceberg;
 
 public class Support implements Taskable {
+
     private MyIceberg supportingIceberg;
-    private MyIceberg supportedIceberg;
+    public MyIceberg supportedIceberg;
     private int penguins;
 
     public Support(MyIceberg supportingIceberg, MyIceberg supportedIceberg, int penguins) {
         this.penguins = penguins;
         this.supportedIceberg = supportedIceberg;
         this.supportingIceberg = supportingIceberg;
+    }
+
+    @Override
+    public MyIceberg getActor() {
+        return supportingIceberg;
     }
 
     @Override
@@ -21,5 +28,15 @@ public class Support implements Taskable {
     @Override
     public int loss() {
         return 0;
+    }
+
+    @Override
+    public MyIceberg getTarget(){
+        return supportedIceberg;
+    }
+
+    @Override
+    public int penguins() {
+        return penguins;
     }
 }

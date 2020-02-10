@@ -1,5 +1,6 @@
 package bots.tasks;
 
+
 import bots.wrapper.MyIceberg;
 
 public class Upgrade implements Taskable {
@@ -7,6 +8,11 @@ public class Upgrade implements Taskable {
 
     public Upgrade(MyIceberg iceberg) {
         this.upgradingIceberg = iceberg;
+    }
+
+    @Override
+    public MyIceberg getActor() {
+        return upgradingIceberg;
     }
 
     @Override
@@ -20,5 +26,15 @@ public class Upgrade implements Taskable {
     @Override
     public int loss() {
         return 0;
+    }
+
+    @Override
+    public MyIceberg getTarget(){
+        return upgradingIceberg;
+    }
+
+    @Override
+    public int penguins() {
+        return upgradingIceberg.iceberg.upgradeCost;
     }
 }
