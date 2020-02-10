@@ -40,6 +40,6 @@ public class Support implements Taskable {
     }
 
     public String toString(){
-        return "Support| Supporting: " + supportingIceberg.iceberg + " Supported: " + supportedIceberg;
+        return "Support| Supporting: " + supportingIceberg.iceberg + " Supported: " + supportedIceberg.iceberg;
     }
 }

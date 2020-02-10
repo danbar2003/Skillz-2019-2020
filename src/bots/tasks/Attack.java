@@ -41,6 +41,6 @@
 
         @Override
         public String toString(){
-            return "Attack| Attacking: " + attackingIceberg.iceberg + " Attacked: " + targetIceberg;
+            return "Attack| Attacking: " + attackingIceberg.iceberg + " Attacked: " + targetIceberg.iceberg;
         }
 }

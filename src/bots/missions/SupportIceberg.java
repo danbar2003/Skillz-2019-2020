@@ -49,6 +49,6 @@ public class SupportIceberg implements Mission {
 
     @Override
     public String toString(){
-        return "Support| Supported: " + supportedIceberg;
+        return "Support| Supported: " + supportedIceberg.iceberg;
     }
 }
