@@ -100,7 +100,7 @@ public class MissionManager {
                 missions.add(new CaptureIceberg(iceberg));
             else {
                 missions.add(new SupportIceberg(iceberg));
-                if (iceberg.iceberg.canUpgrade())
+                if (iceberg.iceberg.canUpgrade() && iceberg.iceberg.level != iceberg.iceberg.upgradeLevelLimit)
                     missions.add(new UpgradeIceberg(iceberg));
             }
         }
