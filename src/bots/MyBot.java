@@ -2,7 +2,8 @@ package bots;
 
 import bots.tasks.Taskable;
 import bots.wrapper.MyGame;
-import penguin_game.*;
+import penguin_game.Game;
+import penguin_game.SkillzBot;
 
 
 /**

@@ -1,7 +1,6 @@
 package bots.wrapper;
 
-import penguin_game.*;
-
+import penguin_game.MapObject;
 
 import java.util.List;
 

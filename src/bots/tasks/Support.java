@@ -34,4 +34,9 @@ public class Support implements Taskable {
     public MyIceberg getTarget(){
         return supportedIceberg;
     }
+
+    @Override
+    public int penguins() {
+        return penguins;
+    }
 }

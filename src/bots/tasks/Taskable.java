@@ -9,6 +9,8 @@ public interface Taskable {
 
     MyIceberg getTarget();
 
+    int penguins();
+
     void act();
 
     int loss();

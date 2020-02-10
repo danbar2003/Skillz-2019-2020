@@ -4,9 +4,13 @@ package bots;
 import bots.missions.Mission;
 import bots.wrapper.MyIceberg;
 import bots.wrapper.MyPenguinGroup;
-import penguin_game.*;
+import penguin_game.Iceberg;
+import penguin_game.PenguinGroup;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class Utils {
 
@@ -111,6 +115,7 @@ public class Utils {
     }
 
     public static void updateActiveMissions() {
+        System.out.println(MissionManager.activeMissions);
         for (Mission mission : MissionManager.activeMissions.keySet()) {
             if (MissionManager.activeMissions.get(mission) == 0) {
                 MissionManager.activeMissions.remove(mission);
