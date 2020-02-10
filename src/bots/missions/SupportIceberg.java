@@ -19,7 +19,7 @@ public class SupportIceberg implements Mission {
 
     @Override
     public int benefit(){
-        return Constant.Game.turn-1 * supportedIceberg.iceberg.penguinsPerTurn;
+        return Constant.Game.turn * supportedIceberg.iceberg.penguinsPerTurn;
     }
 
     @Override
