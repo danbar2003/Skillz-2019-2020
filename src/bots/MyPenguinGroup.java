@@ -1,6 +1,5 @@
-package bots.wrapper;
+package bots;
 
-import bots.wrapper.MyGameObject;
 import penguin_game.PenguinGroup;
 
 public class MyPenguinGroup extends MyGameObject {

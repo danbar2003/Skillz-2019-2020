@@ -1,7 +1,5 @@
-package bots.tasks;
+package bots;
 
-
-import bots.wrapper.MyIceberg;
 
 public class Upgrade implements Taskable {
     private MyIceberg upgradingIceberg;

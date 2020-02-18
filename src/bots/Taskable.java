@@ -1,7 +1,7 @@
-package bots.tasks;
+package bots;
 
 
-import bots.wrapper.MyIceberg;
+import bots.MyIceberg;
 
 public interface Taskable {
 

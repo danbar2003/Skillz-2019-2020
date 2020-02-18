@@ -1,14 +1,6 @@
 package bots;
 
 
-import bots.missions.CaptureIceberg;
-import bots.missions.Mission;
-import bots.missions.SupportIceberg;
-import bots.missions.UpgradeIceberg;
-import bots.tasks.*;
-import bots.wrapper.MyIceberg;
-import bots.wrapper.MyPenguinGroup;
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -53,7 +45,7 @@ public class MissionManager {
         TaskGroup tasks = new TaskGroup();
         //TODO - how to support... how much each iceberg should send.
         for (MyIceberg iceberg : supporters)
-            tasks.add(new Support(iceberg, supportIceberg.getTarget(), 100));
+            tasks.add(new Support(iceberg, supportIceberg.getTarget(), 0));
         return tasks;
     }
 
@@ -100,7 +92,7 @@ public class MissionManager {
                 missions.add(new CaptureIceberg(iceberg));
             else {
                 if (Constant.Icebergs.threatenedIcebergs.contains(iceberg))
-                            missions.add(new SupportIceberg(iceberg));
+                    missions.add(new SupportIceberg(iceberg));
                 if (iceberg.iceberg.canUpgrade())
                     missions.add(new UpgradeIceberg(iceberg));
             }
@@ -204,16 +196,19 @@ public class MissionManager {
             if (totalBenefit(holder) - howToExecuteMissionGroup(holder).getTotalLoss() <
                     totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss() && howToExecuteMissionGroup(missionGroup).getTasks().size() != 0)
                 holder = missionGroup;
-        activateMissionGroup(holder, howToExecuteMissionGroup(holder));
-        return howToExecuteMissionGroup(holder).getTasks();
+        TaskGroup taskGroup = howToExecuteMissionGroup(holder);
+        activateMissionGroup(holder, taskGroup);
+        System.out.println("Mission Group: " + holder);
+        System.out.println("Task Group: " + taskGroup.getTasks());
+        return taskGroup.getTasks();
     }
 
     public static void activateMissionGroup(Set<Mission> missionGroup, TaskGroup taskGroup) {
         Map<Mission, TaskGroup> missionTaskGroupMap = new HashMap<>();
         for (Mission mission : missionGroup)
             missionTaskGroupMap.put(mission, new TaskGroup());
-        for (Taskable task : taskGroup.getTasks())
-            for (Mission mission : missionGroup)
+        for (Mission mission : missionGroup)
+            for (Taskable task : taskGroup.getTasks())
                 if (task.getTarget().equals(mission.getTarget())) {
                     missionTaskGroupMap.get(mission).add(task);
                     break;

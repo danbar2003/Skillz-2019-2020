@@ -1,10 +1,11 @@
-package bots.wrapper;
+package bots;
 
 
-import penguin_game.*;
-import bots.Constant;
+import penguin_game.Iceberg;
+import penguin_game.Player;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MyIceberg extends MyGameObject {
 

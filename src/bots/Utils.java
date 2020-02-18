@@ -1,9 +1,7 @@
+
 package bots;
 
 
-import bots.missions.Mission;
-import bots.wrapper.MyIceberg;
-import bots.wrapper.MyPenguinGroup;
 import penguin_game.Iceberg;
 import penguin_game.PenguinGroup;
 
@@ -115,7 +113,7 @@ public class Utils {
     }
 
     public static void updateActiveMissions() {
-        System.out.println(MissionManager.activeMissions);
+        System.out.println("Active mission: " + MissionManager.activeMissions);
         for (Mission mission : MissionManager.activeMissions.keySet()) {
             if (MissionManager.activeMissions.get(mission) == 0) {
                 MissionManager.activeMissions.remove(mission);
@@ -128,12 +126,11 @@ public class Utils {
     public static List<MyIceberg> threatenedIcebergs() {
         List<MyIceberg> threatened = new LinkedList<>();
         for (MyIceberg iceberg : Constant.Icebergs.myIcebergs)
-            if (!threatened.contains(iceberg))
-                for (MyPenguinGroup penguinGroup : Constant.PenguinGroups.enemyPenguinGroups)
-                    if (penguinGroup.penguinGroup.destination.equals(iceberg.iceberg)) {
-                        threatened.add(iceberg);
-                        break;
-                    }
+            for (MyPenguinGroup penguinGroup : Constant.PenguinGroups.enemyPenguinGroups)
+                if (penguinGroup.penguinGroup.destination.equals(iceberg.iceberg)) {
+                    threatened.add(iceberg);
+                    break;
+                }
         return threatened;
     }
 }

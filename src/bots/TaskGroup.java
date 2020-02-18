@@ -1,7 +1,5 @@
-package bots.tasks;
+package bots;
 
-
-import bots.wrapper.MyIceberg;
 
 import java.util.*;
 
@@ -22,10 +20,11 @@ public class TaskGroup {
         this.tasks = tasks;
     }
 
-    public int getTotalLoss(){
+    public int getTotalLoss() {
         int loss = 0;
-        for (Taskable task : tasks)
+        for (Taskable task : tasks) {
             loss += task.loss();
+        }
         return loss;
     }
 

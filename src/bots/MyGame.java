@@ -1,8 +1,5 @@
-package bots.wrapper;
+package bots;
 
-import bots.Constant;
-import bots.MissionManager;
-import bots.Utils;
 import penguin_game.Game;
 
 import java.util.HashSet;
