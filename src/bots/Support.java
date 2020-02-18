@@ -1,7 +1,5 @@
-package bots.tasks;
+package bots;
 
-
-import bots.wrapper.MyIceberg;
 
 public class Support implements Taskable {
 
@@ -25,9 +23,8 @@ public class Support implements Taskable {
         this.supportingIceberg.sendPenguins(this.supportedIceberg, this.penguins);
     }
 
-    @Override
     public int loss() {
-        return 0;
+        return penguins + supportingIceberg.iceberg.getTurnsTillArrival(supportedIceberg.iceberg);
     }
 
     @Override
@@ -38,5 +35,9 @@ public class Support implements Taskable {
     @Override
     public int penguins() {
         return penguins;
+    }
+
+    public String toString(){
+        return "Support| Supporting: " + supportingIceberg.iceberg + " Supported: " + supportedIceberg.iceberg;
     }
 }

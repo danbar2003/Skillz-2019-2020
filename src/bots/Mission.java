@@ -1,8 +1,8 @@
-package bots.missions;
+package bots;
 
-    
-import bots.wrapper.MyIceberg;
-import bots.tasks.TaskGroup;
+
+import bots.TaskGroup;
+import bots.MyIceberg;
 
 import java.util.List;
 

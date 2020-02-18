@@ -1,7 +1,5 @@
-package bots.tasks;
+package bots;
 
-
-import bots.wrapper.MyIceberg;
 
 public class Upgrade implements Taskable {
     private MyIceberg upgradingIceberg;
@@ -25,7 +23,7 @@ public class Upgrade implements Taskable {
 
     @Override
     public int loss() {
-        return 0;
+        return upgradingIceberg.iceberg.upgradeCost;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package bots.wrapper;
+package bots;
 
 import penguin_game.MapObject;
 

@@ -1,10 +1,5 @@
-package bots.missions;
+package bots;
 
-
-import bots.Constant;
-import bots.MissionManager;
-import bots.wrapper.MyIceberg;
-import bots.tasks.TaskGroup;
 
 import java.util.List;
 
@@ -20,7 +15,7 @@ public class CaptureIceberg implements Mission {
 
     @Override
     public int benefit(){
-        return Constant.Game.turnsLeft * target.iceberg.penguinsPerTurn;
+        return target.iceberg.penguinsPerTurn * Constant.Game.turn;
     }
 
     @Override
@@ -46,5 +41,10 @@ public class CaptureIceberg implements Mission {
     @Override
     public void setState(State state){
         this.state = state;
+    }
+
+    @Override
+    public String toString(){
+        return "Capture| Attacked: " + target.iceberg ;
     }
 }

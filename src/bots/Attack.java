@@ -1,7 +1,5 @@
-    package bots.tasks;
+    package bots;
 
-
-    import bots.wrapper.MyIceberg;
 
     public class Attack implements Taskable {
     private MyIceberg attackingIceberg;
@@ -26,7 +24,7 @@
 
     @Override
     public int loss() {
-        return 0;
+        return penguinAmount + attackingIceberg.iceberg.getTurnsTillArrival(targetIceberg.iceberg);
     }
 
     @Override
@@ -38,4 +36,9 @@
     public int penguins() {
         return penguinAmount;
     }
+
+        @Override
+        public String toString(){
+            return "Attack| Attacking: " + attackingIceberg.iceberg + " Attacked: " + targetIceberg.iceberg;
+        }
 }
