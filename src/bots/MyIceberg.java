@@ -193,4 +193,13 @@ public class MyIceberg extends MyGameObject {
             return 0;
         return iceberg.penguinAmount - penguinAmount + 1;
     }
+
+    public int incomingEnemyPenguins(){
+        int penguins = 0;
+        for(MyPenguinGroup myPenguinGroup:Constant.PenguinGroups.enemyPenguinGroups){
+            if(myPenguinGroup.penguinGroup.destination.equals(this.iceberg))
+                penguins += myPenguinGroup.penguinGroup.penguinAmount;
+        }
+        return penguins;
+    }
 }

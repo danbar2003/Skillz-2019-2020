@@ -59,10 +59,11 @@ public class MissionManager {
      */
     private static TaskGroup howToCapture(List<MyIceberg> attackers, CaptureIceberg captureIceberg) {
         TaskGroup tasks = new TaskGroup();
-        int neededPenguins = captureIceberg.getTarget().iceberg.penguinAmount + 1;
+        int neededPenguins = captureIceberg.getTarget().iceberg.penguinAmount + 1 + captureIceberg.getTarget().incomingEnemyPenguins();
         if (captureIceberg.getTarget().iceberg.owner.equals(Constant.Players.enemyPlayer))
             neededPenguins += captureIceberg.getTarget().iceberg.penguinsPerTurn *
-                    captureIceberg.getTarget().farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg);
+                    captureIceberg.getTarget().farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg)
+                    + captureIceberg.getTarget().incomingEnemyPenguins();
 
 
         double availablePenguins = 0;
