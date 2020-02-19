@@ -24,7 +24,7 @@
 
     @Override
     public int loss() {
-        return penguinAmount + attackingIceberg.iceberg.getTurnsTillArrival(targetIceberg.iceberg);
+        return penguinAmount/attackingIceberg.iceberg.penguinAmount + attackingIceberg.iceberg.getTurnsTillArrival(targetIceberg.iceberg);
     }
 
     @Override

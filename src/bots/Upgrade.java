@@ -23,7 +23,7 @@ public class Upgrade implements Taskable {
 
     @Override
     public int loss() {
-        return upgradingIceberg.iceberg.upgradeCost;
+        return upgradingIceberg.iceberg.upgradeCost/upgradingIceberg.iceberg.penguinAmount;
     }
 
     @Override
