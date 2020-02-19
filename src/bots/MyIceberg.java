@@ -128,7 +128,6 @@ public class MyIceberg extends MyGameObject {
      * @return - minimum penguin amount this iceberg should send in order to capture target iceberg
      */
     public int minPenguinAmountToWin(MyIceberg target) {
-        System.out.println("target : " + target);
         int penguinAmount = target.iceberg.penguinAmount;
         if (target.iceberg.owner.equals(Constant.Players.enemyPlayer))
             penguinAmount += target.iceberg.penguinsPerTurn * iceberg.getTurnsTillArrival(target.iceberg);
