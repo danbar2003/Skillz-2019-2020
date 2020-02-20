@@ -124,26 +124,39 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     * @param target attacked Iceberg
-     * @return - minimum penguin amount this iceberg should send in order to capture target iceberg
+     *
+     * @param target - has to be enemy/neutral iceberg
+     * @return - min amount to send inorder to win.
      */
-    public int minPenguinAmountToWin(bots.MyIceberg target) {
-        int penguinAmount = target.iceberg.penguinAmount;
-        Player owner = target.iceberg.owner;
-        for(MyPenguinGroup myPenguinGroup: Utils.allPenguinsGoingToIceberg(target)){
-            penguinAmount += myPenguinGroup.penguinGroup.turnsTillArrival * target.iceberg.penguinsPerTurn;
-            if(myPenguinGroup.penguinGroup.owner.equals(this.iceberg.owner))
-                penguinAmount += myPenguinGroup.penguinGroup.penguinAmount;
-            else
-                penguinAmount-= myPenguinGroup.penguinGroup.penguinAmount;
-            if(penguinAmount < 0){
-                penguinAmount *= -1;
-                owner = myPenguinGroup.penguinGroup.owner;
-            }
-        }
-        return penguinAmount;
-    }
+    public int penguinsToCapture(MyIceberg target) {
+        int maxTurns = iceberg.getTurnsTillArrival(target.iceberg);
+        int penguins = target.iceberg.penguinAmount;
+        Player icebergOwner = target.iceberg.owner;
+        List<MyPenguinGroup> comingPenguinGroups = allComingPenguinGroups();
+        comingPenguinGroups.removeIf(penguinGroup -> penguinGroup.penguinGroup.turnsTillArrival > maxTurns);
+        int lastTurnsTillArrival = 0;
+        while (!comingPenguinGroups.isEmpty()){
+            MyPenguinGroup penguinGroup = closestTo(comingPenguinGroups);
 
+            if (penguinGroup.penguinGroup.owner.equals(Constant.Players.mySelf)){
+                if (icebergOwner.equals(Constant.Players.mySelf)){
+
+                }
+                if (icebergOwner.equals(Constant.Players.enemyPlayer)){
+
+                }
+                if (icebergOwner.equals(Constant.Players.neutral)){
+
+                }
+            }
+            else{
+
+            }
+
+            comingPenguinGroups.remove(penguinGroup);
+        }
+        return 0;
+    }
     /**
      * @return - penguin amount needs to be saved in Iceberg
      */

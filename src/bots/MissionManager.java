@@ -70,6 +70,7 @@ public class MissionManager {
         for (MyIceberg iceberg : attackers)
             System.out.print(iceberg.iceberg + ", ");
         System.out.println("needed penguins: " + neededPenguins);
+
         double availablePenguins = 0;
         for (MyIceberg iceberg : attackers) {
             if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget()) <= 0)
