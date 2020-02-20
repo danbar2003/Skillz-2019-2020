@@ -133,4 +133,15 @@ public class Utils {
                 }
         return threatened;
     }
+
+    public static List<MyPenguinGroup> allPenguinsGoingToIceberg(MyIceberg target){
+        List<MyPenguinGroup> goingToTarget = new LinkedList<>();
+        for(MyPenguinGroup myPenguinGroup: Constant.PenguinGroups.allPenguinGroup){
+            if(myPenguinGroup.penguinGroup.destination.equals(target.iceberg))
+                goingToTarget.add(myPenguinGroup);
+        }
+        return goingToTarget;
+    }
 }
+
+
