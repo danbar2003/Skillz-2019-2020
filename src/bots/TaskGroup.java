@@ -54,4 +54,11 @@ public class TaskGroup {
         }
         return usedIcebergs;
     }
+
+    @Override
+    public String toString() {
+        return "TaskGroup{" +
+                "tasks=" + tasks +
+                '}';
+    }
 }

@@ -1,4 +1,4 @@
-
+                    
 package bots;
 
 
@@ -115,7 +115,7 @@ public class Utils {
     public static void updateActiveMissions() {
         System.out.println("Active mission: " + MissionManager.activeMissions);
         for (Mission mission : MissionManager.activeMissions.keySet()) {
-            if (MissionManager.activeMissions.get(mission) == 0) {
+            if (MissionManager.activeMissions.get(mission) == 2) {
                 MissionManager.activeMissions.remove(mission);
                 continue;
             }
@@ -132,5 +132,14 @@ public class Utils {
                     break;
                 }
         return threatened;
+    }
+
+    public static List<MyPenguinGroup> allPenguinsGoingToIceberg(MyIceberg target){
+        List<MyPenguinGroup> goingToTarget = new LinkedList<>();
+        for(MyPenguinGroup myPenguinGroup: Constant.PenguinGroups.allPenguinGroup){
+            if(myPenguinGroup.penguinGroup.destination.equals(target.iceberg))
+                goingToTarget.add(myPenguinGroup);
+        }
+        return goingToTarget;
     }
 }

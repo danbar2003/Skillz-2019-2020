@@ -127,17 +127,21 @@ public class MyIceberg extends MyGameObject {
      * @param target attacked Iceberg
      * @return - minimum penguin amount this iceberg should send in order to capture target iceberg
      */
-    public int minPenguinAmountToWin(MyIceberg target) {
+    public int minPenguinAmountToWin(bots.MyIceberg target) {
         int penguinAmount = target.iceberg.penguinAmount;
-        if (target.iceberg.owner.equals(Constant.Players.enemyPlayer))
-            penguinAmount += target.iceberg.penguinsPerTurn * iceberg.getTurnsTillArrival(target.iceberg);
-        List<MyPenguinGroup> helpers = target.getHelpingPenguinGroupsToIceberg();
-        for (MyPenguinGroup helper : helpers) {
-            if (helper.penguinGroup.turnsTillArrival < iceberg.getTurnsTillArrival(target.iceberg)) {
-                penguinAmount += helper.penguinGroup.penguinAmount;
+        Player owner = target.iceberg.owner;
+        for(MyPenguinGroup myPenguinGroup: Utils.allPenguinsGoingToIceberg(target)){
+            penguinAmount += myPenguinGroup.penguinGroup.turnsTillArrival * target.iceberg.penguinsPerTurn;
+            if(myPenguinGroup.penguinGroup.owner.equals(this.iceberg.owner))
+                penguinAmount += myPenguinGroup.penguinGroup.penguinAmount;
+            else
+                penguinAmount-= myPenguinGroup.penguinGroup.penguinAmount;
+            if(penguinAmount < 0){
+                penguinAmount *= -1;
+                owner = myPenguinGroup.penguinGroup.owner;
             }
         }
-        return penguinAmount + this.getPenguinsComingFromIceberg(target) + 1;
+        return penguinAmount;
     }
 
     /**
