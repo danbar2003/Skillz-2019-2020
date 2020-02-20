@@ -151,8 +151,7 @@ public class MyIceberg extends MyGameObject {
                 }
                 else{
                     penguinAmount -= penguinGroup.penguinGroup.penguinAmount;
-                    if(penguinAmount < 0){
-                        penguinAmount = Math.abs(penguinAmount);
+                    if(penguinAmount < 0){ penguinAmount = Math.abs(penguinAmount);
                         owner = penguinGroup.penguinGroup.owner;
                     }
                 }
