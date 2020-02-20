@@ -135,7 +135,7 @@ public class MyIceberg extends MyGameObject {
         Player owner = this.iceberg.owner;
         if(allComingPenguinGroups().isEmpty()){
             if(owner.equals(Constant.Players.neutral)){
-                return this.iceberg.penguinAmount + 1;
+                return this.iceberg.penguinAmount;
             }
             if(owner.equals(Constant.Players.enemyPlayer)){
                 return this.iceberg.penguinAmount + this.iceberg.penguinsPerTurn * turns;
