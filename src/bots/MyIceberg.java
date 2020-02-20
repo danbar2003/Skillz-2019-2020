@@ -124,39 +124,55 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     *
-     * @param target - has to be enemy/neutral iceberg
-     * @return - min amount to send inorder to win.
+     * @return - minimum penguin amount this iceberg should send in order to capture target iceberg
      */
-    public int penguinsToCapture(MyIceberg target) {
-        int maxTurns = iceberg.getTurnsTillArrival(target.iceberg);
-        int penguins = target.iceberg.penguinAmount;
-        Player icebergOwner = target.iceberg.owner;
+
+    public int minPenguinAmountToWin(int turns) {
+        int penguinAmount = this.iceberg.penguinAmount;
+        int turnsPast = 0;
+        int penguinGroupTurnsTillArrival;
+        int startTurns = turns;
+        Player owner = this.iceberg.owner;
+        if(allComingPenguinGroups().isEmpty()){
+            if(owner.equals(Constant.Players.neutral)){
+                return this.iceberg.penguinAmount + 1;
+            }
+            if(owner.equals(Constant.Players.enemyPlayer)){
+                return this.iceberg.penguinAmount + this.iceberg.penguinsPerTurn * turns;
+            }
+        }
+        for(MyPenguinGroup penguinGroup : orderOfComingPenguinGroupsToIceberg()) {
+            penguinGroupTurnsTillArrival = penguinGroup.penguinGroup.turnsTillArrival - turnsPast;
+            turns = startTurns - turnsPast;
+            if(penguinGroupTurnsTillArrival <= turns){
+                penguinAmount += penguinGroupTurnsTillArrival * this.iceberg.penguinsPerTurn;
+                if(owner.equals(penguinGroup.penguinGroup.owner)){
+                    penguinAmount += penguinGroup.penguinGroup.penguinAmount;
+                }
+                else{
+                    penguinAmount -= penguinGroup.penguinGroup.penguinAmount;
+                    if(penguinAmount < 0){
+                        penguinAmount = Math.abs(penguinAmount);
+                        owner = penguinGroup.penguinGroup.owner;
+                    }
+                }
+            }
+            turnsPast += penguinGroupTurnsTillArrival;
+        }
+        return penguinAmount + 1 + this.iceberg.penguinsPerTurn * startTurns;
+    }
+
+    public List<MyPenguinGroup> orderOfComingPenguinGroupsToIceberg(){
+        List<MyPenguinGroup> orderOfArrival = new LinkedList<>();
         List<MyPenguinGroup> comingPenguinGroups = allComingPenguinGroups();
-        comingPenguinGroups.removeIf(penguinGroup -> penguinGroup.penguinGroup.turnsTillArrival > maxTurns);
-        int lastTurnsTillArrival = 0;
-        while (!comingPenguinGroups.isEmpty()){
+        while(!comingPenguinGroups.isEmpty()){
             MyPenguinGroup penguinGroup = closestTo(comingPenguinGroups);
-
-            if (penguinGroup.penguinGroup.owner.equals(Constant.Players.mySelf)){
-                if (icebergOwner.equals(Constant.Players.mySelf)){
-
-                }
-                if (icebergOwner.equals(Constant.Players.enemyPlayer)){
-
-                }
-                if (icebergOwner.equals(Constant.Players.neutral)){
-
-                }
-            }
-            else{
-
-            }
-
+            orderOfArrival.add(penguinGroup);
             comingPenguinGroups.remove(penguinGroup);
         }
-        return 0;
+        return orderOfArrival;
     }
+
     /**
      * @return - penguin amount needs to be saved in Iceberg
      */
