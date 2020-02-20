@@ -20,10 +20,12 @@ public class MyBot implements SkillzBot {
     @Override
     public void doTurn(Game game) {
 
+        long start = System.currentTimeMillis();
         MyGame.updateGame(game);
         Utils.updateActiveMissions();
         Utils.missionCalculation();
         handleIcebergs();
+        System.out.println("turn time: " + (System.currentTimeMillis() - start) );
     }
     
     private void handleIcebergs() {

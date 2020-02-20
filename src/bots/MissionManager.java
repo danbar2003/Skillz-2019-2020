@@ -14,6 +14,7 @@ public class MissionManager {
      */
     public static List<TaskGroup> waysToExecute(Mission mission) {
         List<TaskGroup> waysToExec = new LinkedList<>();
+        System.out.println(mission);
         if (mission instanceof CaptureIceberg)
             for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
                 waysToExec.add(howToCapture(new LinkedList<>(icebergs), (CaptureIceberg) mission));
@@ -22,9 +23,11 @@ public class MissionManager {
                 if (!icebergs.contains(mission.getTarget()))
                     waysToExec.add(howToSupport(new LinkedList<>(icebergs), (SupportIceberg) mission));
         if (mission instanceof UpgradeIceberg) {
-            waysToExec.add(new TaskGroup(new Upgrade(mission.getTarget())));
+            if (mission.getTarget().iceberg.canUpgrade())
+                waysToExec.add(new TaskGroup(new Upgrade(mission.getTarget())));
         }
-        waysToExec.removeIf(Objects::isNull);
+        waysToExec.removeIf(taskGroup -> taskGroup.getTasks().size() == 0);
+        System.out.println("ways to exec: \n" + waysToExec + "\n ----------------------------");
         return waysToExec;
     }
 
@@ -59,8 +62,12 @@ public class MissionManager {
      */
     private static TaskGroup howToCapture(List<MyIceberg> attackers, CaptureIceberg captureIceberg) {
         TaskGroup tasks = new TaskGroup();
-        int neededPenguins = captureIceberg.getTarget().farthest(attackers).minPenguinAmountToWin(captureIceberg.getTarget());
-
+        int neededPenguins = captureIceberg.getTarget().minPenguinAmountToWin(captureIceberg.getTarget().
+                farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg));
+        System.out.println("\n\nattackers: ");
+        for (MyIceberg iceberg : attackers)
+            System.out.print(iceberg.iceberg + ", ");
+        System.out.println("needed penguins: " + neededPenguins);
         double availablePenguins = 0;
         for (MyIceberg iceberg : attackers) {
             if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget()) <= 0)

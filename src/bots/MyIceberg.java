@@ -124,24 +124,53 @@ public class MyIceberg extends MyGameObject {
     }
 
     /**
-     * @param target attacked Iceberg
      * @return - minimum penguin amount this iceberg should send in order to capture target iceberg
      */
-    public int minPenguinAmountToWin(MyIceberg target) {
-        int penguinAmount = target.iceberg.penguinAmount;
-        Player owner = target.iceberg.owner;
-        for(MyPenguinGroup myPenguinGroup: Utils.allPenguinsGoingToIceberg(target)){
-            penguinAmount += myPenguinGroup.penguinGroup.turnsTillArrival * target.iceberg.penguinsPerTurn;
-            if(myPenguinGroup.penguinGroup.owner.equals(this.iceberg.owner))
-                penguinAmount += myPenguinGroup.penguinGroup.penguinAmount;
-            else
-                penguinAmount-= myPenguinGroup.penguinGroup.penguinAmount;
-            if(penguinAmount < 0){
-                penguinAmount *= -1;
-                owner = myPenguinGroup.penguinGroup.owner;
+
+    public int minPenguinAmountToWin(int turns) {
+        int penguinAmount = this.iceberg.penguinAmount;
+        int turnsPast = 0;
+        int penguinGroupTurnsTillArrival;
+        int startTurns = turns;
+        Player owner = this.iceberg.owner;
+        if(allComingPenguinGroups().isEmpty()){
+            if(owner.equals(Constant.Players.neutral)){
+                return this.iceberg.penguinAmount + 1;
+            }
+            if(owner.equals(Constant.Players.enemyPlayer)){
+                return this.iceberg.penguinAmount + this.iceberg.penguinsPerTurn * turns;
             }
         }
-        return penguinAmount;
+        for(MyPenguinGroup penguinGroup : orderOfComingPenguinGroupsToIceberg()) {
+            penguinGroupTurnsTillArrival = penguinGroup.penguinGroup.turnsTillArrival - turnsPast;
+            turns = startTurns - turnsPast;
+            if(penguinGroupTurnsTillArrival <= turns){
+                penguinAmount += penguinGroupTurnsTillArrival * this.iceberg.penguinsPerTurn;
+                if(owner.equals(penguinGroup.penguinGroup.owner)){
+                    penguinAmount += penguinGroup.penguinGroup.penguinAmount;
+                }
+                else{
+                    penguinAmount -= penguinGroup.penguinGroup.penguinAmount;
+                    if(penguinAmount < 0){
+                        penguinAmount = Math.abs(penguinAmount);
+                        owner = penguinGroup.penguinGroup.owner;
+                    }
+                }
+            }
+            turnsPast += penguinGroupTurnsTillArrival;
+        }
+        return penguinAmount + 1 + this.iceberg.penguinsPerTurn * startTurns;
+    }
+
+    public List<MyPenguinGroup> orderOfComingPenguinGroupsToIceberg(){
+        List<MyPenguinGroup> orderOfArrival = new LinkedList<>();
+        List<MyPenguinGroup> comingPenguinGroups = allComingPenguinGroups();
+        while(!comingPenguinGroups.isEmpty()){
+            MyPenguinGroup penguinGroup = closestTo(comingPenguinGroups);
+            orderOfArrival.add(penguinGroup);
+            comingPenguinGroups.remove(penguinGroup);
+        }
+        return orderOfArrival;
     }
 
     /**

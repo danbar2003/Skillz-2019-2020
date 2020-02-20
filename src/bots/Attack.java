@@ -1,7 +1,8 @@
-    package bots;
+
+package bots;
 
 
-    public class Attack implements Taskable {
+public class Attack implements Taskable {
     private MyIceberg attackingIceberg;
     private MyIceberg targetIceberg;
     private int penguinAmount;
@@ -37,8 +38,8 @@
         return penguinAmount;
     }
 
-        @Override
-        public String toString(){
-            return "Attack| Attacking: " + attackingIceberg.iceberg + " Attacked: " + targetIceberg.iceberg;
-        }
+    @Override
+    public String toString(){
+        return "Attack| Attacking: " + attackingIceberg.iceberg + " Attacked: " + targetIceberg.iceberg;
+    }
 }

@@ -1,4 +1,4 @@
-
+                    
 package bots;
 
 
@@ -115,7 +115,7 @@ public class Utils {
     public static void updateActiveMissions() {
         System.out.println("Active mission: " + MissionManager.activeMissions);
         for (Mission mission : MissionManager.activeMissions.keySet()) {
-            if (MissionManager.activeMissions.get(mission) == 0) {
+            if (MissionManager.activeMissions.get(mission) == 2) {
                 MissionManager.activeMissions.remove(mission);
                 continue;
             }
@@ -143,5 +143,3 @@ public class Utils {
         return goingToTarget;
     }
 }
-
-
