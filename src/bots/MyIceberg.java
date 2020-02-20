@@ -138,7 +138,7 @@ public class MyIceberg extends MyGameObject {
                 return this.iceberg.penguinAmount;
             }
             if(owner.equals(Constant.Players.enemyPlayer)){
-                return this.iceberg.penguinAmount + this.iceberg.penguinsPerTurn * turns;
+                return this.iceberg.penguinAmount + this.iceberg.penguinsPerTurn * turns + 1;
             }
         }
         for(MyPenguinGroup penguinGroup : orderOfComingPenguinGroupsToIceberg()) {
