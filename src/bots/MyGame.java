@@ -34,6 +34,6 @@ public class MyGame {
 
         Constant.Groups.allMyIcebergGroups = Utils.powerSet(new HashSet<>(Constant.Icebergs.myIcebergs), 3);
         Constant.Groups.allMissions = MissionManager.allMissions();
-        Constant.Groups.allMissionGroups = MissionManager.allMissionGroups(1);
+        Constant.Groups.allMissionGroups = MissionManager.allMissionGroups(3);
     }
 }

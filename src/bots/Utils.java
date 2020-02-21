@@ -1,4 +1,4 @@
-                    
+
 package bots;
 
 
@@ -35,8 +35,13 @@ public class Utils {
     }
 
     public static void setupIcebergPenguins() {
-        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
-            iceberg.savePenguins(iceberg.amountToDefend());
+        for(MyIceberg iceberg: Constant.Icebergs.myIcebergs){
+            if(!Constant.Icebergs.threatenedIcebergs.contains(iceberg)){
+                if(!iceberg.getEnemyPenguinGroupsToIceberg().isEmpty()) {
+                    System.out.println(iceberg.iceberg + " future state: " + iceberg.futureState() + " amount: " + iceberg.iceberg.penguinAmount);
+                    iceberg.savePenguins(iceberg.iceberg.penguinAmount - iceberg.futureState() + 1);
+                }
+            }
         }
     }
 
@@ -115,7 +120,7 @@ public class Utils {
     public static void updateActiveMissions() {
         System.out.println("Active mission: " + MissionManager.activeMissions);
         for (Mission mission : MissionManager.activeMissions.keySet()) {
-            if (MissionManager.activeMissions.get(mission) == 2) {
+            if (MissionManager.activeMissions.get(mission) == 0) {
                 MissionManager.activeMissions.remove(mission);
                 continue;
             }
@@ -125,21 +130,10 @@ public class Utils {
 
     public static List<MyIceberg> threatenedIcebergs() {
         List<MyIceberg> threatened = new LinkedList<>();
-        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs)
-            for (MyPenguinGroup penguinGroup : Constant.PenguinGroups.enemyPenguinGroups)
-                if (penguinGroup.penguinGroup.destination.equals(iceberg.iceberg)) {
-                    threatened.add(iceberg);
-                    break;
-                }
-        return threatened;
-    }
-
-    public static List<MyPenguinGroup> allPenguinsGoingToIceberg(MyIceberg target){
-        List<MyPenguinGroup> goingToTarget = new LinkedList<>();
-        for(MyPenguinGroup myPenguinGroup: Constant.PenguinGroups.allPenguinGroup){
-            if(myPenguinGroup.penguinGroup.destination.equals(target.iceberg))
-                goingToTarget.add(myPenguinGroup);
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
+            if (iceberg.futureState() <= 0)
+                threatened.add(iceberg);
         }
-        return goingToTarget;
+        return threatened;
     }
 }

@@ -95,9 +95,11 @@ public class MissionManager {
             if (!iceberg.iceberg.owner.equals(Constant.Players.mySelf))
                 missions.add(new CaptureIceberg(iceberg));
             else {
-                if (Constant.Icebergs.threatenedIcebergs.contains(iceberg))
+                if (Constant.Icebergs.threatenedIcebergs.contains(iceberg)) {
                     missions.add(new SupportIceberg(iceberg));
-                if (iceberg.iceberg.canUpgrade())
+                    break;
+                }
+                if (iceberg.canUpgrade())
                     missions.add(new UpgradeIceberg(iceberg));
             }
         }
@@ -222,8 +224,10 @@ public class MissionManager {
                 System.out.println("mission: " + mission);
                 for (Taskable task : missionTaskGroupMap.get(mission).getTasks())
                     System.out.println("iceberg: " + task.getActor() + ", penguins " + task.penguins());
+                System.out.println("farthest: " + mission.getTarget().
+                        farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg);
                 activeMissions.put(mission, mission.getTarget().
-                        farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg.getTurnsTillArrival(mission.getTarget().iceberg));
+                        farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg.getTurnsTillArrival(mission.getTarget().iceberg) - 2);
             }
     }
 }

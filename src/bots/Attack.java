@@ -40,6 +40,6 @@ public class Attack implements Taskable {
 
     @Override
     public String toString(){
-        return "Attack| Attacking: " + attackingIceberg.iceberg + " Attacked: " + targetIceberg.iceberg;
+        return "Attack| Attacking: " + attackingIceberg.iceberg + " Amount: " + penguinAmount;
     }
 }
