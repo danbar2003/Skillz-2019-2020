@@ -224,6 +224,7 @@ public class MissionManager {
                 System.out.println("mission: " + mission);
                 for (Taskable task : missionTaskGroupMap.get(mission).getTasks())
                     System.out.println("iceberg: " + task.getActor() + ", penguins " + task.penguins());
+                System.out.println("icebergs: " + missionTaskGroupMap.get(mission).usedIcebergs());
                 System.out.println("farthest: " + mission.getTarget().
                         farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg);
                 activeMissions.put(mission, mission.getTarget().
