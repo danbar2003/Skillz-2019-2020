@@ -14,7 +14,7 @@ public class MissionManager {
      */
     public static List<TaskGroup> waysToExecute(Mission mission) {
         List<TaskGroup> waysToExec = new LinkedList<>();
-        System.out.println(mission);
+        System.out.println("\nsingle mission:"+mission);
         if (mission instanceof CaptureIceberg)
             for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
                 waysToExec.add(howToCapture(new LinkedList<>(icebergs), (CaptureIceberg) mission));
@@ -202,6 +202,7 @@ public class MissionManager {
             if (totalBenefit(holder) - howToExecuteMissionGroup(holder).getTotalLoss() <
                     totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss() && howToExecuteMissionGroup(missionGroup).getTasks().size() != 0)
                 holder = missionGroup;
+        System.out.println("\n\n chosen missions\n===========================");
         TaskGroup taskGroup = howToExecuteMissionGroup(holder);
         activateMissionGroup(holder, taskGroup);
         System.out.println("Mission Group: " + holder);
@@ -222,9 +223,10 @@ public class MissionManager {
         for (Mission mission : missionGroup)
             if (!(mission instanceof UpgradeIceberg)) {
                 System.out.println("mission: " + mission);
+
                 for (Taskable task : missionTaskGroupMap.get(mission).getTasks())
-                    System.out.println("iceberg: " + task.getActor() + ", penguins " + task.penguins());
-                System.out.println("icebergs: " + missionTaskGroupMap.get(mission).usedIcebergs());
+                    System.out.println("iceberg: " + task.getActor().iceberg + ", penguins " + task.penguins());
+
                 System.out.println("farthest: " + mission.getTarget().
                         farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg);
                 activeMissions.put(mission, mission.getTarget().
