@@ -14,7 +14,7 @@ public class MissionManager {
      */
     public static List<TaskGroup> waysToExecute(Mission mission) {
         List<TaskGroup> waysToExec = new LinkedList<>();
-        System.out.println("\nsingle mission:"+mission);
+        System.out.println("\nsingle mission:" + mission);
         if (mission instanceof CaptureIceberg)
             for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
                 waysToExec.add(howToCapture(new LinkedList<>(icebergs), (CaptureIceberg) mission));
@@ -148,12 +148,24 @@ public class MissionManager {
             comb /= matrix.get(layer).size();
         }
 
+        //hypo free penguins
+        Map<MyIceberg, Integer> icebergFreePenguins = new HashMap<>();
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs)
+            icebergFreePenguins.put(iceberg, iceberg.getFreePenguins());
+
+        //calculate free penguins after all tasks
         for (int layer = 0; layer < matrix.size(); layer++) {
-            if (!combination.hasShared(matrix.get(layer).get(index[layer])))
-                combination.addAll(matrix.get(layer).get(index[layer]));
-            else
-                return null;
+            combination.addAll(matrix.get(layer).get(index[layer]));
+            for (Taskable task : matrix.get(layer).get(index[layer]).getTasks()) {
+                icebergFreePenguins.replace(task.getActor(), icebergFreePenguins.get(task.getActor()) - task.penguins());
+            }
         }
+
+        //checks if we did it successfully
+        for (MyIceberg iceberg : icebergFreePenguins.keySet())
+            if (icebergFreePenguins.get(iceberg) < 0)
+                return null;
+
         return combination;
     }
 
