@@ -1,13 +1,13 @@
 package bots;
 
 
-import bots.missions.CaptureIceberg;
-import bots.missions.Mission;
-import bots.missions.SupportIceberg;
-import bots.missions.UpgradeIceberg;
-import bots.tasks.*;
-import bots.wrapper.MyIceberg;
-import bots.wrapper.MyPenguinGroup;
+import bots.CaptureIceberg;
+import bots.Mission;
+import bots.SupportIceberg;
+import bots.UpgradeIceberg;
+import bots.*;
+import bots.MyIceberg;
+import bots.MyPenguinGroup;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

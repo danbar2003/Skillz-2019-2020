@@ -1,9 +1,9 @@
 package bots;
 
 
-import bots.missions.Mission;
-import bots.wrapper.MyIceberg;
-import bots.wrapper.MyPenguinGroup;
+import bots.Mission;
+import bots.MyIceberg;
+import bots.MyPenguinGroup;
 import penguin_game.Iceberg;
 import penguin_game.PenguinGroup;
 
