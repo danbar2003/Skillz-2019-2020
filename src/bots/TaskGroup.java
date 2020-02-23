@@ -41,8 +41,8 @@ public class TaskGroup {
     }
 
     public boolean hasShared(TaskGroup taskGroup){
-        for (Taskable task : taskGroup.getTasks())
-            if (this.tasks.contains(task))
+        for (MyIceberg iceberg : taskGroup.usedIcebergs())
+            if (this.usedIcebergs().contains(iceberg))
                 return true;
         return false;
     }
