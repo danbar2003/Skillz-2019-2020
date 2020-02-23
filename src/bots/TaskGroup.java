@@ -47,20 +47,17 @@ public class TaskGroup {
         return false;
     }
 
-    public List<MyIceberg> usedIcebergs() {
-        List<MyIceberg> usedIcebergs = new LinkedList<>();
+    public Set<MyIceberg> usedIcebergs() {
+        Set<MyIceberg> usedIcebergs = new HashSet<>();
         for (Taskable task : tasks) {
             usedIcebergs.add(task.getActor());
         }
         return usedIcebergs;
     }
 
-    public boolean canCompleteTaskGroup(TaskGroup taskGroup) {
+    public boolean canCompleteTaskGroup() {
         int usedPenguins = 0, available = 0;
 
-        for (Taskable task : taskGroup.getTasks()) {
-            usedPenguins += task.penguins();
-        }
         for (Taskable task : this.tasks) {
             usedPenguins += task.penguins();
         }
@@ -68,10 +65,7 @@ public class TaskGroup {
         for (MyIceberg iceberg : this.usedIcebergs()) {
             available += iceberg.getFreePenguins();
         }
-        for (MyIceberg iceberg : taskGroup.usedIcebergs()) {
-            if(!this.usedIcebergs().contains(iceberg))
-                available += iceberg.getFreePenguins();
-        }
+
         return available >= usedPenguins;
     }
 

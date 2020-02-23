@@ -62,7 +62,7 @@ public class MissionManager {
         if (availablePenguins > neededPenguins) {
             for (MyIceberg iceberg : supporters) {
                 int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget());
-                tasks.add(new Attack(iceberg, supportIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins)));
+                tasks.add(new Support(iceberg, supportIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins)));
             }
         }
         return tasks;
@@ -165,12 +165,11 @@ public class MissionManager {
         }
 
         for (int layer = 0; layer < matrix.size(); layer++) {
-            if (combination.canCompleteTaskGroup(matrix.get(layer).get(index[layer])))
                 combination.addAll(matrix.get(layer).get(index[layer]));
-            else
-                return null;
         }
-        return combination;
+        if(combination.canCompleteTaskGroup())
+            return combination;
+        return null;
     }
 
     public static Set<Mission> firstExecutableMissions() {
