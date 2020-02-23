@@ -38,7 +38,6 @@ public class Utils {
         for(MyIceberg iceberg: Constant.Icebergs.myIcebergs){
             if(!Constant.Icebergs.threatenedIcebergs.contains(iceberg)){
                 if(!iceberg.getEnemyPenguinGroupsToIceberg().isEmpty()) {
-                    System.out.println(iceberg.iceberg + " future state: " + iceberg.futureState() + " amount: " + iceberg.iceberg.penguinAmount);
                     iceberg.savePenguins(iceberg.iceberg.penguinAmount - iceberg.futureState() + 1);
                 }
             }
