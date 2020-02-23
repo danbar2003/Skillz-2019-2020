@@ -121,6 +121,10 @@ public class MissionManager {
                     icebergActualPenguins.replace(iceberg, icebergAvailablePenguins.get(iceberg));
                 }
         }
+
+        for (MyIceberg iceberg : icebergActualPenguins.keySet())
+            tasks.add(new Attack(iceberg, captureIceberg.getTarget(), icebergActualPenguins.get(iceberg)));
+
         return tasks;
     }
 
@@ -188,7 +192,7 @@ public class MissionManager {
         }
 
         for (int layer = 0; layer < matrix.size(); layer++) {
-                combination.addAll(matrix.get(layer).get(index[layer]));
+            combination.addAll(matrix.get(layer).get(index[layer]));
         }
         if(combination.canCompleteTaskGroup())
             return combination;
