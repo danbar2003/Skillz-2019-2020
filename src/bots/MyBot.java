@@ -30,8 +30,6 @@ public class MyBot implements SkillzBot {
     
     private void handleIcebergs() {
         Utils.setupIcebergPenguins(); //update saved penguins for each iceberg
-        for(MyIceberg iceberg: Constant.Icebergs.myIcebergs)
-            System.out.println(  iceberg.iceberg + " free penguins"+ iceberg.getFreePenguins());
         for (Taskable task : MissionManager.createTasksForIcebergs())
             task.act();
     }

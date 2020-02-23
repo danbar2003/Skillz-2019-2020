@@ -1,4 +1,3 @@
-
 package bots;
 
 
@@ -38,7 +37,6 @@ public class Utils {
         for(MyIceberg iceberg: Constant.Icebergs.myIcebergs){
             if(!Constant.Icebergs.threatenedIcebergs.contains(iceberg)){
                 if(!iceberg.getEnemyPenguinGroupsToIceberg().isEmpty()) {
-                    System.out.println(iceberg.iceberg + " future state: " + iceberg.futureState() + " amount: " + iceberg.iceberg.penguinAmount);
                     iceberg.savePenguins(iceberg.iceberg.penguinAmount - iceberg.futureState() + 1);
                 }
             }
@@ -121,6 +119,10 @@ public class Utils {
         System.out.println("Active mission: " + MissionManager.activeMissions);
         for (Mission mission : MissionManager.activeMissions.keySet()) {
             if (MissionManager.activeMissions.get(mission) == 0) {
+                MissionManager.activeMissions.remove(mission);
+                continue;
+            }
+            if(mission.getTarget().futureState() <= 0){
                 MissionManager.activeMissions.remove(mission);
                 continue;
             }
