@@ -1,4 +1,3 @@
-
 package bots;
 
 
@@ -120,6 +119,10 @@ public class Utils {
         System.out.println("Active mission: " + MissionManager.activeMissions);
         for (Mission mission : MissionManager.activeMissions.keySet()) {
             if (MissionManager.activeMissions.get(mission) == 0) {
+                MissionManager.activeMissions.remove(mission);
+                continue;
+            }
+            if(mission.getTarget().futureState() <= 0){
                 MissionManager.activeMissions.remove(mission);
                 continue;
             }
