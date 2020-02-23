@@ -45,9 +45,26 @@ public class MissionManager {
      */
     private static TaskGroup howToSupport(List<MyIceberg> supporters, SupportIceberg supportIceberg) {
         TaskGroup tasks = new TaskGroup();
-        //TODO - how to support... how much each iceberg should send.
+        int neededPenguins = supportIceberg.getTarget().minPenguinAmountToWin(supportIceberg.getTarget().
+                farthest(supporters).iceberg.getTurnsTillArrival(supportIceberg.getTarget().iceberg));
+        System.out.println("\n\nsupporters: ");
         for (MyIceberg iceberg : supporters)
-            tasks.add(new Support(iceberg, supportIceberg.getTarget(), 0));
+            System.out.print(iceberg.iceberg + ", ");
+        System.out.println("backup penguins: " + neededPenguins);
+
+        double availablePenguins = 0;
+        for (MyIceberg iceberg : supporters) {
+            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget()) <= 0)
+                return tasks;
+            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget());
+        }
+
+        if (availablePenguins > neededPenguins) {
+            for (MyIceberg iceberg : supporters) {
+                int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget());
+                tasks.add(new Attack(iceberg, supportIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins)));
+            }
+        }
         return tasks;
     }
 
