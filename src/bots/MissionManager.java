@@ -88,43 +88,26 @@ public class MissionManager {
      */
     private static TaskGroup howToCapture(List<MyIceberg> attackers, CaptureIceberg captureIceberg) {
         TaskGroup tasks = new TaskGroup();
-
         int neededPenguins = captureIceberg.getTarget().minPenguinAmountToWin(captureIceberg.getTarget().
                 farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg));
-        //----------------------------------------------------------
         System.out.println("\n\nattackers: ");
         for (MyIceberg iceberg : attackers)
             System.out.print(iceberg.iceberg + ", ");
         System.out.println("needed penguins: " + neededPenguins);
-        //----------------------------------------------------------
 
-        Map<MyIceberg, Integer> icebergAvailablePenguins = new HashMap<>();
-        Map<MyIceberg, Integer> icebergActualPenguins = new HashMap<>();
         double availablePenguins = 0;
         for (MyIceberg iceberg : attackers) {
-            int comingPenguins = iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
-            if (iceberg.getFreePenguins() - comingPenguins <= 0)
+            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget()) <= 0)
                 return tasks;
-            availablePenguins += iceberg.getFreePenguins() - comingPenguins;
-            icebergAvailablePenguins.put(iceberg, iceberg.getFreePenguins() - comingPenguins);
-            icebergActualPenguins.put(iceberg, (int) ((icebergAvailablePenguins.get(iceberg) / availablePenguins) * neededPenguins));
+            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
         }
 
-        if (valuesSum(icebergActualPenguins) < neededPenguins) {
-            neededPenguins -= valuesSum(icebergActualPenguins);
-            for (MyIceberg iceberg : attackers)
-                if (icebergAvailablePenguins.get(iceberg) - icebergActualPenguins.get(iceberg) >= neededPenguins) {
-                    icebergActualPenguins.replace(iceberg, icebergActualPenguins.get(iceberg) + neededPenguins);
-                    break;
-                } else {
-                    neededPenguins -= icebergAvailablePenguins.get(iceberg) - icebergActualPenguins.get(iceberg);
-                    icebergActualPenguins.replace(iceberg, icebergAvailablePenguins.get(iceberg));
-                }
+        if (availablePenguins > neededPenguins) {
+            for (MyIceberg iceberg : attackers) {
+                int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
+                tasks.add(new Attack(iceberg, captureIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins)));
+            }
         }
-
-        for (MyIceberg iceberg : icebergActualPenguins.keySet())
-            tasks.add(new Attack(iceberg, captureIceberg.getTarget(), icebergActualPenguins.get(iceberg)));
-
         return tasks;
     }
 
