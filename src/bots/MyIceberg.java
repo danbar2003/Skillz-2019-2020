@@ -4,6 +4,7 @@ package bots;
 import penguin_game.Iceberg;
 import penguin_game.Player;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class MyIceberg extends MyGameObject {
         }
     }
 
-    public MyIceberg farthest(List<MyIceberg> arr) {
+    public MyIceberg farthest(Collection<MyIceberg> arr) {
         MyIceberg farthest = this;
         for (MyIceberg iceberg : arr) {
             if (iceberg.iceberg.getTurnsTillArrival(this.iceberg) > farthest.iceberg.getTurnsTillArrival(this.iceberg)) {
