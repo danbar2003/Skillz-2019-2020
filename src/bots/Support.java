@@ -24,7 +24,7 @@ public class Support implements Taskable {
     }
 
     public int loss() {
-        return penguins + supportingIceberg.iceberg.getTurnsTillArrival(supportedIceberg.iceberg);
+        return penguins/supportingIceberg.iceberg.penguinAmount + supportingIceberg.iceberg.getTurnsTillArrival(supportedIceberg.iceberg);
     }
 
     @Override

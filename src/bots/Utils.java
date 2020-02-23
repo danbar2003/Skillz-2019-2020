@@ -1,9 +1,6 @@
 package bots;
 
 
-import bots.Mission;
-import bots.MyIceberg;
-import bots.MyPenguinGroup;
 import penguin_game.Iceberg;
 import penguin_game.PenguinGroup;
 
@@ -37,8 +34,12 @@ public class Utils {
     }
 
     public static void setupIcebergPenguins() {
-        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
-            iceberg.savePenguins(iceberg.amountToDefend());
+        for(MyIceberg iceberg: Constant.Icebergs.myIcebergs){
+            if(!Constant.Icebergs.threatenedIcebergs.contains(iceberg)){
+                if(!iceberg.getEnemyPenguinGroupsToIceberg().isEmpty()) {
+                    iceberg.savePenguins(iceberg.iceberg.penguinAmount - iceberg.futureState() + 1);
+                }
+            }
         }
     }
 
@@ -115,9 +116,13 @@ public class Utils {
     }
 
     public static void updateActiveMissions() {
-        System.out.println(MissionManager.activeMissions);
+        System.out.println("Active mission: " + MissionManager.activeMissions);
         for (Mission mission : MissionManager.activeMissions.keySet()) {
             if (MissionManager.activeMissions.get(mission) == 0) {
+                MissionManager.activeMissions.remove(mission);
+                continue;
+            }
+            if(mission.getTarget().futureState() <= 0){
                 MissionManager.activeMissions.remove(mission);
                 continue;
             }
@@ -127,13 +132,10 @@ public class Utils {
 
     public static List<MyIceberg> threatenedIcebergs() {
         List<MyIceberg> threatened = new LinkedList<>();
-        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs)
-            if (!threatened.contains(iceberg))
-                for (MyPenguinGroup penguinGroup : Constant.PenguinGroups.enemyPenguinGroups)
-                    if (penguinGroup.penguinGroup.destination.equals(iceberg.iceberg)) {
-                        threatened.add(iceberg);
-                        break;
-                    }
+        for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
+            if (iceberg.futureState() <= 0)
+                threatened.add(iceberg);
+        }
         return threatened;
     }
 }

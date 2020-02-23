@@ -1,14 +1,6 @@
 package bots;
 
 
-import bots.CaptureIceberg;
-import bots.Mission;
-import bots.SupportIceberg;
-import bots.UpgradeIceberg;
-import bots.*;
-import bots.MyIceberg;
-import bots.MyPenguinGroup;
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,6 +14,7 @@ public class MissionManager {
      */
     public static List<TaskGroup> waysToExecute(Mission mission) {
         List<TaskGroup> waysToExec = new LinkedList<>();
+        System.out.println(mission);
         if (mission instanceof CaptureIceberg)
             for (Set<MyIceberg> icebergs : Constant.Groups.allMyIcebergGroups)
                 waysToExec.add(howToCapture(new LinkedList<>(icebergs), (CaptureIceberg) mission));
@@ -30,9 +23,11 @@ public class MissionManager {
                 if (!icebergs.contains(mission.getTarget()))
                     waysToExec.add(howToSupport(new LinkedList<>(icebergs), (SupportIceberg) mission));
         if (mission instanceof UpgradeIceberg) {
-            waysToExec.add(new TaskGroup(new Upgrade(mission.getTarget())));
+            if (mission.getTarget().canUpgrade())
+                waysToExec.add(new TaskGroup(new Upgrade(mission.getTarget())));
         }
-        waysToExec.removeIf(Objects::isNull);
+        waysToExec.removeIf(taskGroup -> taskGroup.getTasks().size() == 0);
+        System.out.println("ways to exec: \n" + waysToExec + "\n ----------------------------");
         return waysToExec;
     }
 
@@ -44,16 +39,42 @@ public class MissionManager {
         return benefit;
     }
 
-    /**
-     * @param supporters     - contributing icebergs to support
+    private static int valuesSum(Map<MyIceberg, Integer> myIcebergIntegerMap) {
+        int sum = 0;
+        for (Integer value : myIcebergIntegerMap.values()) {
+            sum += value;
+        }
+        return sum;
+    }
+
+    /*** @param supporters     - contributing icebergs to support
      * @param supportIceberg - mission
      * @return Set of tasks (task for each supporter)
      */
     private static TaskGroup howToSupport(List<MyIceberg> supporters, SupportIceberg supportIceberg) {
         TaskGroup tasks = new TaskGroup();
-        //TODO - how to support... how much each iceberg should send.
+        int neededPenguins = supportIceberg.getTarget().minPenguinAmountToWin(supportIceberg.getTarget().
+                farthest(supporters).iceberg.getTurnsTillArrival(supportIceberg.getTarget().iceberg));
+        System.out.println("\n\nsupporters: ");
         for (MyIceberg iceberg : supporters)
-            tasks.add(new Support(iceberg, supportIceberg.getTarget(), 100));
+            System.out.print(iceberg.iceberg + ", ");
+        System.out.println("backup penguins: " + neededPenguins);
+
+        double availablePenguins = 0;
+        for (MyIceberg iceberg : supporters) {
+            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget()) <= 0)
+                return tasks;
+            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget());
+        }
+
+        if (availablePenguins > neededPenguins) {
+            for (MyIceberg iceberg : supporters) {
+                int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(supportIceberg.getTarget());
+                tasks.add(new Support(iceberg, supportIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins)));
+            }
+        }
+
+
         return tasks;
     }
 
@@ -67,24 +88,38 @@ public class MissionManager {
      */
     private static TaskGroup howToCapture(List<MyIceberg> attackers, CaptureIceberg captureIceberg) {
         TaskGroup tasks = new TaskGroup();
-        int neededPenguins = captureIceberg.getTarget().iceberg.penguinAmount + 1;
-        if (captureIceberg.getTarget().iceberg.owner.equals(Constant.Players.enemyPlayer))
-            neededPenguins += captureIceberg.getTarget().iceberg.penguinsPerTurn *
-                    captureIceberg.getTarget().farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg);
 
+        int neededPenguins = captureIceberg.getTarget().minPenguinAmountToWin(captureIceberg.getTarget().
+                farthest(attackers).iceberg.getTurnsTillArrival(captureIceberg.getTarget().iceberg));
+        //----------------------------------------------------------
+        System.out.println("\n\nattackers: ");
+        for (MyIceberg iceberg : attackers)
+            System.out.print(iceberg.iceberg + ", ");
+        System.out.println("needed penguins: " + neededPenguins);
+        //----------------------------------------------------------
 
+        Map<MyIceberg, Integer> icebergAvailablePenguins = new HashMap<>();
+        Map<MyIceberg, Integer> icebergActualPenguins = new HashMap<>();
         double availablePenguins = 0;
         for (MyIceberg iceberg : attackers) {
-            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget()) <= 0)
+            int comingPenguins = iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
+            if (iceberg.getFreePenguins() - comingPenguins <= 0)
                 return tasks;
-            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
+            availablePenguins += iceberg.getFreePenguins() - comingPenguins;
+            icebergAvailablePenguins.put(iceberg, iceberg.getFreePenguins() - comingPenguins);
+            icebergActualPenguins.put(iceberg, (int) ((icebergAvailablePenguins.get(iceberg) / availablePenguins) * neededPenguins));
         }
 
-        if (availablePenguins > neededPenguins) {
-            for (MyIceberg iceberg : attackers) {
-                int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
-                tasks.add(new Attack(iceberg, captureIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins)));
-            }
+        if (valuesSum(icebergActualPenguins) < neededPenguins) {
+            neededPenguins -= valuesSum(icebergActualPenguins);
+            for (MyIceberg iceberg : attackers)
+                if (icebergAvailablePenguins.get(iceberg) - icebergActualPenguins.get(iceberg) >= neededPenguins) {
+                    icebergActualPenguins.replace(iceberg, icebergActualPenguins.get(iceberg) + neededPenguins);
+                    break;
+                } else {
+                    neededPenguins -= icebergAvailablePenguins.get(iceberg) - icebergActualPenguins.get(iceberg);
+                    icebergActualPenguins.replace(iceberg, icebergAvailablePenguins.get(iceberg));
+                }
         }
         return tasks;
     }
@@ -99,9 +134,11 @@ public class MissionManager {
             if (!iceberg.iceberg.owner.equals(Constant.Players.mySelf))
                 missions.add(new CaptureIceberg(iceberg));
             else {
-                if (Constant.Icebergs.threatenedIcebergs.contains(iceberg))
-                            missions.add(new SupportIceberg(iceberg));
-                if (iceberg.iceberg.canUpgrade())
+                if (Constant.Icebergs.threatenedIcebergs.contains(iceberg)) {
+                    missions.add(new SupportIceberg(iceberg));
+                    continue;
+                }
+                if (iceberg.canUpgrade() && iceberg.futureState() > 0)
                     missions.add(new UpgradeIceberg(iceberg));
             }
         }
@@ -151,12 +188,11 @@ public class MissionManager {
         }
 
         for (int layer = 0; layer < matrix.size(); layer++) {
-            if (!combination.hasShared(matrix.get(layer).get(index[layer])))
                 combination.addAll(matrix.get(layer).get(index[layer]));
-            else
-                return null;
         }
-        return combination;
+        if(combination.canCompleteTaskGroup())
+            return combination;
+        return null;
     }
 
     public static Set<Mission> firstExecutableMissions() {
@@ -204,27 +240,32 @@ public class MissionManager {
             if (totalBenefit(holder) - howToExecuteMissionGroup(holder).getTotalLoss() <
                     totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss() && howToExecuteMissionGroup(missionGroup).getTasks().size() != 0)
                 holder = missionGroup;
-        activateMissionGroup(holder, howToExecuteMissionGroup(holder));
-        return howToExecuteMissionGroup(holder).getTasks();
+        TaskGroup taskGroup = howToExecuteMissionGroup(holder);
+        activateMissionGroup(holder, taskGroup);
+        System.out.println("Mission Group: " + holder);
+        System.out.println("Task Group: " + taskGroup.getTasks());
+        return taskGroup.getTasks();
     }
 
     public static void activateMissionGroup(Set<Mission> missionGroup, TaskGroup taskGroup) {
         Map<Mission, TaskGroup> missionTaskGroupMap = new HashMap<>();
         for (Mission mission : missionGroup)
             missionTaskGroupMap.put(mission, new TaskGroup());
-        for (Taskable task : taskGroup.getTasks())
-            for (Mission mission : missionGroup)
+        for (Mission mission : missionGroup)
+            for (Taskable task : taskGroup.getTasks())
                 if (task.getTarget().equals(mission.getTarget())) {
                     missionTaskGroupMap.get(mission).add(task);
-                    break;
                 }
         for (Mission mission : missionGroup)
             if (!(mission instanceof UpgradeIceberg)) {
                 System.out.println("mission: " + mission);
                 for (Taskable task : missionTaskGroupMap.get(mission).getTasks())
-                    System.out.println("iceberg: " + task.getActor() + ", penguins " + task.penguins());
+                    System.out.println("iceberg: " + task.getActor().iceberg + ", penguins " + task.penguins());
+                System.out.println("icebergs: " + missionTaskGroupMap.get(mission).usedIcebergs());
+                System.out.println("farthest: " + mission.getTarget().
+                        farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg);
                 activeMissions.put(mission, mission.getTarget().
-                        farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg.getTurnsTillArrival(mission.getTarget().iceberg));
+                        farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg.getTurnsTillArrival(mission.getTarget().iceberg) - 2);
             }
     }
 }

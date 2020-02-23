@@ -15,15 +15,12 @@ public class Upgrade implements Taskable {
 
     @Override
     public void act() {
-        if (this.upgradingIceberg.iceberg.canUpgrade()) {
-            this.upgradingIceberg.iceberg.upgrade();
-        } else
-            System.out.println(this.upgradingIceberg.iceberg.toString() + " Can't upgrade");
+        this.upgradingIceberg.iceberg.upgrade();
     }
 
     @Override
     public int loss() {
-        return upgradingIceberg.iceberg.upgradeCost;
+        return upgradingIceberg.iceberg.upgradeCost/upgradingIceberg.iceberg.penguinAmount;
     }
 
     @Override
