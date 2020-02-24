@@ -1,3 +1,4 @@
+
 package bots;
 
 
@@ -6,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MissionManager {
 
-    public static Set<Mission> activeMissions = new HashSet<>(); //All single missions that takes place atm.
+    public static Map<Mission, Integer> activeMissions = new ConcurrentHashMap<>(); //All single missions that takes place atm.
 
     /**
      * @param mission - missions
@@ -148,8 +149,8 @@ public class MissionManager {
     }
 
     private static boolean isActive(Mission mission) {
-        for (Mission m : activeMissions)
-            if (m.getType().equals(mission.getType()))
+        for (Mission activeMission : activeMissions.keySet())
+            if (activeMission.getType().equals(mission.getType()))
                 return true;
         return false;
     }
@@ -240,15 +241,31 @@ public class MissionManager {
                     totalBenefit(missionGroup) - howToExecuteMissionGroup(missionGroup).getTotalLoss() && howToExecuteMissionGroup(missionGroup).getTasks().size() != 0)
                 holder = missionGroup;
         TaskGroup taskGroup = howToExecuteMissionGroup(holder);
-        activateMissionGroup(holder);
+        activateMissionGroup(holder, taskGroup);
         System.out.println("Mission Group: " + holder);
         System.out.println("Task Group: " + taskGroup.getTasks());
         return taskGroup.getTasks();
     }
 
-    public static void activateMissionGroup(Set<Mission> missionGroup) {
+    public static void activateMissionGroup(Set<Mission> missionGroup, TaskGroup taskGroup) {
+        Map<Mission, TaskGroup> missionTaskGroupMap = new HashMap<>();
         for (Mission mission : missionGroup)
-            if (!(mission instanceof UpgradeIceberg))
-                activeMissions.add(mission);
+            missionTaskGroupMap.put(mission, new TaskGroup());
+        for (Mission mission : missionGroup)
+            for (Taskable task : taskGroup.getTasks())
+                if (task.getTarget().equals(mission.getTarget())) {
+                    missionTaskGroupMap.get(mission).add(task);
+                }
+        for (Mission mission : missionGroup)
+            if (!(mission instanceof UpgradeIceberg)) {
+                System.out.println("mission: " + mission);
+                for (Taskable task : missionTaskGroupMap.get(mission).getTasks())
+                    System.out.println("iceberg: " + task.getActor().iceberg + ", penguins " + task.penguins());
+                System.out.println("icebergs: " + missionTaskGroupMap.get(mission).usedIcebergs());
+                System.out.println("farthest: " + mission.getTarget().
+                        farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg);
+                activeMissions.put(mission, mission.getTarget().
+                        farthest(missionTaskGroupMap.get(mission).usedIcebergs()).iceberg.getTurnsTillArrival(mission.getTarget().iceberg) - 2);
+            }
     }
 }
