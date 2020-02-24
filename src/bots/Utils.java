@@ -116,18 +116,8 @@ public class Utils {
     }
 
     public static void updateActiveMissions() {
-        System.out.println("Active mission: " + MissionManager.activeMissions);
-        for (Mission mission : MissionManager.activeMissions.keySet()) {
-            if (MissionManager.activeMissions.get(mission) == 0) {
-                MissionManager.activeMissions.remove(mission);
-                continue;
-            }
-            if(mission.getTarget().futureState() <= 0){
-                MissionManager.activeMissions.remove(mission);
-                continue;
-            }
-            MissionManager.activeMissions.put(mission, MissionManager.activeMissions.get(mission) - 1);
-        }
+        MissionManager.activeMissions.removeIf(mission -> mission.getTarget().futureState() <= 0);
+        System.out.println(MissionMa);
     }
 
     public static List<MyIceberg> threatenedIcebergs() {
