@@ -27,6 +27,10 @@ public class MyIceberg extends MyGameObject {
         return (iceberg.penguinAmount - savedPenguins);
     }
 
+    public String toString(){
+        return iceberg.toString();
+    }
+
     public boolean canUpgrade() {
         return getFreePenguins() >= iceberg.upgradeCost;
     }
