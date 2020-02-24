@@ -32,7 +32,9 @@ public class MyIceberg extends MyGameObject {
     }
 
     public boolean canUpgrade() {
-        return getFreePenguins() >= iceberg.upgradeCost;
+        if (iceberg.canUpgrade())
+            return getFreePenguins() >= iceberg.upgradeCost;
+        return false;
     }
 
     public void sendPenguins(MyIceberg target, int penguins) {
