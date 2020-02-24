@@ -140,7 +140,7 @@ public class MissionManager {
                     missions.add(new SupportIceberg(iceberg));
                     continue;
                 }
-                if (iceberg.canUpgrade() && iceberg.futureState() > 0)
+                if (iceberg.canUpgrade() && iceberg.futureState(true) > 0)
                     missions.add(new UpgradeIceberg(iceberg));
             }
         }

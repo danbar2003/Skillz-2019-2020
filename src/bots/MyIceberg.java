@@ -151,11 +151,15 @@ public class MyIceberg extends MyGameObject {
     /**
      * @return how the iceberg state will look like after all penguin-groups will reach it.
      */
-    public int futureState() {
+    public int futureState(boolean isUpgrading) {
         List<MyPenguinGroup> comingPenguinGroups = allComingPenguinGroups();
         int penguinsAmount = iceberg.penguinAmount;
+        int penguinsPerTurn = iceberg.penguinsPerTurn;
+        if (isUpgrading) {
+            penguinsAmount -= iceberg.upgradeCost;
+            penguinsPerTurn++;
+        }
         Player icebergOwner = iceberg.owner;
-
         if (icebergOwner.equals(Constant.Players.enemyPlayer))
             penguinsAmount *= -1;
 
@@ -164,7 +168,7 @@ public class MyIceberg extends MyGameObject {
             MyPenguinGroup penguinGroup = closestTo(comingPenguinGroups);
 
             if (icebergOwner.equals(Constant.Players.mySelf)) {
-                penguinsAmount += (penguinGroup.penguinGroup.turnsTillArrival - previousTurnsTillArrival) * iceberg.penguinsPerTurn;
+                penguinsAmount += (penguinGroup.penguinGroup.turnsTillArrival - previousTurnsTillArrival) * penguinsPerTurn;
 
                 if (penguinGroup.penguinGroup.owner.equals(Constant.Players.mySelf)) {
                     penguinsAmount += penguinGroup.penguinGroup.penguinAmount;
@@ -173,7 +177,7 @@ public class MyIceberg extends MyGameObject {
                 }
             }
             if (icebergOwner.equals(Constant.Players.enemyPlayer)) {
-                penguinsAmount -= (penguinGroup.penguinGroup.turnsTillArrival - previousTurnsTillArrival) * iceberg.penguinsPerTurn;
+                penguinsAmount -= (penguinGroup.penguinGroup.turnsTillArrival - previousTurnsTillArrival) * penguinsPerTurn;
 
                 if (penguinGroup.penguinGroup.owner.equals(Constant.Players.mySelf)) {
                     penguinsAmount += penguinGroup.penguinGroup.penguinAmount;
