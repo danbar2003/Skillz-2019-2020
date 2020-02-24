@@ -96,16 +96,30 @@ public class MissionManager {
         System.out.println("needed penguins: " + neededPenguins);
 
         double availablePenguins = 0;
+        int actuallySend = 0, max = 0;
         for (MyIceberg iceberg : attackers) {
-            if (iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget()) <= 0)
+            int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
+            if (realFreePenguins <= 0)
                 return tasks;
-            availablePenguins += iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
+            availablePenguins += realFreePenguins;
+        }
+
+        for (MyIceberg iceberg : attackers) {
+            int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
+            actuallySend += (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins);
+            if (realFreePenguins > max)
+                max = realFreePenguins;
         }
 
         if (availablePenguins > neededPenguins) {
             for (MyIceberg iceberg : attackers) {
                 int realFreePenguins = iceberg.getFreePenguins() - iceberg.getPenguinsComingFromIceberg(captureIceberg.getTarget());
-                tasks.add(new Attack(iceberg, captureIceberg.getTarget(), (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins)));
+                int round = (int) Math.round((realFreePenguins / availablePenguins) * neededPenguins);
+                if (max == realFreePenguins && actuallySend + 1 == neededPenguins && round + 1 <= realFreePenguins) {
+                    round += 1;
+                    actuallySend += 1;
+                }
+                tasks.add(new Attack(iceberg, captureIceberg.getTarget(), round));
             }
         }
         return tasks;
@@ -177,7 +191,7 @@ public class MissionManager {
         for (int layer = 0; layer < matrix.size(); layer++) {
             combination.addAll(matrix.get(layer).get(index[layer]));
         }
-        if(combination.canCompleteTaskGroup())
+        if (combination.canCompleteTaskGroup())
             return combination;
         return null;
     }
