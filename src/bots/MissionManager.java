@@ -1,3 +1,4 @@
+
 package bots;
 
 
@@ -148,8 +149,6 @@ public class MissionManager {
     }
 
     private static boolean isActive(Mission mission) {
-        if (mission instanceof UpgradeIceberg)
-            return false;
         for (Mission activeMission : activeMissions.keySet())
             if (activeMission.getType().equals(mission.getType()))
                 return true;
