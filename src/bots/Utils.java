@@ -37,7 +37,7 @@ public class Utils {
         for(MyIceberg iceberg: Constant.Icebergs.myIcebergs){
             if(!Constant.Icebergs.threatenedIcebergs.contains(iceberg)){
                 if(!iceberg.getEnemyPenguinGroupsToIceberg().isEmpty()) {
-                    iceberg.savePenguins(iceberg.iceberg.penguinAmount - iceberg.futureState() + 1);
+                    iceberg.savePenguins(iceberg.iceberg.penguinAmount - iceberg.futureState(false) + 1);
                 }
             }
         }
@@ -122,7 +122,7 @@ public class Utils {
                 MissionManager.activeMissions.remove(mission);
                 continue;
             }
-            if(mission.getTarget().futureState() <= 0){
+            if(mission.getTarget().futureState(false) <= 0){
                 MissionManager.activeMissions.remove(mission);
                 continue;
             }
@@ -133,7 +133,7 @@ public class Utils {
     public static List<MyIceberg> threatenedIcebergs() {
         List<MyIceberg> threatened = new LinkedList<>();
         for (MyIceberg iceberg : Constant.Icebergs.myIcebergs) {
-            if (iceberg.futureState() <= 0)
+            if (iceberg.futureState(false) <= 0)
                 threatened.add(iceberg);
         }
         return threatened;

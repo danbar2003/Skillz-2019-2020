@@ -57,11 +57,17 @@ public class TaskGroup {
 
     public boolean canCompleteTaskGroup() {
         int usedPenguins = 0, available = 0;
-
+        List<MyIceberg> upgrading = new LinkedList<>();
         for (Taskable task : this.tasks) {
             usedPenguins += task.penguins();
+            if(task instanceof Upgrade)
+                upgrading.add(task.getActor());
         }
-        
+
+        for(Taskable task: this.tasks)
+            if(upgrading.contains(task.getActor()) && !(task instanceof Upgrade))
+                return false;
+
         for (MyIceberg iceberg : this.usedIcebergs()) {
             available += iceberg.getFreePenguins();
         }
